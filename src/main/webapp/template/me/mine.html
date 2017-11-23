@@ -1,0 +1,484 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/foot.css" />
+		<style>
+			#header {
+				background: linear-gradient(to right, #4ea8fe , #1981fe) !important;
+				border-bottom: none;
+				box-shadow: none;
+				-webkit-backface-visibility: inherit;
+			}
+			
+			#header h1,
+			#header a {
+				color: #fff;
+			}
+			.mui-btn.mui-btn-link.mui-pull-right{
+				padding: 0 10px;
+			}
+			.f12{
+				font-size: 12px;
+				color: #919191;
+			}
+			.mui-btn.mui-btn-link.mui-pull-right img {
+				width: 20px;
+				display: block;
+				max-width: 100%;
+			}
+			
+			.mui-table-view-cell {
+				padding-right: 10px !important;
+				height: 40px;
+				line-height: 40px;
+				padding-top: 0 !important;
+				padding-bottom: 0 !important;
+				border-bottom: none !important;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 1px;
+				background: #ddd !important;
+			}
+			
+			.mui-table-view-cell>a {
+				padding: 0;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				margin: 0px !important;
+				width: 100%;
+				font-size: 14px;
+				padding: initial;
+			}
+			
+			.mui-table-view:after {
+				height: 0;
+			}
+			
+			.mui-navigate-right:after {
+				right: 0px;
+			}
+			
+			.mui-content {
+				width: 100%;
+			}
+			
+			.refuse {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.7);
+				z-index: 99;
+			}
+			
+			.refuse_cont {
+				width: 80%;
+				height: auto;
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				display: inline-table;
+				background: #fff;
+				border-radius: 10px;
+				margin: auto;
+			}
+			
+			.refuse_cont .title {
+				text-align: center;
+				border-bottom: 1px solid #ccc;
+				color: #0098E6;
+				line-height: 44px !important;
+			}
+			
+			.refuse_cont p {
+				text-align: left;
+				line-height: 20px;
+				margin-top: 5px;
+			}
+			
+			.input_pwd {
+				padding: 0px 15px;
+			}
+			
+			.refuse_cont .refuse_bot {
+				margin-top: 10px;
+				width: 100%;
+			}
+			
+			.refuse_cont .refuse_bot button {
+				width: 100%;
+				height: 44px;
+				border-radius: 0;
+				border-bottom-left-radius: 10px;
+				border-bottom-right-radius: 10px;
+				border: none;
+				border-top: 1px solid #ccc;
+				font-size: 18px;
+				color: #666;
+			}
+			
+			.my-user ul li p:first-child {
+				height: 25px;
+			}
+			#bus-name,#user-name{
+				font-size: 18px !important;
+			}
+			
+			/*.my-user ul li p span{
+				font-size: 10px;
+				float: left;
+				height: 16px;
+				line-height: 16px;
+				margin-right: 5px;
+			}*/
+			
+		</style>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="../../js/me/mine.js"></script>
+	</head>
+
+	<body>
+		<div id="user_info" style="display: none;">
+			<header id="header" class="mui-bar mui-bar-nav">
+				<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left " id="back"></a>-->
+				<h1 class="mui-title">个人中心</h1>
+				<button class="mui-btn mui-btn-link mui-pull-right" id="user-detail" style="padding-top: 0;">
+				<img src="../../img/mine/icon-guanli.png"/>
+			</button>
+			</header>
+			<div class="padding_55 mui-content" id="my_user">
+				<div class="my-user">
+					<ul>
+						<li>
+							<img id="user-head" src="" />
+						</li>
+						<li>
+							<p>
+								<span id="user-name"></span>
+							</p>
+							<p class="my-ccc">
+								<span class="my-rename" id="user-level"></span>
+								<span class="my-rename" id="user-rename"></span>
+								<span class="my-shenhe" id="user-shenhe" style="display: none;"></span>
+							</p>
+						</li>
+						<li id="user-code">
+							<img src="../../img/mine/qrcode.png" />
+							<!--<img src="../../img/mine/right.png" />-->
+						</li>
+					</ul>
+				</div>
+				<div class="my-banlance">
+					<p class="fl">余额<span class="ml-10" id="user_banlance">0.00</span><span>元</span></p>
+					<p class="fr" id="user_banlance-more">查看</p>
+				</div>
+				<div class="my-info mt-10">
+					<ul>
+						<li id="user_myprofit">
+							<p>补贴总额（元）</p>
+							<p id="user-day-ze">0.00</p>
+						</li>
+						<li>
+							<p>今日补贴（元）</p>
+							<p id="user-day-bt">0.00</p>
+						</li>
+						
+						<li id="user_select_type">
+							<p>正在补贴（笔）</p>
+							<p id="user-day-zz"></p>
+						</li>
+					</ul>
+				</div>
+				<div class="my-list mt-10">
+					<ul class="mui-table-view mui-table-view-chevron" id="content">
+						<!--<li class="mui-table-view-cell" id="user-record">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-01.png" />
+								<span class="fl">消费记录</span>
+								</a>
+						</li>-->
+						<li class="mui-table-view-cell" id="user-btsq">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-02.png" />
+								<span class="fl">补贴记录</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="user-gold">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-03.png" />
+								<span class="fl">商城金币<span class="f12">（1金币=1元）</span></span>
+								<span class="fr"><span id="gold_count"></span>个</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="user-queued">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-04.png" />
+								<span class="fl">消费券</span>
+								<span class="fr"><span id="user-queued-count"></span>张</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="my-list">
+					<ul class="mui-table-view mui-table-view-chevron" id="content">
+						<li class="mui-table-view-cell" id="user-fans">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-05.png" />
+								<span class="fl">我的粉丝</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="user-to-shop">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-06.png" />
+								<span class="fl">商家入驻</span>
+								<span class="fr" id="user-state">免费签约</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="user_license" style="display: none;">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-10.png" />
+								<span class="fl">代理收益</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="user-invit">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-07.png" />
+								<span class="fl">邀请有钱</span>
+								<span class="fr color-q">每天1小时，月赚6K</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="my-list">
+					<ul class="mui-table-view mui-table-view-chevron" id="content">
+						<li class="mui-table-view-cell" id="user-help">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-08.png" />
+								<span class="fl">帮助中心</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="user_abaod">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-08.png" />
+								<span class="fl">关于我们</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="user-kefu">
+							<a href="tel:4001-026-090" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-09.png" />
+								<span class="fl">联系客服</span>
+								<span class="fr">4001-026-090</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<div id="shop_info" style="display: none;">
+			<header id="header" class="mui-bar mui-bar-nav">
+				<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left " id="back"></a>-->
+				<h1 class="mui-title">个人中心</h1>
+				<button class="mui-btn mui-btn-link mui-pull-right" id="bus_detail" style="padding-top: 0;">
+				<img src="../../img/mine/icon-guanli.png"/>
+			</button>
+			</header>
+			<div class="padding_55 mui-content">
+				<div class="my-user">
+					<ul>
+						<li>
+							<img src="" id="bus_head">
+						</li>
+						<li>
+							<p>
+								<span id="bus-name"></span>
+							</p>
+							<p>
+								<span class="my-rename" id="bus-level"></span>
+								<span class="my-rename" id="bus-rename">已实名</span>
+								<span class="my-rename" id="bus-shenhe">认证商户</span>
+							</p>
+						</li>
+						<li id="bus_code">
+							<img src="../../img/mine/qrcode.png" />
+							<!--<img src="../../img/mine/right.png" />-->
+						</li>
+					</ul>
+				</div>
+				<div class="my-info-title">
+					<span class="fl"></span>消费补贴
+				</div>
+				<div class="my-info border-none">
+					<ul>
+						<li id="bus_myprofit">
+							<p>补贴总额（元）</p>
+							<p id="bus-day-ze">0.00</p>
+						</li>
+						<li>
+							<p>今日补贴（元）</p>
+							<p id="bus-day-bt">0.00</p>
+						</li>
+
+						<li id="bus_banlance_info">
+							<p>账户余额（元）</p>
+							<p id="bus_banlance">0.00</p>
+						</li>
+					</ul>
+				</div>
+				<div class="my-info-title mt-10" id="shop_true_name_on">
+					<span class="fl"></span>店铺经营
+					<img class="fr" src="../../img/mine/icon-mine-right.png" />
+					<span class="fr" id="shop_true_name"></span>
+				</div>
+				<div class="my-info">
+					<ul>
+						<li id="shop_turnover">
+							<p>总营业额（元）</p>
+							<p id="bus_total_turnover">0.00</p>
+						</li>
+						<li>
+							<p>今日营业额（元）</p>
+							<p id="bus_today_turnover">0.00</p>
+						</li>
+						<li>
+							<p>今日订单（笔）</p>
+							<p id="bus_today_bi"></p>
+						</li>
+					</ul>
+				</div>
+				<div class="my-list mt-10">
+					<ul class="mui-table-view mui-table-view-chevron" id="content">
+						<!--<li class="mui-table-view-cell" id="bus_record">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-01.png" />
+								<span class="fl">消费记录</span>
+							</a>
+						</li>-->
+						<li class="mui-table-view-cell" id="shop_account">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-02.png" />
+								<span class="fl">补贴记录</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="bus-gold">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-03.png" />
+								<span class="fl">商城金币<span class="f12">（1金币=1元）</span></span>
+								<span class="fr"><span id="bus_gold_count"></span>个</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="bus-queued">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-04.png" />
+								<span class="fl">消费券</span>
+								<span class="fr"><span id="bus_hava_count"></span>张</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="my-list">
+					<ul class="mui-table-view mui-table-view-chevron" id="content">
+						<li class="mui-table-view-cell" id="bus_fans">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-05.png" />
+								<span class="fl">我的粉丝</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="bus_license" style="display: none;">
+							<a href="javascript:void(0);" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-10.png" />
+								<span class="fl">代理收益</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="bus_invitation">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-07.png" />
+								<span class="fl">邀请有钱</span>
+								<span class="fr color-q">每天1小时，月赚6K</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="my-list">
+					<ul class="mui-table-view mui-table-view-chevron">
+						<li class="mui-table-view-cell" id="bus_help">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-08.png" />
+								<span class="fl">帮助中心</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell" id="bus_abaod">
+							<a href="javascript:;" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-08.png" />
+								<span class="fl">关于我们</span>
+							</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="tel:4001-026-090" class="mui-navigate-right">
+								<img class="fl" src="../../img/mine/icon-mine-09.png" />
+								<span class="fl">联系客服</span>
+
+								<span class="fr">4001-026-090</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<nav class="navlist">
+			<a id="index" data="index" class="active mui-icon iconfont">
+				<img src="../../img/navigation/no_home.png" alt="" class="img_z" />
+				<p>首页</p>
+			</a>
+			<a id="merchant" data="city_shop" class="iconfont mui-icon">
+				<img src="../../img/navigation/shop.png" alt="" class="img_z" />
+				<p>附近</p>
+			</a>
+			<a id="message" data="info_system_sub" class="iconfont mui-icon">
+				<img src="../../img/navigation/msg.png" alt="" class="img_z" />
+				<span class="have_msg"></span>
+				<p>消息</p>
+			</a>
+			<a id="me" data="mine" class="iconfont mui-icon">
+				<img src="../../img/navigation/ck_my.png" alt="" class="img_z" />
+				<p style="color: #2CA9E7;">我的</p>
+			</a>
+			<div class="refuse" id="refuse" style="display: none;">
+				<div class="refuse_cont">
+					<p class="title">商城金币说明</p>
+					<div class="pay_title">
+						<div class="input_pwd">
+							<p>商城金币是共生网即将推出的线上商城服务道具：</p>
+							<p>1. 用户获得消费补贴时，系统会自动将补贴金额的10%以商城金币形式发放。</p>
+							<p>2. 用户在共生网线上商城选购任意商品时，可使用商城金币抵扣（1个商城金币等价于1元现金，不限单笔使用数量）。</p>
+							<!--<p>3. 用户确认收货后，订单总额（实付金额+消费金）会自动进入消费补贴排队序列。</p>-->
+						</div>
+					</div>
+					<div class="refuse_bot">
+						<button id="refuse_no">取消</button>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</body>
+
+</html>

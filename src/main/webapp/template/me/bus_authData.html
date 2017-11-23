@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>认证资料</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.poppicker.css" />
+		<script type="text/javascript" src="../../js/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="../../js/city.data-3.js"></script>
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<style>
+			.mui_input_a.black {
+				color: #000;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">认证资料</h1>
+			<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" id="get_money">提现账号</button>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>商家或企业名称</label>
+					<input type="text" placeholder="请输入您的商铺名称" id="shop_name" />
+				</div>
+				<div class="mui-input-row">
+					<label>所在地区</label>
+					<input type="text" placeholder="请输入您的所在地区" id="shop_add" />
+				</div>
+				<div class="mui-input-row">
+					<label>所属行业</label>
+					<select name="" id="shop_type" style="font-size: 12px;">
+						<option value=""></option>
+					</select>
+					<!--<input type="text" placeholder="餐饮" id="shop_type">-->
+				</div>
+				<div class="mui-input-row">
+					<label>营业执照号</label>
+					<input type="text" id="show_num" readonly="readonly" placeholder="请输入营业执照号码">
+				</div>
+				<div class="mui-input-row">
+					<label>联系地址</label>
+					<input type="text" id="contact_add" placeholder="请输入您的联系地址">
+				</div>
+				<div class="mui-input-row">
+					<label>联系电话</label>
+					<input type="text" id="contact_phone" placeholder="请输入您的联系电话">
+				</div>
+				<div class="mui-input-row">
+					<label>联系人</label>
+					<input type="text" id="contact_name" placeholder="请输入您的联系人姓名">
+				</div>
+				<div class="brief_intro">
+					<p class="intro">简介</p>
+					<textarea placeholder="(选填)在此输入您的店铺或企业的相关简介" id="dis" class="intro_txt"></textarea>
+				</div>
+			</form>
+			<div class="upload_bg null_pic" id="bus_upload">
+				<img src="../../img/bus_info/bus.gif" width="400" height="400" class="bg_img" id="imgpic" />
+				<p class="add_img">点击添加企业或者商家照片</p>
+			</div>
+		</div>
+		<div class="mui-bar mui-bar-tab">
+			<p class="see_txt">查看
+				<a href="#" class="a_link">&laquo;签订协议&raquo;</a>
+			</p>
+			<button id="cmt" type="button" class="mui-btn mui-btn-success mui-btn-block com_btn">修改资料</button>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/exif.js"></script>
+		<script type="text/javascript" src="../../js/upload.util.js"></script>
+		<script type="text/javascript" src="../../js/mui.picker.js"></script>
+		<script type="text/javascript" src="../../js/mui.poppicker.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			});
+			var auid = null;
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				auid = localStorage.getItem("auid");
+				document.getElementById("cmt").addEventListener('tap', function() {
+					this.setAttribute('disabled', 'disabled');
+					modify_authData();
+				});
+
+				function uploadSucess(data, id) {
+					lence_url = booking.constants.ip + data.RESULTLIST.PATH;
+					document.getElementById(id).src = lence_url;
+				}
+				document.getElementById('bus_upload').addEventListener('tap', function() {
+					if(mui.os.plus) {
+						var a = [{
+							title: "拍照"
+						}, {
+							title: "从手机相册选择"
+						}];
+						plus.nativeUI.actionSheet({
+							title: "上传图片",
+							cancel: "取消",
+							buttons: a
+						}, function(b) { /*actionSheet 按钮点击事件*/
+							switch(b.index) {
+								case 0:
+									break;
+								case 1:
+									getImage(1000, 800, "imgpic", "sphotos", uploadSucess); /*拍照*/
+									break;
+								case 2:
+									galleryImg(1000, 800, "imgpic", "sphotos", uploadSucess); /*打开相册*/
+									break;
+								default:
+									break;
+							}
+						});
+					}
+				}, false);
+			});
+			//修改商家资料
+			function modify_authData() {
+				var DISTRICT_NAME = $("#shop_add").html();
+				var SHOP_NAME = $("#shop_name").val();
+				var SHOP_CATEGORY_ID = $("#shop_type").val();
+				var ADDR = $("#contact_add").val();
+				var DES = $("#dis").val();
+				var CONTACTS = $("#contact_name").val();
+				var PHONE_NUM = $("#contact_phone").val();
+				var SHOP_LOGO_URL = $("#imgpic").attr("src")
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10045",
+					"AUTH_ID": auid, //localStorage.getItem("auid")
+					"DISTRICT_NAME": DISTRICT_NAME,
+					"SHOP_NAME": SHOP_NAME,
+					"SHOP_CATEGORY_ID": SHOP_CATEGORY_ID,
+					"ADDR": ADDR,
+					"DES": DES,
+					"CONTACTS": CONTACTS,
+					"PHONE_NUM": PHONE_NUM,
+					"SHOP_LOGO_URL": SHOP_LOGO_URL,
+				}, function(result) {
+					mui.toast("修改成功！");
+					document.getElementById("cmt").removeAttribute('disabled'); //恢复按钮为非禁用    
+					return;
+				}, function(result) {
+					if(result.RESULTCODE == "-1") {
+						document.getElementById("cmt").removeAttribute('disabled'); //恢复按钮为非禁用
+						mui.toast(result.DESCRIPTION);
+					} else {
+						mui.toast("当前网络不给力")
+					}
+				})
+			}
+			var cityPicker3 = new mui.PopPicker({
+				layer: 3
+			});
+			cityPicker3.setData(cityData3);
+			var showCityPickerButton = document.getElementById('shop_add');
+			var cityResult3 = document.getElementById('shop_add');
+			showCityPickerButton.addEventListener('tap', function(event) {
+				cityResult3.focus();
+				cityPicker3.show(function(items) {
+					cityResult3.innerHTML = (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text;
+					//返回 false 可以阻止选择框的关闭
+					//return false;
+					showCityPickerButton.classList.add("black");
+				});
+			}, false);
+			document.getElementById("get_money").addEventListener('tap', function() {
+				booking.closeAndOpenNewWindow("bindBankCard.html", "bindBankCard");
+			});
+			//获取商家行业
+			function getShopType(auid) {
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10010",
+					"AUTH_ID": auid,
+				}, function(result) {
+					var data = result.RESULTLIST.result;
+					var shopTypeHtml = '';
+					for(var i = 0; i < data.length; i++) {
+						var sData = data[i];
+						shopTypeHtml += '<option value="' + sData.id + '">' + sData.category_name + '</option>'
+					}
+					$("#shop_type").html(shopTypeHtml);
+					//获取商家信息
+					mui.app_request('POST', {
+						"OPERATE_TYPE": "10005",
+						"AUTH_ID": auid,
+					}, function(data) {
+						if(data.RESULTCODE == "0") {
+							var sData = data.RESULTLIST.shop_apply_info;
+							if(!mui.isnull(sData.shop_name)) {
+								$("#shop_name").val(sData.shop_name);
+							}
+							if(!mui.isnull(sData.business_license_num)) {
+								$("#show_num").val(sData.business_license_num);
+							}
+							if(!mui.isnull(sData.business_license_num)) {
+								$("#shop_type").val(sData.shop_category_id);
+							}
+							if(!mui.isnull(sData.district_name)) {
+								$("#shop_add").html(sData.district_name)
+							}
+							if(!mui.isnull(sData.addr)) {
+								$("#contact_add").val(sData.addr);
+							}
+							if(!mui.isnull(sData.phone_num)) {
+								$("#contact_phone").val(sData.phone_num);
+							}
+							if(!mui.isnull(sData.contacts)) {
+								$("#contact_name").val(sData.contacts); //
+							}
+							if(!mui.isnull(sData.des)) {
+								$("#dis").val(sData.des);
+							}
+							if(!mui.isnull(sData.shop_logo_url)) {
+								$("#imgpic").attr("src", sData.shop_logo_url)
+							}
+						}
+						return;
+					}, function(data) {
+						if(data.RESULTCODE == "-1") {
+							$("#shop_type").html("普通用户");
+							$("#user").show();
+						} else {
+							mui.toast("当前网络不给力")
+						}
+					});
+					return;
+				}, function(result) {
+					mui.toast(result.DESCRIPTION);
+				})
+			}
+		</script>
+	</body>
+
+</html>

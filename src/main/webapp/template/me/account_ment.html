@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>账号管理</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="../../js/me/account_ment.js"></script>
+		<style type="text/css">
+			#exit {
+				padding: 12px 0 !important;
+				font-size: 16px !important;
+				background: #0499E6;
+				color: #fff;
+			}
+			
+			.cleft_name {
+				font-size: 16px !important;
+			}
+			
+			.tip {
+				font-size: 14px;
+			}
+			
+			.f00 {
+				color: #30b776 !important;
+			}
+			
+			.icon-sm {
+				max-width: 100%;
+				display: block;
+				width: 60px;
+			}
+			
+			#r_gotoname div.fr {
+				height: auto;
+				display: block;
+			}
+			
+			#yesRe {
+				margin-top: 10px;
+				margin-right: 10px;
+			}
+		</style>
+		<script type="text/javascript">
+			mui.init();
+
+		</script>
+
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">账号管理</h1>
+		</header>
+		<div class="head_imgcont">
+			<div class="img_head" id="heads_img">
+				<p class="head_text cleft_name">我的头像</p>
+				<div class="fr">
+					<img src="" class="default_img" id="head_img" />
+					<img src="../../img/default/right.png" class="right_acc" />
+				</div>
+			</div>
+		</div>
+		<div class="common_name" id="r_name">
+			<label class="cleft_name ">我的昵称</label>
+			<div class="fr ">
+				<label class="name" id="nickname"></label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+		</div>
+		<div class="cmn_name" id="r_gotoname">
+			<label class="cleft_name">身份认证</label>
+			<div class="fr" id="noRe" style="display: none;">
+				<label class="name"></label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+			<div class="fr" id="yesRe" style="display: none;">
+				<img class="icon-sm" src="../../img/acount/realName.png">
+			</div>
+
+		</div>
+		<div class="common_name" id="bdpay">
+			<label class="cleft_name">我的支付宝</label>
+			<div class="fr" id="nobind" style="display: block;">
+				<label class="name"></label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+			<div class="fr" id="yes_bind">
+				<label class="name " id="alipay">已绑定</label>
+			</div>
+		</div>
+		<div class="tips">
+			<p class="tip">用户完成身份认证才可绑定支付宝和银行卡</p>
+		</div>
+		<!--<div class="cmn_name" id="up_phone">
+			<label class="cleft_name">修改手机号码</label>
+			<div class="fr">
+				<label class="name">去修改</label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+		</div>-->
+		<div class="cmn_name  " id="pay_pwd">
+			<label class="cleft_name">管理支付密码</label>
+			<div class="fr">
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+		</div>
+		<div class="cmn_name  " id="forgot_pwd">
+			<label class="cleft_name">找回支付密码</label>
+			<div class="fr">
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+		</div>
+		<!--<div class="set_handpwd">
+			<li class="mui-table-view-cell">
+				<span>设置手势密码</span>
+				<div class="mui-switch mui-switch-mini mui-active">
+					<div class="mui-switch-handle"></div>
+				</div>
+			</li>
+		</div>
+		<div class="cmn_name" id="bdpay">
+			<label class="cleft_name">修改手势密码</label>
+			<div class="fr">
+				<img src="../../../img/default/right.png" class="rightimg" />
+			</div>
+		</div>-->
+		<button id="exit" class="btn_ext">退出登录</button>
+
+	</body>
+
+</html>

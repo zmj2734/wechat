@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>消费记录</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mescroll.min.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/mescroll.min.js"></script>
+		<style type="text/css">
+			.c_pro {
+				padding-top: 0;
+				margin-top: -45px;
+			}
+			
+			#body_margin {
+				overflow: hidden;
+				height: 100% !important;
+			}
+			
+			.mui-scroll-wrapper {
+				position: absolute !important;
+			}
+			
+			.sub_type {
+				font-weight: 500 !important;
+				color: #666 !important;
+			}
+			
+			#header {
+				background: #3b8cff;
+			}
+			
+			#header h1,
+			#header a {
+				color: #fff;
+			}
+			
+			.me-modal-btn {
+				height: 44px;
+				line-height: 44px;
+				background: none;
+				width: 100%;
+			}
+			
+			.me-modal-bot {
+				bottom: 30px !important;
+			}
+			
+			.me-modal-btn img {
+				width: 44px;
+				height: 44px;
+				border: 1px solid #919191;
+				padding: 5px;
+				border-radius: 50%;
+			}
+			
+			.me-modal-btn:enabled:active {
+				outline: none;
+				background: none;
+			}
+			
+			.me-modal-nr {
+				padding-top: 95px;
+			}
+			
+			.me-modal-con h3 {
+				width: 100%;
+				text-align: center;
+				font-size: 18px;
+				height: 30px;
+				line-height: 30px;
+				color: #414141;
+				font-weight: 400;
+			}
+			
+			.me-modal-con.me-modal-posi {
+				padding: 0px 15px;
+			}
+			
+			.me-modal-con.me-modal-posi p {
+				border-bottom: 1px solid #e7e7e7;
+				color: #919191;
+				height: 40px;
+				line-height: 25px;
+			}
+			
+			.me-modal-con.me-modal-posi p span {
+				color: #919191;
+			}
+			
+			.me-modal-con ul {
+				width: 100%;
+				height: 100%;
+				display: inline-block;
+			}
+			
+			.me-modal-con ul li {
+				width: 100%;
+				display: inline-block;
+				font-size: 14px;
+			}
+			
+			.my-record h3 {
+				font-weight: 400;
+			}
+		</style>
+		<script type="text/javascript" src="../../js/me/record.js"></script>
+	</head>
+
+	<body style="border: 1px rgba(000,000,000,0) solid;" id="body_margin">
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">消费记录</h1>
+			<!--<button class="mui-btn mui-btn-blue mui-icon mui-icon-help mui-btn-link mui-pull-right" id="detail" style="padding-top: 0;"></button>-->
+		</header>
+		<input type="hidden" id="shop_id_hidden" />
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style=" padding-top: 45px;">
+			<div class="mui-scroll">
+				<div id="messages">
+					<!-- 这个div是提示，不要删 -->
+					<div class="my-record-tip">
+						<div class="">
+							<img src="../../img/shop/icon-record-tip.png" /> 通过APP扫码支付，累计消费满100元，系统自动启动排队补贴
+						</div>
+					</div>
+					<!-- 这个div是提示，不要删 -->
+
+					<!--<div class="my-record">
+						<h3>
+							<img src="../../img/default/find.gif" alt="" />
+							<span class="fl">肯德基（渝中店）</span>
+							<span class="fr">&yen;1356.00</span>
+						</h3>
+						<ul>
+							<li>
+								<span class="fl">补贴中</span>
+								<span class="fr">&yen;320.00</span>
+							</li>
+							<li>
+								<span class="fl">未排队金额</span>
+								<span class="fr">&yen;320.00</span>
+							</li>
+							<li>
+								<span class="fl">累计消费笔数</span>
+								<span class="fr">12</span>
+							</li>
+							<li>
+								<span class="fl">最近消费时间</span>
+								<span class="fr">2017-09-08&nbsp;11:56:00</span>
+							</li>
+						</ul>
+					</div>-->
+				</div>
+			</div>
+		</div>
+		<div class="me-modal " id="me-modal" style="display: none;">
+			<div class="me-modal-nr me-modal-height ">
+				<div class="me-modal-con me-modal-posi">
+					<h3>消费明细单</h3>
+					<p>店铺：<span id="shop_name">初见消费</span></p>
+				</div>
+				<div class="me-modal-con me-madal-text mescroll" id="mescroll">
+					<ul id="my-shop-mx">
+						<li>
+							<span class="fl">2017-10-24&nbsp;&nbsp;15:20:12</span>
+							<span class="fr">320.00元</span>
+						</li>
+						<li>
+							<span class="fl">2017-10-24&nbsp;&nbsp;15:20:12</span>
+							<span class="fr">320.00元</span>
+						</li>
+						<li>
+							<span class="fl">2017-10-24&nbsp;&nbsp;15:20:12</span>
+							<span class="fr">320.00元</span>
+						</li>
+					</ul>
+
+				</div>
+				<div class="me-modal-bot me-modal-posi">
+					<button class="me-modal-btn" id="submit">
+						<img src="../../img/mine/icon-record-close.png"/>
+					</button>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

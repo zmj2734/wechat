@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>签约信息</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<style type="text/css">
+			#show_lence {
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">签约信息</h1>
+			<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" id="shouk">我要成为加盟商</button>
+		</header>
+		<div class="shop_signinfo">
+			<div class="sign_info">
+				<img src="../../img/bus_info/bus_info.png" id="upload" class="bus_img" />
+			</div>
+			<div class="sign_address">
+				<label>商家名称</label>
+				<label id="shop_name"></label>
+			</div>
+			<div class="sign_address">
+				<label>法人代表</label>
+				<label id="comp_name"></label>
+			</div>
+			<div class="sign_address">
+				<label>营业执照号</label>
+				<label id="show_lence"></label>
+			</div>
+			<div class="sign_address">
+				<label>营业执照所在地</label>
+				<p class="address" id="district_name"></p>
+			</div>
+		</div>
+		<p class="content" id="shop_deal">查阅&nbsp;&nbsp;
+			<a href="#" class="a_link">&laquo;共生网商家入驻协议&raquo;</a>&nbsp;&nbsp;</p>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			});
+			var auid = null;
+			var is_apply_state = null;
+			mui.plusReady(function() {
+				auid = localStorage.getItem("auid");
+
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+
+				document.getElementById("shop_deal").addEventListener('tap', function() {
+					mui.openWindow({
+						id: 'shop_deal',
+						url: 'shop_deal.html'
+					})
+				})
+
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10023",
+					"AUTH_ID": auid
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						console.log(JSON.stringify(data))
+						var shop_apply_info = data.RESULTLIST.shop_apply_info;
+						var type = shop_apply_info.shop_category_id;
+						$("#shop_name").html(shop_apply_info.shop_name);
+						$("#comp_name").html(shop_apply_info.legal_name);
+					}
+					return;
+				}, function(result) {
+					return;
+				});
+
+				mui.app_request('POST', {
+					'OPERATE_TYPE': '10005',
+					'AUTH_ID': auid
+				}, function(data) {
+					if(data.RESULTCODE == '0') {
+						var result = data.RESULTLIST.shop_apply_info;
+						$("#district_name").html(result.district_name);
+						$("#show_lence").html(result.business_license_num)
+						$("#upload").attr("src", booking.constants.ip + result.business_license_url);
+					}
+				}, function(result) {
+					if(result.RESULTCODE == '-1') {
+						mui.toast(result.DESCRIPTION);
+					}
+				});
+
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10075",
+					"AUTH_ID": auid
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						var data = data.RESULTLIST;
+						if(data.apply_user_type == "3" && data.apply_state == "0" && data.current_user_type == "2") {
+							is_apply_state = 1;
+						}
+					}
+					return;
+				}, function(result) {
+					mui.toast("当前网络不给力");
+					return;
+				});
+
+				document.getElementById("shouk").addEventListener("tap", function() {
+					if(is_apply_state == 1) {
+						mui.toast("您的申请正在审核中...");
+						return false;
+					} else {
+						var btnArray = ['完善资料', '取消'];
+						mui.confirm('要成为加盟商，请先完善资料', '', btnArray, function(e) {
+							if(e.index == 0) {
+								booking.closeAndOpenNewWindow(
+									'en_mer_data.html',
+									'en_mer_data'
+								)
+							} else {
+								return;
+							}
+						});
+					}
+				})
+
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>商铺收益</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="../../css/app_new.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css"/>
+    <link href="../../css/mui.min.css" rel="stylesheet"/>
+    <script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+    <script src="../../js/mui.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../../js/crypto-js.js"></script>
+    <script src='../../js/tripledes.js'></script>
+    <script src='../../js/aes.js'></script>
+    <script src='../../js/mode-ecb.js'></script>
+    <script src="../../js/common.js" type="text/javascript"></script>
+    <style type="text/css">
+        .c_pro {
+            padding-top: 0;
+            /*margin-top: -45px;*/
+        }
+
+        .mui-scroll-wrapper {
+            position: absolute !important;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        #pullrefresh {
+            width: 100%;
+            display: block;
+        }
+
+        .get {
+            margin-top: 10px;
+            font-size: 30px !important;
+            color: #666;
+            margin-top: 0;
+            line-height: 60px;
+        }
+
+        .sub_type {
+            color: #666 !important;
+            font-size: 14px !important;
+            font-weight: 400 !important;
+        }
+
+        #messages {
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript">
+        mui.init({
+            swipeBack: true,
+            pullRefresh: {
+                container: "#pullrefresh", //待刷新区域标识
+                up: {
+                    contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                    callback: fundmore, //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+                }
+            }
+        });
+
+    </script>
+</head>
+
+<body style="border: 1px rgba(000,000,000,0) solid;" id="body_margin">
+<header id="header" class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+    <h1 class="mui-title">补贴总额</h1>
+</header>
+<div class="c_pro" style="z-index: 4;position:fixed;top: 45px;left: 0;height: 60px;">
+    <!--<p class="c_txt">累计补贴(元)</p>-->
+    <p class="get" id="total_amount">0.00</p>
+</div>
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper mui-conten" style="padding-top: 106px;">
+    <div class="mui-scroll">
+        <div class="mui-table-view mui-table-view-chevron" id="messages">
+            <!--<div class="with_content">
+                <div class="left_time">
+                    <p><span class="sub_type">123123</span></p>
+                    <span><span class="get_time">123123</span></span>
+                    </div>
+                    <div class="fr">
+                    <p><span class="profit">3213</span></p>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<!--<div class="c_pro">
+    <p class="c_txt">累计收益(元)</p>
+    <p class="get">0.00</p>
+</div>
+<div class="with_content">
+    <div class="left_time">
+        <p><span class="sub_type">余额提现</span></p>
+        <span><span class="get_time">2017-02-17</span></span>
+    </div>
+    <div class="fr">
+        <p><span class="profit">-94.00</span></p>
+    </div>
+</div>
+<div class="with_content">
+    <div class="left_time">
+        <p><span class="sub_type">平台奖励收益</span></p>
+        <span><span class="get_time">2017-02-17</span></span>
+    </div>
+    <div class="fr">
+        <p><span class="profit">+2.00</span></p>
+    </div>
+</div>
+<div class="with_content">
+    <div class="left_time">
+        <p><span class="sub_type">已报销金额</span></p>
+        <span><span class="get_time">2017-02-17</span></span>
+    </div>
+    <div class="fr">
+        <p><span class="profit">+94.00</span></p>
+    </div>
+</div>
+<div class="with_content">
+    <div class="left_time">
+        <p><span class="sub_type">报款收益</span></p>
+        <span><span class="get_time">2017-02-17</span></span>
+    </div>
+    <div class="fr">
+        <p><span class="profit">+24.00</span></p>
+    </div>
+</div>
+<div class="with_content">
+    <div class="left_time">
+        <p><span class="sub_type">代理收益</span></p>
+        <span><span class="get_time">2017-02-17</span></span>
+    </div>
+    <div class="fr">
+        <p><span class="profit">+24.00</span></p>
+    </div>
+</div>
+<div class="with_content">
+    <div class="left_time">
+        <p><span class="sub_type">企业招募收益</span></p>
+        <span><span class="get_time">2017-02-17</span></span>
+    </div>
+    <div class="fr">
+        <p><span class="profit">+14.00</span></p>
+    </div>
+</div>
+<div class="with_content">
+    <div class="left_time">
+        <p><span class="sub_type">杰出合伙人</span></p>
+        <span><span class="get_time">2017-02-17</span></span>
+    </div>
+    <div class="fr">
+        <p><span class="profit">+14000.00</span></p>
+    </div>
+</div>-->
+</body>
+
+</html>

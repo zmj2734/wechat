@@ -1,0 +1,516 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>企业商家资料</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link href="../../css/city.css" rel="stylesheet" type="text/css">
+		<link href="../../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../crocss/cropper.css" />
+		<link rel="stylesheet" href="../../crocss/photoswipe.css">
+		<link rel="stylesheet" href="../../crocss/default-skin.css">
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<link rel="stylesheet" type="text/css" href="../../dist/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="../../dist/default.css">
+		<link href="../../dist/bootstrap.min.css" rel="stylesheet">
+		<link href="../../dist/cropper.css" rel="stylesheet">
+		<link href="../../dist/main.css" rel="stylesheet">
+		<style>
+			body {
+				background: #fff;
+			}
+			a:focus, a:hover{
+				text-decoration: none;
+				color: #414141;
+			}
+			input::-webkit-input-placeholder {
+				color: #c0c0c0;
+				font-size: 13px;
+			}
+			.icon-x{
+				font-family: Muiicons;
+				margin-top: 2px;
+			}
+			.mui-input-row label em,
+			.brief_intro p em{
+				position: relative;
+				top: 2px; margin-right: 3px;
+			}
+			.brief_intro p span{
+				display: block;
+				float: left;
+			}
+			.brief_intro p.sss{
+				display: flex;
+			}
+			.brief_intro p.sss span:last-child{
+				flex: 1;
+				width: 100%;
+			}
+			.mui_input_a {
+				font-size: 13px;
+				color: #414141;
+				line-height: 50px;
+				float: right;
+				text-align: right;
+				width: 100%;
+				display: inline-block;
+				flex: 1;
+				margin-right: 30px;
+			}
+			
+			.mui_input_a.basic_00 {
+				color: #000;
+			}
+			
+			.mui_input_a.black {
+				color: #000;
+			}
+			
+			.mui-input-row label {
+				font-size: 14px;
+				margin-right: 10px;
+				color: #414141;
+			}
+			
+			.mui-input-row input {
+				font-size: 14px;
+				padding: 10px 13px !important;
+			}
+			
+			#requerd {
+				width: 100%;
+				top: 0!important;
+				border-radius: 0;
+				background: #3b8cff;
+				margin-bottom: 0;
+			}
+			
+			.intro {
+				width: 100% !important;
+				font-size: 14px;
+				color: #414141;
+			}
+			.introsss {
+				font-weight: 700;
+			}
+			#icon-card {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.7);
+				z-index: 99;
+			}
+			
+			.icon-card-img {
+				width: 80%;
+				height: auto;
+				display: inline-table;
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				margin: auto;
+			}
+			
+			#icon-card-img {
+				width: 100%;
+				max-width: 100%;
+				display: block;
+			}
+			
+			.icon-card-img p {
+				line-height: 30px;
+				font-size: 16px;
+				color: #fff;
+				text-align: center;
+			}
+			
+			.ml-10 {
+				margin-left: 10px;
+			}
+			
+			#shop_city {
+				/*padding-left: 0 !important;*/
+				width: 100%;
+				color: #414141;
+			}
+			
+			.mui-input-row label~input {
+				width: auto;
+				flex: 1;
+				line-height: 28px;
+			}
+			
+			.mui-input-row {
+				width: 100%;
+				box-sizing: border-box;
+				display: flex;
+			}
+			
+			.time-input {
+				text-align: center;
+				display: inline-block;
+				padding-left: 13px !important;
+			}
+			
+			.mrl {
+				margin: 0px 10px;
+				font-size: 14px;
+				line-height: 50px !important;
+			}
+			
+			.photo {
+				width: 100%;
+				height: auto;
+			}
+			
+			.photo figure {
+				width: 30%;
+				height: auto;
+				background: #f2f2f2;
+				display: block;
+				float: left;
+				margin: 0;
+				margin-right: 5%;
+				margin-top: 5%;
+				position: relative;
+			}
+			
+			.photo figure:first-child {
+				margin-left: 0 !important;
+			}
+			
+			.photo figure a {
+				width: 100% !important;
+				height: auto !important;
+				display: block !important;
+				position: relative;
+			}
+			
+			.photo figure a img {
+				width: 100%;
+				display: block;
+				max-width: 100%;
+				height: 80px;
+			}
+			
+			.up_img {
+				font-size: 130px;
+				color: #fff;
+				line-height: 105px;
+				background: #f2f2f2;
+				width: 30%;
+				display: inline-block;
+				/*margin-left: 2.5% !important;*/
+				margin-top: 5% !important;
+				float: left;
+			}
+			
+			.up_img img {
+				width: 100%;
+				max-width: 100%;
+				display: block;
+			}
+			
+			.bus_bg {
+				border: none !important;
+				margin-top: 0;
+				display: flex;
+			}
+			
+			.brief_intro {
+				margin-top: 10px !important;
+			}
+			.intros{
+				margin-left: 0 !important;
+				padding-left: 15px;
+			}
+			.brief_intros {
+				padding: 0px 15px;
+			}
+			
+			.brief_intros p {
+				font-size: 14px;
+			}
+			
+			.brief_intros .intro {
+				margin-left: 0 !important;
+				padding-left: 0;
+			}
+			
+			.close-img {
+				width: 23px;
+				height: 23px;
+				border-radius: 50%;
+				display: block;
+				background: rgba(0, 0, 0, 0.8) url(../../img/default-skin.png) -10px -54px no-repeat;
+				position: absolute;
+				top: 0px;
+				right: 0px;
+			}
+			
+			.mui-input-group:before {
+				height: 0 !important;
+			}
+			
+			.mui-input-group:after {
+				height: 0 !important;
+			}
+			#back{
+				color: #666 !important;
+				padding-top: 5px !important;
+			}
+			#myimgs{
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0,0,0,1); 
+				display: none;
+				z-index: 99;
+				padding-top: 44px;
+			}
+			#myimgs .img-container{
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				margin: auto;
+				height: 100%;
+				display: inline-block;
+				max-height: 100%;
+				z-index: 99;
+			}
+			.myimgs-title{
+				height: 44px;
+				width: 100%;
+				display: inline-block;
+				position: absolute;
+				z-index: 999;
+				background: #000;
+				top: 0;
+			}
+			.myimgs-title button{
+				background: none;
+				border: none;
+				height: 44px;
+				padding: 0px 20px;
+				color: #fff;
+				line-height: 44px;
+				font-size: 14px;
+			}
+			.myimgs-title button:hover,
+			.myimgs-title button:enabled:active{
+				outline: none !important;
+				background: none !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class=" mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">商家入驻</h1>
+		</header>
+		
+		<div class="mui-content" style="padding-bottom: 45px;">
+			<div class="my-shop-tip" id="errorReport" style="display: none;">
+				<div class="">
+					<img src="../../img/shop/icon-shop-tip.png"/>
+					<span id="errorValue"></span>
+				</div>
+			</div>
+			<div class="my-shop-title">
+				<img src="../../img/shop/icon-shop-01.png" />
+				<ul>
+					<li class="on">商户信息</li>
+					<li>提交资质</li>
+					<li>平台审核</li>
+				</ul>
+			</div>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label><em>*</em>商户名称</label>
+					<input type="text" id="shop_name" placeholder="如“乐途美蛙芋头（江北店）”" style="padding: 10px;">
+				</div>
+				<div class="mui-input-row" id="shop_type_click">
+					<label><em>*</em>经营品类</label>
+					<a href="#" id="shop_type" class="mui_input_a mui-navigate-right">请选择</a>
+					<input type="hidden" id="hid_cont" />
+				</div>
+				<div class="mui-input-row">
+					<label><em>*</em>联系电话</label>
+					<input type="text" class="fl" placeholder="请输入联系电话" id="phonenum">
+				</div>
+				<div class="mui-input-row">
+					<label><em>*</em>营业时间</label>
+					<input type="time" class="fl time-input" value="00:00" id="starTime">
+					<span class="mrl">至</span>
+					<input type="time" class="fl time-input" value="00:00" id="endTime">
+				</div>
+				<div class="mui-input-row" id="shop_city_addr">
+					<label><em>*</em>所在地区</label>
+					<!--<input type="text" placeholder="请选择您的营业执照所在地" id="shop_city" />-->
+					<a href="#" class="mui_input_a mui-navigate-right">
+						<input type="text" readonly="readonly" name="shop_add" id="shop_city" value="" placeholder="请选择您商铺所在地" style="70%" />
+					</a>
+				</div>
+				<div class="mui-input-row">
+					<label><em>*</em>详细地址</label>
+					<input type="text" placeholder="街道、楼牌号等" id="shop_add" />
+				</div>
+				<div class="mui-input-row">
+					<label class="row_left">&nbsp;&nbsp;商圈位置</label>
+					<input class="in_right" type="text" placeholder="如万达广场" id="trading_area" style="padding: 10px;">
+				</div>
+				<div class="mui-input-row">
+					<label class="row_left"><em>*</em>人均消费</label>
+					<input class="in_right" type="text" placeholder="如“88”" id="consumption" style="padding: 10px;">
+				</div>
+				<div class="brief_intro" style="border-bottom: 1px solid #c8c7cc;padding-bottom: 10px;">
+					<p class="intro introsss intros">&nbsp;&nbsp;商家LOGO</p>
+					<p class="intro intros" style="color: #ff4940;">如未上传logo，则默认下方店铺展示图的第一张图为店铺形象图</p>
+					<div class="bus_bg" id="bus_logo_uploads">
+						<div class="photo">
+							<span class="photo_nr up_img" id="shop_logo_up_imgs"><img id="shop_logo_imgs" src="../../img/shop/icon-ptoto.png" alt="" /></span>
+							<input id="img_shop_logo_up_imgs" type="hidden" />
+						</div>
+					</div>
+				</div>
+				<div class="brief_intro" style="border-bottom: 1px solid #c8c7cc;padding-bottom: 10px;">
+					<p class="intro intros introsss"><em>*</em>店铺展示（1~5张）</p>
+					<div class="bus_bg" id="bus_upload">
+						<div class="photo">
+							<div class="my-gallery" id="photo">
+								<!--<figure>
+									<a href="../../img/fans/fans_img.png" data-size="800x800">
+										<img src="../../img/fans/fans_img.png" />
+										<span class="close-img"></span>
+									</a>
+								</figure>
+								<figure>
+									<a href="../../img/fans/fans_img.png" data-size="800x800">
+										<img src="../../img/fans/fans_img.png" />
+										<span class="close-img"></span>
+									</a>
+								</figure> -->
+							</div>
+							<span class="photo_nr up_img" id="up_img"><img src="../../img/shop/icon-ptoto.png" alt="" /></span>
+						</div>
+					</div>
+				</div>
+				<div class="brief_intro brief_intros">
+					<p class="intro intros introsss"><em>*</em>商户简介</p>
+					<textarea class="my-textarea" id="content_shop" placeholder="最多15个字，显示在商户列表页面，用于展示店铺特色。如：免费wifi老火锅 中餐"></textarea>
+				</div>
+				<div class="brief_intro brief_intros">
+					<p class="intro intros introsss">商户介绍</p>
+					<textarea class="my-textarea" id="shop_content" placeholder="(选填)在此输入您的店铺或企业的相关简介"></textarea>
+				</div>
+				<div class="brief_intro brief_intros">
+					<p class="intro intros">备注</p>
+					<p class="sss"><span>1.</span><span> 资料须如实填写，且以上信息将在客户端对平台用户展示</span></p>
+					<p class="sss"><span>2.</span><span>入驻过程中，如有问题请拨打4001-026-090</span></p>
+				</div>
+			</form>
+		</div>
+		<div id="icon-card" style="display: none;">
+			<div class="icon-card-img">
+				<img id="icon-card-img" src="../../img/realname/icon-card-02.png" />
+				<p id="icon-tip">请按照示例，上传手持身份证照</p>
+			</div>
+		</div>
+		<div style="margin-top: 23px; position: fixed; bottom: 0; left: 0;width: 100%;">
+			<button id="requerd" type="button" class="mui-btn mui-btn-success mui-btn-block">下一步</button>
+		</div>
+		<div id="myimgs" style="">
+			<div class="myimgs-title">
+				<button id="quxiao" class="fl">取消</button>
+				<button class="btn btn-primary fr" data-method="getCroppedCanvas" type="button" id="baocun">
+		            <!--<span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getCroppedCanvas&quot;)">-->
+		              	保存
+		            <!--</span>-->
+		        </button>
+			</div>
+			<div class="img-container">
+	          <img src="assets/img/picture.jpg" id="myimgsss" alt="Picture">
+	        </div>
+	        
+		</div>
+		<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="pswp__bg"></div>
+			<div class="pswp__scroll-wrap">
+				<div class="pswp__container">
+					<div class="pswp__item"></div>
+					<div class="pswp__item"></div>
+					<div class="pswp__item"></div>
+				</div>
+				<div class="pswp__ui pswp__ui--hidden">
+
+					<div class="pswp__top-bar">
+						<div class="pswp__counter"></div>
+						<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+						<!--<button class="pswp__button pswp__button--share" title="Share"></button>-->
+						<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+						<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+						<div class="pswp__preloader">
+							<div class="pswp__preloader__icn">
+								<div class="pswp__preloader__cut">
+									<div class="pswp__preloader__donut"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+						<div class="pswp__share-tooltip"></div>
+					</div>
+					<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+					<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+					<div class="pswp__caption">
+						<div class="pswp__caption__center"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/mui.picker.js"></script>
+	<script src="../../js/mui.poppicker.js"></script>
+	<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../js/city.data-3.js"></script>
+	<script type="text/javascript" src="../../js/exif.js"></script>
+	<script type="text/javascript" src="../../js/upload.util.js"></script>
+	<script src="../../js/myCity.js" type="text/javascript"></script>
+	<script src="../../cropper/photoswipe.min.js"></script>
+	<script src="../../cropper/photoswipe-ui-default.min.js"></script>
+	<script type="text/javascript" src="../../cropper/photo.js"></script>
+	<script type="text/javascript" src="../../cropper/cropper.js"></script>
+	<script type="text/javascript" src="../../js/me/en_mer_data.js"></script>
+	<script type="text/javascript">
+		mui.init({
+			swipeBack: true
+		});
+
+		
+	</script>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>邀请有钱</title>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.mins.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script type="text/javascript" src="../../js/jquery-1.4.1.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/share.js"></script>
+		<style type="text/css">
+			.mui-content {
+				background: none;
+				padding-bottom: 50px;
+			}
+			
+			#detail {
+				color: #fff;
+				background: none;
+			}
+			
+			#header {
+				background: #3b8cff;
+				border-bottom: none;
+			}
+			
+			#header h1,
+			#header a {
+				color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left " id="back"></a>
+			<h1 class="mui-title">邀请有钱赚</h1>
+
+		</header>
+		<div class="mui-content">
+			<img src="../../img/mine/Invitation.png" class="my-mui-img" />
+			<div class="my-invit">
+				<h3>NO.1&nbsp;好友消费&nbsp;你拿补贴</h3>
+				<ul>
+					<li>
+						邀请好友注册并在共生网联盟商户消费可享受订单金额1.5%的现金补贴。
+					</li>
+					<li>
+						<p>举个例子</p>
+						<p>A邀请B，B一年在共生网线上或线下联盟商户消费1万元，A赚150元。如果1年内邀请200个人呢？3万哦！</p>
+					</li>
+				</ul>
+			</div>
+			<div class="my-invit">
+				<h3>NO.2&nbsp;邀请商户入驻享8‰收益</h3>
+				<ul>
+					<li>
+						邀请商家入驻，享共生网用户在该商户总消费额0.8%的收益。
+					</li>
+					<li>
+						<p>举个例子</p>
+						<p>假设一个区县年交易额10亿，你邀请一个好友成为某区县代理，那么就能拿100万RMB。哇~百万富翁哦！</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<button id="my-mui-btn" type="button" class="my-mui-btn">邀请好友&nbsp;马上赚钱</button>
+		<div class="my-mui-invit" id="share_window" style="display: none;">
+			<div class="my-mui-invit-nr" id="my-mui-invit-nr">
+				<div class="my-mui-invit-close">
+					<img id="my-mui-invit-close" src="../../img/mine/icon-invit-close.png" />
+				</div>
+				<div class="my-mui-tion">
+					<h3>好友扫描二维码</h3>
+					<span class="my-line"></span>
+					<p>
+						<img id="my_code" src="../../img/mine/myqrcode.png" />
+					</p>
+				</div>
+				<div class="my-mui-tion">
+					<h3>直接分享邀请</h3>
+					<span class="my-line"></span>
+					<ul id="share_share">
+						<li class="fl wchat" id="fff" data_id="weixin" data_ex="WXSceneSession">
+							<img class="" src="../../img/mine/icon-invit-wx.png" />
+							<p>微信好友</p>
+						</li>
+						<li class="fr wchat" data_id="weixin" data_ex="WXSceneTimeline">
+							<img class="" src="../../img/mine/icon-invit-pyq.png" />
+							<p>微信朋友圈</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		mui.init({
+			swipeBack: true
+		});
+
+	</script>
+
+</html>

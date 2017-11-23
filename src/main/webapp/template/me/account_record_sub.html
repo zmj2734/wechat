@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的报账</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script src="../../js/mui.pullToRefresh.js"></script>
+		<script src="../../js/mui.pullToRefresh.material.js"></script>
+		<script type="text/javascript" src="../../js/me/account_record_sub.js"></script>
+		<style type="text/css">
+			html,body{
+				overflow-y: hidden;
+			}
+			.que_module {
+				margin-top: 0 !important;
+				margin-bottom: 20px !important;
+			}
+			
+			.mui-pull-bottom-tips {
+				text-align: center;
+			}
+			.banlance{
+				border-right: 1px solid #bfbfbf;
+			}
+			.mui-table-view {
+				background: none;
+				/*margin-top: 75px;*/
+			}
+			.a_click.mui-active{
+				background: #f7f7f7;
+			}
+			.mui-scroll {
+				width: 100% !important;
+			}
+			
+			.mui-segmented-control .mui-control-item.mui-active {
+				color: #fff !important;
+				background-color: #007aff !important;
+			}
+			
+			.mui-segmented-control.mui-scroll-wrapper .mui-control-item {
+				display: table-cell !important;
+			}
+			
+			.acount_detail .bz_people {
+				width: 100% !important;
+			}
+			
+			.acount_detail p {
+				text-align: left !important;
+				margin-left: 15px !important;
+			}
+			
+			.mui-scroll-wrapper {
+				position: absolute !important;
+				/*padding-top: 125px;*/
+			}
+			
+			#segmentedControl {
+				height: 40px;
+				line-height: 40px;
+			}
+			
+			.mui-segmented-control .mui-control-items {
+				line-height: 38px;
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				-webkit-transition: background-color .1s linear;
+				transition: background-color .1s linear;
+				text-align: center;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				border-color: #007aff;
+				border-left: 1px solid #E6E6E6;
+				border-bottom: 1px solid #E6E6E6;
+				background: #efeff4;
+			}
+			
+			.mui-segmented-control .mui-control-items.mui-active {
+				background: #007aff !important;
+				color: #fff;
+			}
+			
+			#sliderSegmentedControl {
+				width: 100%;
+				display: inline-block;
+				position: fixed;
+				z-index: 9999;
+				top: 45px;
+				background: white;
+			}
+			
+			.a_click {
+				width: 50%;
+				float: left;
+				text-align: center;
+				margin-top: 0;
+			}
+			
+			.vter_line {
+				top: 35px;
+			}
+			.submitted{
+				margin-top: 0;
+			}
+			/*#pullrefresh{
+				padding-top: 140px;
+				height: 100%;
+				display: block;
+			}*/
+			
+			.mui-scroll-wrapper {
+				position: absolute !important;
+				/*padding-top: 125px;*/
+			}
+			
+			#segmentedControl {
+				height: 40px;
+				line-height: 40px;
+			}
+			
+			.mui-segmented-control .mui-control-items {
+				line-height: 38px;
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				-webkit-transition: background-color .1s linear;
+				transition: background-color .1s linear;
+				text-align: center;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				border-color: #007aff;
+				border-left: 1px solid #E6E6E6;
+				border-bottom: 1px solid #E6E6E6;
+				background: #efeff4;
+			}
+			
+			.mui-segmented-control .mui-control-items.mui-active {
+				background: #007aff !important;
+				color: #fff;
+			}
+			
+			#sliderSegmentedControl {
+				width: 100%;
+				display: inline-block;
+				position: fixed;
+				z-index: 9999;
+				top: 45px;
+			}
+			
+			.mui-slider-group {
+				overflow: hidden;
+				padding-top: 81px;
+				height: 100%;
+			}
+			
+			html,body {
+				height: 100%;
+				/*overflow: hidden;*/
+			}
+			#slider{
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body style="border: 1px rgba(000,000,000,0) solid;" id="body_margin">
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">补贴记录</h1>
+			<!--<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" id="detail">我要报账</button>-->
+		</header>
+		<div id="slider" class="mui-slider mui-content">
+			<div id="sliderSegmentedControl">
+				<div class="mui-scroll mui-segmented-control" id="segmentedControl">
+					<div class="banlance mui-active a_click" page="0" value="0" con="item_1">
+						<p class="submitted"><span>消费补贴(元)</span></p>
+						<p class="count_reim"><span id="banlance_sub" class="red">0.00</span></p>
+					</div>
+					<div class="fl ac_top a_click" page="0" value="1" con="item_2">
+						<p class="submitted"><span>代服务(元)</span></p>
+						<p class="count_reim"><span id="banlance_other" class="red">0.00</span></p>
+					</div>
+					<!--<hr class="vter_line" />-->
+				</div>
+			</div>
+			<div class="mui-slider-group" id="pullrefresh">
+				<div id="item1mobile" class="mui-slider-item mui-control-content length" value="0">
+					<div id="scroll1" class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view item_1" con="item_1">
+								<!--<div class="bus_content">
+									<div class="left_time">
+									<p><span class="sub_reim">消费补贴：</span><span class="sub_price">eqwe</span></p>
+									<span><span class="sub_time">45125654</span></span>
+									</div>
+									<div class="fr">
+									<p><span class="other_name">服务商家</span></p>
+									<span class="other_info fr"><span class="other_peo"></span><span class="other_phone">dasdasd</span></span>
+									</div>
+								</div>-->
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item2mobile" class="mui-slider-item mui-control-content length" value="1">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<ul class="mui-table-view item_2" con="item_2">
+							
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

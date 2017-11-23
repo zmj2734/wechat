@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商家提现明细</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			mui.init({
+
+				gestureConfig: {
+					doubletap: true
+				},
+				subpages: [{
+					url: 'bus_withdetail_sub.html',
+					id: 'bus_withdetail_sub',
+					styles: {
+						top: '45px',
+						bottom: '0px',
+					}
+				}]
+			});
+			$(function() {
+				document.getElementById('with_money').addEventListener('tap', function() {
+					var attrd = {
+						"type": "10088",
+						"case_type": 2
+					};
+					localStorage.setItem("withdrawals_attr",JSON.parse(attrd));
+					booking.closeAndOpenNewWindowHaveAttr("withdrawals.html", "withdrawals", attrd);
+				});
+			})
+		</script>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">商家提现明细</h1>
+			<a class="mui-btn mui-btn-blue mui-btn-link mui-pull-right detail_txt" id="with_money">提现</a>
+		</header>
+		<div class="mui-content">
+
+		</div>
+	</body>
+
+</html>

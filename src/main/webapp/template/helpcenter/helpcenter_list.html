@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>帮助中心</title>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/friend.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script src='../../js/crypto-js.js'></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/share.js"></script>
+		<script type="text/javascript" src="../../js/helpcenter/helpcenter_list.js"></script>
+		<style type="text/css">
+			html,
+			body {
+				height: 100%;
+				background: #efeff4;
+				overflow: inherit;
+			}
+			
+			#detail {
+				padding-top: 10px !important;
+				font-size: 30px;
+			}
+			
+			.mui-table-view-cell {
+				padding-right: 10px !important;
+				height: 40px;
+				line-height: 40px;
+				padding-top: 0 !important;
+				padding-bottom: 0 !important;
+				border-bottom: none !important;
+			}
+			
+			.mui-table-view-cell>a:not(.mui-btn) {
+				margin: 0px !important;
+				width: 100%;
+				font-size: 14px;
+			}
+			
+			.my-title {
+				background: #fff;
+				margin-top: 0px;
+			}
+			
+			.my-title h3 {
+				height: 50px;
+				line-height: 50px;
+				border-bottom: 1px solid #efeff4;
+				font-size: 16px;
+				color: #666;
+				margin: 0 !important;
+			}
+			
+			.my-title h3 .bspan {
+				width: 6px;
+				height: 16px;
+				background: #0197E1;
+				display: inline-block;
+				margin-top: 17px;
+				margin-left: 10px;
+				margin-right: 6px;
+				float: left;
+				border-radius: 2px;
+			}
+			
+			#height {
+				padding-bottom: 45px;
+			}
+			
+			#kefu {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				height: 44px;
+				line-height: 44px;
+				color: #fff;
+				background: #0098e6;
+				font-size: 16px;
+				text-align: center;
+			}
+			
+			#detail img {
+				width: 20px;
+				height: 20px;
+			}
+			
+			.mui-table-view-cell:after {
+				height: 1px;
+				background: #efeff4;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">帮助中心</h1>
+			<a href="#share_window" class="mui-pull-right" id="detail" style="margin-top: 0;">
+				<img src="../../img/help/icon-fx.png" />
+			</a>
+		</header>
+		<div class="mui-content" id="height">
+			<div class="my-title">
+				<h3 style="display: none;" id="titie_name"><span class="fl bspan"></span><span class="fl" id="name" ></span></h3>
+				<ul class="mui-table-view mui-table-view-chevron" id="content">
+					<!--<li class="mui-table-view-cell">
+						<a href="" class="mui-navigate-right">1.共生网平台的资质如何？</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="" class="mui-navigate-right">2.如何领取消费补贴？</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="" class="mui-navigate-right">3.消费发票的审核标准有哪些？</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="" class="mui-navigate-right">4.不知道注册邀请码怎么办？</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="" class="mui-navigate-right">5.商户如何签约入驻？</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="" class="mui-navigate-right">6.提现领取手续费多少？</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="" class="mui-navigate-right">7.什么是消费券？</a>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+		<div class="mui-popover mui-popover-action mui-popover-bottom" id="share_window">
+			<div class="pwd_mask"></div>
+			<div class="input_cont">
+				<div class="pay_title">
+					<div class="price_pays">
+						<div class="fl share_channel" data_id="weixin" data_ex="WXSceneSession" style=" margin-left: 33.5%;">
+							<img src="../../img/introIMG/shop_wchar.png" class="w_img" />
+							<p class="w_txt">微信</p>
+						</div>
+						<div class="fl share_channel" style="" data_id="weixin" data_ex="WXSceneTimeline ">
+							<img src="../../img/introIMG/shop_friend.png" class="right_quan" />
+							<p class="p_txt">朋友圈</p>
+						</div>
+					</div>
+					<div class="input_pwd">
+						<button class="mui-btn mui-btn-block submit " id="btn_submit">
+							<a id="close">取消</a>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a id="kefu" href="tel:4001026090">人工客服&nbsp;4001-026-090</a>
+		<script type="text/javascript">
+			mui.init();
+
+			});
+		</script>
+	</body>
+
+</html>

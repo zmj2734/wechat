@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的收款码</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<style>
+			body {
+				background: #0098E6!important;
+				height: 450px;
+			}
+		</style>
+	</head>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="../../js/me/mycollectcode.js"></script>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color"></a>
+			<h1 class="mui-title">我的收款码</h1>
+		</header>
+		<div class="qrcode_img" style="margin-top: 150px;">
+			<img src="../../img/mine/myqrcode.png" class="code_img" id="code_image" />
+			<div class="check_dis" id="sale" style="display: none;">
+				<p class="dis_name ">7折(30元档)</p>
+				<img src="../../img/default/right.png " class="collect_img " />
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>绑定银行卡</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+	</head>
+	<style>
+		#id_card {}
+		
+		.none {
+			display: none;
+		}
+		
+		.bank_row {
+			margin-top: 10px;
+			width: 68%;
+		}
+		
+		.label {
+			width: 30%;
+		}
+	</style>
+	<script type="text/javascript">
+		mui.init({
+			swipeBack: true
+		});
+	</script>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">绑定银行卡</h1>
+			<a class=" mui-btn-link mui-pull-right detail_txt" style="display: none;" href="javascript:void(0);" id="edit">修改银行卡</a>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label class="label">收款账户名</label>
+					<input type="text" id="pay_getnum" class="bank_row" placeholder="请输入您的收款账户名">
+				</div>
+				<div class="mui-input-row">
+					<label class="label">收款账号</label>
+					<input type="text" maxlength="25" id="id_card" class="bank_row" placeholder="请输入收款账号">
+				</div>
+				<div class="mui-input-row">
+					<label class="label">开户支行</label>
+					<input type="text" id="open_bank" class="bank_row" placeholder="请输入收款卡开户行支行">
+				</div>
+			</form>
+		</div>
+		<button id="requerd" type="button" status="true" class="mui-btn mui-btn-success mui-btn-block com_btn">提交</button>
+		<!--<button id="updata" type="button" status="true" class="mui-btn mui-btn-success mui-btn-block none">我要更换账号</button>-->
+	</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>修改支付密码</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<style>
+			html,
+			body {
+				overflow: hidden;
+				overflow-y: hidden;
+			}
+			
+			.mui-input-row span {
+				padding-left: 15px;
+				color: #333333;
+				float: left;
+				height: 45px;
+				line-height: 40px;
+			}
+			
+			.mui-input-row input {
+				margin-top: 6px;
+			}
+			
+			.mui_input {
+				margin-top: 10px;
+				width: 68%;
+			}
+			
+			.label {
+				width: 32%;
+			}
+			
+			.password-box {
+				background: #f5f5f5 !important;
+			}
+			
+			.mui-content {
+				background: none !important;
+				z-index: 99999;
+				position: fixed;
+				width: 100%;
+				top: 50px;
+				overflow: hidden;
+			}
+			
+			.text {
+				text-align: center;
+				font-size: 18px !important;
+			}
+			
+			#tips {
+				display: none;
+			}
+			
+			.ccc {
+				color: #ccc !important;
+			}
+		</style>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script src="../../js/passwordBox.min.js"></script>
+		<script type="text/javascript" src="../../js/me/update_pwd.js"></script>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav" style="z-index: 999999;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">修改支付密码</h1>
+		</header>
+		<div class="mui-content">
+			<p class="text" id="text">输入支付密码，完成身份验证</p>
+			<p class="text" id="tips">设置6位数字支付密码</p>
+		</div>
+		<!--<div class="mui-conten">
+			<form class="mui-input-group" style="margin-top: 0px;">
+				<div class="mui-input-row">
+					<span style="font-size: 14px;"  class="label">旧支付密码</span>
+					<input style="padding-left: 0px;" type="password" class="mui_input" maxlength="6" id="pay_password" placeholder="请输入旧的支付密码">
+				</div>
+				<div class="mui-input-row">
+					<span style="font-size: 14px;"  class="label">新支付密码</span>
+					<input style="padding-left: 0px;" type="password" class="mui_input" maxlength="6" id="repay_password" placeholder="请输入新的支付密码">
+				</div>
+				<div class="mui-input-row">
+					<span style="font-size: 14px;"  class="label">再次输入密码</span>
+					<input style="padding-left: 0px;" type="password" class="mui_input" maxlength="6" id="repay_newpassword" placeholder="请再次输入新的支付密码">
+				</div>
+			</form>
+		</div>
+		<button id="requerd" type="button" class="mui-btn mui-btn-success mui-btn-block com_btn">确认修改</button>-->
+	</body>
+
+</html>

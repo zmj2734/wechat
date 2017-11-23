@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>昵称</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<style>
+			#nickname {
+				margin-top: 3%;
+				font-size: 14px;
+			}
+			
+			#save {
+				font-size: 20px !important;
+			}
+			
+			.mui-input-row input {
+				width: 70%;
+			}
+			
+			.mui-input-row label {
+				width: 30%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title" id="title_nicename">设置昵称</h1>
+		</header>
+		<div class="mui-conten" id="setname">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>请输入昵称:</label>
+					<input type="text" id="nickname" placeholder="昵称长度不能大于5位数">
+					<!--<span style="font-size: 14px; margin-left: 10px; float: left; line-height: 50px;">请输入昵称：</span>
+					<input type="text" class="mui-pull-left" id="nickname" placeholder="请输入新昵称"   />-->
+				</div>
+			</form>
+		</div>
+		<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" id="save" style="font-size: 14px;width: 96%;margin-right: 2%; background: #0499E6;color: #fff;margin-top: 24px;">保存</button>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="../../js/me/set_name.js"></script>
+	</body>
+
+</html>

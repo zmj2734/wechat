@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="../../css/app_new.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css"/>
+    <link href="../../css/mui.mins.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+    <script src='../../js/crypto-js.js'></script>
+    <script src='../../js/tripledes.js'></script>
+    <script src='../../js/mode-ecb.js'></script>
+    <script src='../../js/aes.js'></script>
+    <style type="text/css">
+        #phone {
+            text-align: left;
+            line-height: 30px;
+            padding: 0px !important;
+            margin-top: 3px;
+            width: 70%;
+        }
+
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .mui-content {
+            border-bottom: 1px solid #ccc;
+        }
+
+        .mui-input-row .paperman {
+            width: 30%;
+            font-size: 14px;
+        }
+
+        /*.mui-radio input[type=radio] {
+            top: 12px !important;
+            left: 10px !important;
+        }*/
+        .m-l-40 {
+            margin-left: 40px;
+            margin-top: 0 !important;
+        }
+
+        #friend_num {
+            height: 40px;
+            line-height: 40px;
+            font-size: 16px;
+            margin-bottom: 0px !important;
+            flex: 1;
+            width: 100%;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .zwf {
+            height: 46px;
+            border: 1px rgba(000, 000, 000, 0) solid;
+        }
+
+        .my-input-row label ~ input {
+            width: auto;
+            flex: 1;
+        }
+
+        .toux {
+            width: 52px !important;
+            height: 52px !important;
+            margin-left: 0 !important;
+        }
+
+        .mui-input-row {
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+        }
+
+        .my-input-row button {
+            width: auto;
+            font-size: 16px;
+            background: none;
+            color: #0098E6;
+        }
+
+        .mr-10 {
+            margin-right: 10px;
+        }
+
+        .mt-4 {
+            /*margin-top: 10px;*/
+            height: 52px;
+        }
+
+        .poposira {
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 10px;
+            bottom: 0;
+            margin: auto 10px;
+            display: block;
+        }
+
+        .my-radio {
+            right: 0 !important;
+            top: 0;
+            left: auto !important;
+            z-index: 99;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0;
+        }
+
+        .my-btn-a {
+            background: #0098e6;
+            color: #fff;
+        }
+
+        .my-histroy {
+            margin-bottom: 10px;
+        }
+
+        .mui-scroll-wrapper {
+            position: absolute !important;
+        }
+
+        #pullrefresh {
+            width: 100%;
+            padding-bottom: 44px;
+        }
+
+        #cmt {
+            z-index: 999;
+        }
+
+        .find_people {
+            z-index: 999;
+        }
+
+        .mui-table-view:before {
+            height: 0 !important;
+        }
+
+        .people-p p {
+            width: 100%;
+            display: block;
+            height: 25px;
+            overflow: hidden;
+            line-height: 25px !important;
+        }
+
+        .people-p {
+            width: 100%;
+        }
+
+        .my-input-row .mui-icon {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<header id="header" class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+    <h1 class="mui-title">寻找服务商家</h1>
+</header>
+
+<!--<div id="pullrefresh" class="mui-content mui-scroll-wrapper mui-conten">-->
+<div id="pullrefresh" class="mui-content mui-conten">
+    <div class="mui-scroll people_info" style="">
+        <div class="mui-content" style="padding: 10px;">
+            <div class="mui-content-padded" style="margin: 0;">
+                <div class="mui-input-row my-input-row">
+                    <input type="tel" class="mui-input-clear" maxlength="11" id="friend_num" placeholder="请输入服务商家的账号">
+                    <button for="" id="cmt">提交</button>
+                </div>
+            </div>
+        </div>
+        <div class="my-histroy" style="display: none;">
+            <div class="find_people">
+                <span class="find_title">您的历史服务商家</span>
+            </div>
+            <div class="people_info">
+                <ul class="people_cont" id="historyMobile">
+
+                </ul>
+            </div>
+        </div>
+        <!--数据列表-->
+        <div class="find_people">
+            <span class="find_title">系统推荐用户</span>
+        </div>
+        <ul class="mui-table-view mui-table-view-chevron people_cont" id="people_cont">
+
+        </ul>
+    </div>
+</div>
+<!--<button type="button" class="mui-btn mui-btn-success mui-btn-block footer" id="cmt">提交</button>-->
+<div class="zwf"></div>
+<div class="myModal" id="myModal" style="display: none;">
+    <div class="myModal_cont">
+        <div class="myModal_title">
+            <p><img src="../../img/default/icon-secces.png"/></p>
+            <p class="myModal_color">提交成功</p>
+            <p>审核时间：工作日9:00~18:00</p>
+        </div>
+        <div class="myModal_bot">
+            <button class="myModal_color" id="myModal_no">知道了</button>
+        </div>
+    </div>
+</div>
+<script src="../../js/mui.min.js" type="text/javascript"></script>
+<script src="../../js/common.js" type="text/javascript"></script>
+<script src="../../js/index/findpeople.js" type="text/javascript"></script>
+<script type="text/javascript">
+    mui.init();
+
+</script>
+</body>
+
+</html>

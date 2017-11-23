@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="../../css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/foot.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="../../icon/img_font.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/app_new.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <title>首页</title>
+    <style>
+        #marqee_bar {
+            width: 100%;
+            height: 150px;
+            background: white;
+        }
+
+        .mui-bar-tab {
+            border: 1px solid #E6E6E6;
+        }
+
+        body {
+            padding-bottom: 55px;
+        }
+
+        .mui-btn-link {
+            /*color: #fff;*/
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
+
+        .common_title {
+            border-bottom: none;
+        }
+
+        .img_z {
+            height: 16px;
+        }
+
+        .refuse {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 99;
+        }
+
+        .refuse_cont {
+            width: 80%;
+            height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            display: inline-table;
+            background: #fff;
+            border-radius: 10px;
+            margin: auto;
+        }
+
+        .refuse_cont .title {
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+            color: #0098E6;
+            line-height: 44px !important;
+        }
+
+        .refuse_cont p {
+            text-align: left;
+            line-height: 20px;
+            margin-top: 5px;
+        }
+
+        .refuse_cont .refuse_bot {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .refuse_cont .refuse_bot button {
+            float: left;
+            width: 50%;
+            height: 44px;
+            border-radius: 0;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border: none;
+            border-top: 1px solid #ccc;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .input_pwd {
+            padding: 20px 30px;
+        }
+
+        .input_pwd p {
+            font-size: 16px;
+            line-height: 28px;
+        }
+
+        #my-vou-close {
+            border-right: 1px solid #ccc;
+            border-bottom-right-radius: 0px;
+        }
+
+        #my-vou-btn {
+            color: #0098e6;
+        }
+
+        .have_msg {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #f00;
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+        }
+
+        .have_des {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #f00;
+            /*float: left;*/
+            display: none;
+        }
+
+        #header {
+            background: #fff !important;
+        }
+
+        #header h1,
+        #header button {
+            color: #3B8CFF !important;
+        }
+
+        .banner_bar {
+            display: block !important;
+        }
+        .mui-title{
+        	margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="padding_55" id="home_page">
+    <div style="display: none;" id="index_bar">
+        <header id="header" class="mui-bar-nav inline-block">
+            <h1 class="mui-title">消费领补贴</h1>
+            <button class="mui-btn-link mui-btn-blue mui-pull-right" id="explain">补贴攻略</button>
+        </header>
+        <div class="my-mui-user mb-10">
+            <img class="mui-img" src="../../img/home/index-bg2.jpg" alt=""/>
+            <div class="my-mui-user-nr">
+                <div class="my-mui-user-top">
+                    <img class="mui-img mui-img-bg" src="../../img/home/index-bg3.png" alt=""/>
+                    <div class="my-mui-user-top-nr my-mui-user-btn" id="saoyisao">
+                        <img class="fl" src="../../img/home/qrcode.png" alt=""/>
+                        <div class="fl">
+                            <p>扫码支付</p>
+                            <p>自动排队&nbsp;&nbsp;申请补贴</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-mui-user-bot">
+                    <img class="mui-img mui-img-bg" src="../../img/home/index-bg3.png" alt=""/>
+                    <div class="my-mui-user-bot-nr my-mui-user-btn" id="buy_v">
+                        <img class="fl" src="../../img/home/bus_want.png" alt=""/>
+                        <div class="fl">
+                            <p>上传发票</p>
+                            <p>上传发票&nbsp;&nbsp;凭票申请</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="my-mui-shop" id="shop_bar" style="display: none;">
+        <div class="my-mui-top">
+            <div class="my-mui-top-nav fl" id="bus_saoyisao">
+                <img src="../../img/home/qrcode.png" class="btn_img"/>
+                <p class="clear">扫一扫</p>
+            </div>
+            <div class="my-mui-top-nav fl" id="bus_buy_v">
+                <img src="../../img/home/bus_want.png" class="btn_img"/>
+                <p class="clear">申请补贴</p>
+            </div>
+            <div class="my-mui-top-nav fl" id="my_code">
+                <img src="../../img/home/secode.png" class="btn_img"/>
+                <p class="clear">商户收款</p>
+            </div>
+        </div>
+        <!---->
+        <div class="common_title mt-10 mb-10">
+            <img src="../../img/home/info_msg.jpg" class="fl home_img"/>
+            <div class="scoll_msg" id="scoll_msg">
+                <ul id="scoll_content">
+                    <!--<li>萨斯空间大恒科技发送到海口发挥空间阿富汗</li>
+                    <li>321</li>-->
+                </ul>
+            </div>
+            <a href="javascript:;" class="more fr" id="more">更多</a>
+        </div>
+    </div>
+    <!--banner-->
+    <div id="banner" class="banner_bar">
+        <div class="db">
+            <ul class="banner_img">
+                <!--<li>
+                    <a href=""><img src="../../img/home/banner.png" class="ban_img" /></a>
+                </li>-->
+            </ul>
+        </div>
+        <div class="hb">
+            <ul class="point">
+
+            </ul>
+        </div>
+    </div>
+    <!--补贴总额-->
+    <div class="my-mui-content padding-none mt-10">
+        <div class="my-mui-title">
+            <img src="../../img/home/acount_img.jpg" class="fl"/>
+            <span class="fl">我的补贴总额（元）</span>
+        </div>
+        <div class="my-mui-money">
+            <span class="fl all-money" id="user_total_profit">0.00</span>
+            <span class="fl day-money" id="today_prifit_show" style="display: none;">今日补贴<span class="day-money"
+                                                                                               id="user_today_profit">0.00</span></span>
+        </div>
+        <div class="my-mui-nr" id="select_type">
+            <ul>
+                <li class="first">
+                    <p class="gotoo" value="1">补贴中</p>
+                    <p><span id="wait_count">0</span>笔</p>
+                </li>
+                <li>
+                    <p class="gotoo" value="0">未排队</p>
+                    <p><span id="not_queued_count">0</span>笔</p>
+                </li>
+                <li>
+                    <p class="gotoo" value="2">已完成</p>
+                    <p><span id="done_count">0</span>笔</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--商户营业额 商户才有-->
+    <div class="my-mui-content padding-none mt-10" style="display: none;" id="shop_info_show">
+        <div class="my-mui-title">
+            <img src="../../img/home/acount_img.jpg" class="fl"/>
+            <span class="fl">商户营业额（元）</span>
+        </div>
+        <div class="my-mui-money">
+
+            <span class="fl all-money" id="bus_total_turnover"></span>
+            <span class="fl day-money" id="today_turnover_show" style="display: none;">今日营业额<span class="day-money"
+                                                                                                  id="user_today_turnover"></span></span>
+
+        </div>
+        <div class="my-mui-nr my-mui-nr-bg" id="shop_select_type">
+            <ul>
+                <li class="first">
+                    <p class="gotoo" value="0">待受理</p>
+                    <p><span id="not_queued">0</span>笔</p>
+                </li>
+                <li>
+                    <p class="gotoo" value="1">已受理</p>
+                    <p><span id="wait_queued">0</span>笔</p>
+                </li>
+                <li>
+                    <p class="gotoo" value="2">已完成</p>
+                    <p><span id="done_queued">0</span>笔</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--改滚动只有是用户角色才有-->
+    <div class="common_title mb-10 border-top" id="user_msg" style="display: none;">
+        <img src="../../img/home/info_msg.jpg" class="fl home_img"/>
+        <div class="scoll_msg" id="scoll_msgs">
+            <ul id="my-speed">
+
+            </ul>
+        </div>
+        <a href="javascript:;" class="more fr" id="mores"><span>更多</span></a>
+    </div>
+</div>
+<nav class="navlist">
+    <a id="index" data="index" class="active mui-icon iconfont">
+        <img src="../../img/navigation/check_home.png" alt="" class="img_z"/>
+        <p style="color: #2CA9E7;">首页</p>
+    </a>
+    <a id="merchant" data="city_shop" class="iconfont mui-icon">
+        <img src="../../img/navigation/shop.png" alt="" class="img_z"/>
+        <p>附近</p>
+    </a>
+    <a id="message" data="info_system_sub" class="iconfont mui-icon">
+        <img src="../../img/navigation/msg.png" alt="" class="img_z"/>
+        <span class="have_msg"></span>
+        <p>消息</p>
+    </a>
+    <a id="me" data="mine" class="iconfont mui-icon">
+        <img src="../../img/navigation/my.png" alt="" class="img_z"/>
+        <p>我的</p>
+    </a>
+</nav>
+</body>
+
+<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+<script src="../../js/mui.min.js" type="text/javascript"></script>
+<script src='../../js/crypto-js.js'></script>
+<script src='../../js/tripledes.js'></script>
+<script src='../../js/mode-ecb.js'></script>
+<script src='../../js/aes.js'></script>
+<script src="../../js/common.js" type="text/javascript"></script>
+<script src="../../js/TouchSlide.1.1.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../js/scroll.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="../../js/config.js"></script>
+<script type="text/javascript" src="../../js/sha1.min.js"></script>
+<script type="text/javascript" src="../../js/wx.js"></script>
+<script type="text/javascript" src="../../js/index/index.js"></script>
+
+</html>

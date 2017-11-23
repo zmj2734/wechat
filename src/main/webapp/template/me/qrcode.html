@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的二维码</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<style>
+			body {
+				background: #0098E6!important;
+			}
+			
+			.mui-bar-nav {
+				background: #0098E6!important;
+				border: none;
+			}
+			.myqrcode_img{
+				width: 80%;
+				height: auto;
+				margin-top: 30%;
+			}
+			.share_dis{
+				height: auto;
+			}
+			.myqrcode_img .tips_code{
+				margin-bottom: 10px;
+			}
+		</style>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/share.js"></script>
+		<script type="text/javascript" src="../../js/me/qrcode.js"></script>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left white" id="back"></a>
+			<h1 class="mui-title white">二维码</h1>
+		</header>
+		<div id="code_show">
+			<div class="myqrcode_img">
+				<div class="share_dis">
+					<img src="../../img/navigation/littleimg.png" class="lit_img" />
+					<span class="mycode">我的二维码</span>
+					<img class="my_img" style="width: 80%;height: auto;display: inline-block; max-width: 100%; margin: 20px 0;" />
+					<div class="tips_code">扫一扫二维码，获得额外的收益</div>
+				</div>
+			</div>
+
+			<div class="share_bar" id="share_share">
+				<div class="fl wchat" data_id="weixin" data_ex="WXSceneSession">
+					<img src="../../img/introIMG/wchat.png" class="sharecode_img" />
+					<p class="code_text">微信好友</p>
+				</div>
+				<div class="fl wchat" data_id="weixin" data_ex="WXSceneTimeline">
+
+					<img src="../../img/introIMG/friend.png" class="friend_img" />
+					<p class="frend_text">微信朋友圈</p>
+				</div>
+
+			</div>
+		</div>
+	</body>
+
+</html>

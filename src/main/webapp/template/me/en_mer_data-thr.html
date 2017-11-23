@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>企业商家资料</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link href="../../css/city.css" rel="stylesheet" type="text/css">
+		<link href="../../css/style.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../crocss/cropper.css" />
+		<link rel="stylesheet" href="../../crocss/photoswipe.css">
+		<link rel="stylesheet" href="../../crocss/default-skin.css">
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<style>
+			body {
+				background: #fff;
+			}
+			
+			input::-webkit-input-placeholder {
+				color: #c0c0c0;
+				font-size: 13px;
+			}
+			
+			#header {
+				background: #1a83fd;
+			}
+			.my-lc ul li{
+				font-size: 16px;
+			}
+			.my-lc ul li.lasts{
+				color: #919191;
+				font-size: 14px;
+			}
+			#header h1,
+			#header a {
+				color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">商家入驻</h1>
+		</header>
+		<div class="mui-content">
+			<div class="my-shop-sec">
+				<img src="../../img/shop/icon-shop-04.png" />
+				<p>提交成功</p>
+			</div>
+			<div class="my-shop-sec-lc">
+				<div class="w1 wt"></div>
+				<div class="w1 wb"></div>
+				<div class="my-lc">
+					<img class="fl" src="../../img/shop/icon-shop-05.png" alt="" />
+					<ul class="fl">
+						<li class="on">商户资料提交成功</li>
+						<li class="lasts" id="shop_name"></li>
+					</ul>
+				</div>
+				<div class="my-lc">
+					<img class="fl" src="../../img/shop/icon-shop-06.png" alt="" />
+					<ul class="fl">
+						<li class="on">入驻审核中...</li>
+						<li class="lasts">预计一个工作日内电话或短信通知审核结果</li>
+					</ul>
+				</div>
+				<div class="my-lc">
+					<img class="fl" src="../../img/shop/icon-shop-07.png" alt="" />
+					<ul class="fl">
+						<li style="color: #919191;">入驻审核通过</li>
+					</ul>
+				</div>
+			</div>
+			<div class="my-shop-sec-lc">
+				<a href="javascript:void(0);"id="learn" class="my-shop-btn">去学习消费补贴制度</button>
+					<a href="javascript:void(0);" id="leave" class="my-shop-a">离开，暂不学习</a>
+			</div>
+		</div>
+
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../js/me/en_mer_data-thr.js"></script>
+	<script type="text/javascript">
+		mui.init({
+			swipeBack: true
+		});
+
+	</script>
+
+</html>

@@ -1,0 +1,262 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>认证资料</title>
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<style>
+			#requerd {
+				top: 0!important;
+			}
+			
+			.mui-input-a.black {
+				color: #000;
+			}
+			
+			.row_left {
+				width: 30%;
+			}
+			
+			.in_right {
+				width: 70%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">商家认证</h1>
+		</header>
+		<div class="mui-conten">
+			<div class="cert_bg" id="up_imgfile">
+				<img src="../../img/bus_info/bus_license.gif" class="bg_img" id="license" />
+				<input type="hidden" id="img_license" />
+			</div>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>商家或企业名称</label>
+					<input type="text" id="shop_name" placeholder="请输入商家名称" style="padding: 10px;">
+				</div>
+				<div class="mui-input-row">
+					<label class="row_left">法人/负责人</label>
+					<input class="in_right" type="text" placeholder="请输入法人姓名" id="comp_name" style="padding: 10px;">
+				</div>
+				<div class="mui-input-row">
+					<label class="row_left">营业执照号</label>
+					<input class="in_right" type="text" placeholder="请输入营业执照号" id="show_lence" style="padding: 10px;">
+				</div>
+				<div class="mui-input-row" id="shop_add_click">
+					<label>营业执照所在地</label>
+					<a href="#" class="lic_input mui_input_a mui-navigate-right">
+						<input type="text" readonly="readonly" name="shop_add" id="shop_add" value="" placeholder="请选择您营业执照所在地" style="70%" />
+					</a>
+				</div>
+			</form>
+		</div>
+		<div style="margin-top: 23px;">
+			<p class="content" id="shop_deal">请阅读&nbsp;&nbsp;
+				<a href="#" class="a_link">&laquo;共生网商家入驻协议&raquo;</a>&nbsp;&nbsp;</p>
+			<div style="color: red;margin: -10px 0px 10px 10px;"><span>温馨提示：</span>商家审核时间为工作日9:00 －18:00</div>
+			<button id="requerd" type="button" class="mui-btn mui-btn-success mui-btn-block">提交</button>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/city.data-3.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script src="../../js/mui.picker.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../../js/exif.js"></script>
+		<script type="text/javascript" src="../../js/upload.util.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			});
+			var lence_url = "";
+			var auid = null;
+			var backid = null;
+			var win = null;
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				document.getElementById("shop_deal").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow("shop_deal.html", "shop_deal");
+				})
+				win = plus.webview.currentWebview();
+				backid = win.backId;
+				auid = localStorage.getItem("auid");
+				document.getElementById('license').addEventListener('tap', function() {
+					if(mui.os.plus) {
+						var a = [{
+							title: "拍照"
+						}, {
+							title: "从手机相册选择"
+						}];
+						plus.nativeUI.actionSheet({
+							title: "上传图片",
+							cancel: "取消",
+							buttons: a
+						}, function(b) { /*actionSheet 按钮点击事件*/
+
+							switch(b.index) {
+								case 0:
+									break;
+								case 1:
+									getImage(1000, 800, "license", "sphotos", uploadSucess); /*拍照*/
+									break;
+								case 2:
+									galleryImg(1000, 800, "license", "sphotos", uploadSucess); /*打开相册*/
+									break;
+								default:
+									break;
+							}
+						});
+					}
+				}, false);
+				document.getElementById('requerd').addEventListener('tap', function() {
+					setDisabled("requerd");
+					var shop_name = document.getElementById("shop_name").value;
+					var lence_num = document.getElementById('show_lence').value;
+					var dis_name = document.getElementById('shop_add').value;
+					var len_url = document.getElementById('img_license').value;
+					var comp_name = document.getElementById("comp_name").value;
+					if(mui.isnull(shop_name)) {
+						mui.toast('店铺名不能为空');
+						remDisabled("requerd");
+						return;
+					}
+					if(mui.isnull(comp_name)) {
+						mui.toast('法人代表不能为空');
+						remDisabled("requerd");
+						return;
+					}
+					if(mui.isnull(lence_num)) {
+						mui.toast('营业执照号不可为空');
+						remDisabled("requerd");
+						return;
+					} else if(lence_num.length > 20) {
+						mui.toast('请输入正确的营业执照号');
+						remDisabled("requerd");
+						return;
+					}
+					if(mui.isnull(dis_name)) {
+						mui.toast('请选择地区名称');
+						remDisabled("requerd");
+						return;
+					}
+					if(mui.isnull(lence_url)) {
+						mui.toast('请上传营业执照图片');
+						remDisabled("requerd");
+						return;
+					}
+					mui.app_request('POST', {
+						'OPERATE_TYPE': '10011',
+						'AUTH_ID': auid,
+						'SHOP_NAME': shop_name,
+						'LEGAL_NAME': comp_name,
+						'DISTRICT_NAME': dis_name,
+						'BUSINESS_LICENSE_URL': len_url,
+						'BUSINESS_LICENSE_NUM': lence_num
+					}, function(data) {
+						if(data.RESULTCODE == '0') {
+							var btnArray = ['成为个体商家', '成为加盟商家'];
+							mui.confirm('提交成功！您可选择：个体商家只具备购买消费券和代报账资格。加盟商家具备购买消费券和代报账以及收款权限!', '温馨提示', btnArray, function(e) {
+								if(e.index == 0) {
+									booking.closeAndOpenNewWindow("mine.html", "mine");
+								} else {
+									var attrd = {
+										"lence_num": lence_num,
+										"lence_url": "123",
+										"backId": "me"
+									};
+									booking.closeAndOpenNewWindowHaveAttr("en_mer_data.html", "en_mer_data", attrd);
+								}
+							});
+						}
+						remDisabled("requerd");
+					}, function(result) {
+						if(result.RESULTCODE == '-1') {
+							mui.toast(result.DESCRIPTION);
+						}
+						remDisabled("requerd");
+					});
+				});
+
+				function uploadSucess(data, id) {
+					$("#img_" + id).val(data.RESULTLIST.PATH);
+					lence_url = booking.constants.ip + data.RESULTLIST.PATH;
+					document.getElementById(id).src = lence_url;
+				}
+				var cityPicker3 = new mui.PopPicker({
+					layer: 3
+				});
+				cityPicker3.setData(cityData3);
+				var showCityPickerButton = document.getElementById('shop_add_click');
+				var cityResult3 = document.getElementById('shop_add');
+				showCityPickerButton.addEventListener('tap', function(event) {
+					cityResult3.focus();
+					cityPicker3.show(function(items) {
+						//cityResult3.value = (items[0] || {}).text + " " + (items[1] || {}).text + " " + (items[2] || {}).text;
+						if((items[0] || {}).text == "海外" || (items[0] || {}).text == "澳门") {
+							cityResult3.value = (items[1] || {}).text;
+						} else {
+							cityResult3.value = (items[2] || {}).text;
+						}
+						//返回 false 可以阻止选择框的关闭
+						//return false;
+						showCityPickerButton.classList.add("black");
+					});
+				}, false);
+			});
+		</script>
+	</body>
+
+</html>

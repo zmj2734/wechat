@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/friend.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../js/jquery.min.js"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script src="../../js/TouchSlide.1.1.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/scroll.js"></script>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+		<script type="text/javascript" src="../../js/config.js"></script>
+		<script type="text/javascript" src="../../js/sha1.min.js"></script>
+		<script type="text/javascript" src="../../js/wx.js"></script>
+		<script type="text/javascript" src="../../js/merchant/shop_show.js"></script>
+		<style type="text/css">
+			html,body{
+				width: 100%;
+				/*overflow-x: hidden;*/
+			}
+			#stairImg {
+				height: 260px;
+				overflow: hidden;
+				display: block;
+			}
+			
+			#stairImg img {
+				width: 100%;
+				display: block;
+				height: 100%;
+				max-width: 100%;
+			}
+			
+			#des {
+				width: 100%;
+				padding: 10px;
+				background: #fff;
+				text-indent: 28px;
+			}
+			
+			.hotel_pos,
+			.h_phone {
+				margin-top: 10px;
+			}
+			.h_phone{
+				line-height: 36px;
+			}
+			.h_phone img{
+				margin-top: 8px;
+			}
+			p,
+			span {
+				font-size: 14px !important;
+			}
+			
+			#detail {
+				padding-top: 0 !important;
+				font-size: 30px;
+			}
+			
+			#shop_image {
+				width: 100%;
+			}
+			
+			.hotel_name {
+				background: #0098e6;
+			}
+			
+			.hotel_name span {
+				color: #fff;
+				font-size: 20px !important;
+			}
+			
+			.shop_dh {
+				width: 25px;
+				height: 25px;
+				margin-right: 20px;
+				margin-top: 10px;
+				padding-left: 0 !important;
+			}
+			
+			.shop_dh img {
+				width: 100%;
+				display: block;
+				max-width: 100%;
+			}
+			
+			ul,
+			li {
+				width: 100%;
+				display: block;
+			}
+			
+			.hotel_pos ul li span {
+				float: left;
+			}
+			
+			.hotel_pos ul li {
+				display: flex;
+			}
+			
+			.addresss {
+				flex: 1;
+			}
+			
+			.img_phone {
+				width: 20px;
+				height: 20px;
+				margin: auto;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				display: block;
+			}
+			
+			#bd-phone {
+				height: auto;
+				display: inline-block;
+				padding: 0px 20px;
+				border-left: 1px solid #666;
+				position: relative;
+				margin-left: 10px;
+			}
+			#banner{
+				overflow-x: hidden;
+			}
+			.addresss {
+				margin-bottom: 0px;
+			}
+			.banner_bar .db .banner_img .ban_img, .banner_shop .db .banner_img .ban_img{
+				height: 260px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">商家简介</h1>
+			</a>
+		</header>
+		<!--<div class="shop_content mui-content" id="ret">
+			<div id="stairImg" style="display: none;">
+				<img class="mui-img" src="../../img/shop/shop.png" / id="shop_image">
+			</div>
+		</div>-->
+		<div id="banner" class="banner_bar" style="padding-top: 44px;">
+			<div class="db">
+				<ul class="banner_img">
+					<!--<li>
+						<a href="#"><img src="../../img/home/banner.png" id="banner0" class="ban_img" /></a>
+					</li>
+					<li>
+						<a href="#"><img src="../../img/home/banner.png" id="banner1" class="ban_img" /></a>
+					</li>
+					<li>
+						<a href="#"><img src="../../img/home/banner.png" id="banner2" class="ban_img" /></a>
+					</li>-->
+				</ul>
+			</div>
+			<div class="hb">
+				<ul class="point">
+
+				</ul>
+			</div>
+		</div>
+		<div class="hotel_name">
+			<span id="shop_name"></span>
+			<span class="fr shop_dh" id="ditu"><img src="../../img/shop/icon-dh.png"/></span>
+		</div>
+		<div class="hotel_info">
+			<ul>
+				<li>
+					<span>
+						<img src="../../img/introIMG/send.png" class="send"/>
+					</span>
+					<span class="cont_text">
+						消费<span style="color: orangered;">满100送100</span>
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class="h_info">
+			<ul>
+				<li>
+					<span>
+						<img src="../../img/introIMG/sale.png" class="sell"/>
+					</span>
+					<span class="c_text">
+						<span id="vt_grade" style="color: orangered;"></span>
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class="hotel_pos">
+			<ul>
+				<li>
+					<span>
+						<img src="../../img/introIMG/pos.png" class="pos"/>
+					</span>
+					<span class="addresss" id="shop_address">
+						
+					</span>
+					<a id="bd-phone" href=""><img class="img_phone" src="../../img/shop/icon-iphone.png" alt="" /></a>
+
+				</li>
+			</ul>
+		</div>
+		<div class="h_phone">
+			<ul>
+				<li>
+					<span>
+
+					<img src="../../img/shop/icon-yysj.png" class="phone"/>
+
+					</span>
+					<span class="c_phone">
+						营业时间：<span id="shop_hours"></span>
+					</span>
+				</li>
+
+			</ul>
+		</div>
+		<div class="shopcontent">
+			<img src="../../img/navigation/ck_shop.png" />
+			<span>商家介绍</span>
+		</div>
+		<div class="content_aboutshop">
+			<p id="des"></p>
+		</div>
+
+		<script type="text/javascript">
+			mui.init();
+
+		</script>
+	</body>
+
+</html>

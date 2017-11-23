@@ -1,0 +1,273 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script src='../../js/crypto-js.js'></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script src="../../js/mui.pullToRefresh.js"></script>
+		<script src="../../js/mui.pullToRefresh.material.js"></script>
+		<script src="../../js/index/my_account.js" type="text/javascript"></script>
+		<style type="text/css">
+			.no_dis {
+				color: #ccc;
+			}
+			
+			.que_module {
+				margin-top: 0 !important;
+				margin-bottom: 10px !important;
+				padding-bottom: 10px;
+				background: #fff;
+			}
+			
+			.mui-pull-bottom-tips {
+				text-align: center;
+			}
+			
+			.mui-table-view {
+				background: none;
+				/*margin-top: 75px;*/
+			}
+			
+			.mui-scroll {
+				width: 100% !important;
+			}
+			
+			.mui-segmented-control .mui-control-item.mui-active {
+				color: #fff !important;
+				background-color: #007aff !important;
+			}
+			
+			.mui-segmented-control.mui-scroll-wrapper .mui-control-item {
+				display: table-cell !important;
+			}
+			
+			.acount_detail .bz_people {
+				width: 100% !important;
+			}
+			
+			.acount_detail p {
+				text-align: left !important;
+				margin-left: 15px !important;
+			}
+			/**/
+			
+			.fp-img {
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, 0.7);
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 999;
+			}
+			
+			.fp-imgNr {
+				width: 90%;
+				position: absolute;
+				top: 150px;
+				left: 5%;
+			}
+			
+			#fp-close {
+				position: absolute;
+				right: -10px;
+				top: -10px;
+				width: 30px;
+				height: 30px;
+				background: #999;
+				border-radius: 50%;
+			}
+			
+			.fp-imgNr img {
+				width: 100%;
+				max-width: 100%;
+				display: block;
+			}
+			
+			.mui-scroll-wrapper {
+				position: absolute !important;
+				/*padding-top: 125px;*/
+			}
+			
+			#segmentedControl {
+				height: 40px;
+				line-height: 40px;
+			}
+			
+			.mui-segmented-control .mui-control-items {
+				line-height: 38px;
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				-webkit-transition: background-color .1s linear;
+				transition: background-color .1s linear;
+				text-align: center;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				border-color: #007aff;
+				border-left: 1px solid #E6E6E6;
+				border-bottom: 1px solid #E6E6E6;
+				background: #efeff4;
+			}
+			
+			.mui-segmented-control .mui-control-items.mui-active {
+				background: #007aff !important;
+				color: #fff;
+			}
+			
+			#sliderSegmentedControl {
+				width: 100%;
+				display: inline-block;
+				position: fixed;
+				z-index: 9999;
+				top: 45px;
+			}
+			
+			.mui-slider-group {
+				overflow: hidden;
+				padding-top: 55px;
+			}
+			
+			body {
+				height: 100%;
+				/*overflow: hidden;*/
+			}
+			
+			.invoice-fp {
+				pointer-events: auto;
+			}
+			
+			.continue_bz {
+				border-top: 1px solid #f2f2f2;
+				line-height: 36px;
+			}
+			.continue_bz button{
+				border: none;
+			}
+			.continue_bz button:focus{
+				outline: none;
+				border: none;
+			}
+		</style>
+		<script>
+            mui.init();
+
+
+		</script>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">我的补贴</h1>
+			<!--<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" id="detail">申请补贴</button>-->
+		</header>
+
+		<div class="fp-img" id="fp-img" style="display: none;">
+			<div class="fp-imgNr">
+				<a id="fp-close" href="javascript:void(0);"><img src="../../img/profit/close-fp.png" /></a>
+				<img id="fp-src" src="../../img/bus_info/bus.gif" />
+			</div>
+		</div>
+		<div class="mui-content bursement">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="">
+					<div class="mui-scroll mui-segmented-control" id="segmentedControl">
+						<a class="mui-control-items mui-active" id="item1" href="#item1mobile" page="0" value="0" con="item_1">
+							待受理
+						</a>
+						<a class="mui-control-items" id="item2" href="#item2mobile" page="0" value="1" con="item_2">
+							已受理
+						</a>
+						<a class="mui-control-items" id="item3" href="#item3mobile" page="0" value="2" con="item_3">
+							已完成
+						</a>
+					</div>
+
+					<!--<div id="dis_screen" class="discount_size">
+						<ul class="change_dis">
+							<li class="dis_btnall">
+								<span>全部</span>
+							</li>
+							<li class="dis_btn" value="0">
+								<span>8折<br/>20元档</span>
+							</li>
+							<li class="dis_btn" value="3">
+								<span>8折<br/>20元档</span>
+							</li>
+							<li class="dis_btn">
+								<span>8折<br/>20元档</span>
+							</li>
+							<li class="dis_btn">
+								<span>8折<br/>20元档</span>
+							</li>
+						</ul>
+					</div>-->
+				</div>
+				<div class="mui-slider-group" id="pullrefresh">
+					<div id="item1mobile" class="mui-slider-item mui-control-content length" value="0">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view item_1" con="item_1">
+									<!--<div class="que_module">
+									<div class="que_title">
+									<p class="que_num fl">补贴编号：<span>3123123</span></p>
+									<p class="que_size fr"> 2312321323</p>
+									</div>
+									<div class="acount_detail">
+									<p class="bz_name">补贴详情</p>
+									<p class="bz_time fr">1231232</p>
+									<p class="bz_count">补贴总金额:<span class="red"> 31232132312</span><span class="red">元</span></p>
+									<p class="need_voucher">需使用消费券:<span class="red">33</span>&nbsp;张</p>
+									<p class="bz_people">服务商家:<span class="red">12312的 </span><span class="red"></span></p>
+									<p class="bz_people">服务账号:<a href="tel:13896882344 " class="red"><span style="color:#000;">13896882344</span>&nbsp;&nbsp;点击拨打</a></p>
+									<p class="wait_people">等待报账商家受理</p>
+									<p class="invoice invoice-fp fr" url=" + sData.invoice_file_url + ">发票</p>
+									<img src="../../img/acount/no_go.png" class="queue_img" />
+									<p class="wait_people">等待处理。</p>
+									</div>
+									<div class="continue_bz fl">
+									<button num="23123" re_submit="0" id="231" class="btn_content my-click">取消订单</button>
+									</div>
+									</div>-->
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content length" value="1">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view item_2" con="item_2">
+
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content length" value="2">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view item_3" con="item_3">
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

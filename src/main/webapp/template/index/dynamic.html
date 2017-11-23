@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<style type="text/css">
+			.mui-table-view-cell>a:not(.mui-btn) {
+				margin: 0 !important;
+			}
+			
+			.mui-table-view-chevron .mui-table-view-cell {
+				padding-right: 10px;
+			}
+			
+			.mui-scroll-wrapper {
+				position: absolute !important;
+			}
+			
+			#pullrefresh {
+				width: 100%;
+			}
+			#no-dt{
+				position: relative;
+				z-index: 999;
+				width: 100%;
+				height: 100%;
+				background: #f2f2f2;
+				display: none;
+			}
+			#no-dt img{
+				width: 100%;
+				display: block;
+				max-width: 100%;
+				position: absolute;
+				top: 20%;
+				bottom: 0;
+				left: 0;
+				right: 0;
+			}
+			#header{
+				z-index: 9999;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">实时动态</h1>
+		</header>
+		<!--下拉刷新容器-->
+		<div class="mui-content" id="no-dt">
+			<img class="img_invoice" src="../../img/home/icon-dt.png" alt="" />
+		</div>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper mui-conten">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view mui-table-view-chevron" id="scoll_content">
+					
+					<!--<li class="mui-table-view-cell">
+						<div class="info_pos">
+							<img src="../../img/home/info_msg.png" class="info_icon fl" />
+							<p class="msg_time"><span class="in_day">8月13日</span><span class="in_phone">用户：138****1111</span><span class="out_money">补贴金额200.00元</span></p>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="info_pos">
+							<img src="../../img/home/info_msg.png" class="info_icon fl" />
+							<p class="msg_time"><span class="in_day">8月13日</span><span class="in_phone">用户：138****1111</span><span class="out_money">补贴金额200.00元</span></p>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="info_pos">
+							<img src="../../img/home/info_msg.png" class="info_icon fl" />
+							<p class="msg_time"><span class="in_day">8月13日</span><span class="in_phone">用户：138****1111</span><span class="out_money">补贴金额200.00元</span></p>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="info_pos">
+							<img src="../../img/home/info_msg.png" class="info_icon fl" />
+							<p class="msg_time"><span class="in_day">8月13日</span><span class="in_phone">用户：138****1111</span><span class="out_money">补贴金额200.00元</span></p>
+						</div>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="info_pos">
+							<img src="../../img/home/info_msg.png" class="info_icon fl" />
+							<p class="msg_time"><span class="in_day">8月13日</span><span class="in_phone">用户：138****1111</span><span class="out_money">补贴金额200.00元</span></p>
+						</div>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script src='../../js/crypto-js.js' type="text/javascript"></script>
+		<script src='../../js/tripledes.js' type="text/javascript"></script>
+		<script src='../../js/mode-ecb.js' type="text/javascript"></script>
+		<script src='../../js/aes.js' type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script src="../../js/index/dynamic.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						contentrefresh: '正在加载...',
+						//						auto: true,
+						callback: dynamic
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,85 @@
+			#foot_bar img {
+				width: 22px;
+				height: 20px;
+			}
+			
+			ul>li {
+				list-style: none;
+			}
+			
+			#foot_bar li {
+				float: left;
+				width: 25%;
+				text-align: center;
+			}
+			
+			#foot_bar {
+				width: 100%;
+				height: 50px!important;
+				padding-top: 10px;
+				position: relative;
+			}
+			
+			.t_color {
+				color: #007AFF;
+			}
+			
+			#foot_bar li p {
+				margin-top: -5px;
+			}
+			
+			.active {
+				color: #0098E6!important;
+			}
+			
+			.padding_55 {
+				padding-bottom: 55px;
+			}
+			/* dibu*/
+			
+			.navlist {
+				bottom: 0;
+				display: table;
+				width: 100%;
+				height: 55px;
+				padding: 0;
+				table-layout: fixed;
+				border-top: 0;
+				border-bottom: 0;
+				-webkit-touch-callout: none;
+				background: #f6f6f6;
+				position: fixed;
+				z-index: 55;
+				right: 0;
+				left: 0;
+				backface-visibility: hidden;
+				border-top: 1px solid #e7e7e7;
+			}
+			
+			.navlist a {
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				height: 55px;
+				text-align: center;
+				vertical-align: middle;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: #808080;
+				position: relative;
+			}
+			
+			.navlist a p {
+				margin-top: -5px;
+			}
+			
+			.mui-icon {
+				top: 3px;
+				width: 28px;
+				height: 28px;
+				padding-top: 0;
+				padding-bottom: 0;
+				font-size: 28px;
+				position: relative;
+				z-index: 20;
+			}

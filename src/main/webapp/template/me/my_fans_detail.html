@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的粉丝</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<style type="text/css">
+			.mlr {
+				margin: 0 10px;
+				display: inline-block;
+				width: auto;
+				height: auto;
+			}
+			
+			.position-p {
+				position: relative;
+				margin-top: 0;
+				width: 60px;
+				height: 60px;
+				float: left;
+				margin: 15px 10px;
+			}
+			
+			.position-p .portrait {
+				margin: 0;
+			}
+			
+			.bus_crown {
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				right: 0px;
+				top: 9px;
+			}
+			
+			.mr-10 {
+				margin-right: 10px;
+				font-size: 14px;
+			}
+			
+			.common_title {
+				height: 90px;
+				padding-bottom: 20px;
+				text-indent: 10px;
+			}
+			
+			.common_title p {
+				text-align: left;
+				height: 30px;
+				line-height: 30px !important;
+				font-size: 30px !important;
+				margin-top: 0px !important;
+				font-weight: bold;
+			}
+			.common_title span,
+			.common_title p{
+				color: #666 !important;
+			}
+			.l_totop.common_title,
+			.l_totop.common_title p,
+			.l_totop.common_title span{
+				text-align: center;
+				margin-left: 0 !important;
+			}
+			
+			#fans_value {
+				background: #fff;
+				display: inline-block;
+				width: 100%;
+			}
+			
+			.my-tabel {
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				border-bottom: 1px solid #f7f7f7;
+				color: #999;
+			}
+			
+			.my-clo {
+				color: #666;
+			}
+			
+			.my-tabel span {
+				width: 33.333333%;
+				height: 40px;
+				display: inline-block;
+				float: left;
+				text-align: center;
+				font-size: 14px;
+			}
+			
+			#hg {
+				display: none;
+			}
+			.mui-scroll-wrapper {
+				position: absolute !important;
+			}
+			html,body{
+				height: 100% !important;
+				overflow: hidden;
+				width: 100%;
+			}
+			#pullrefresh {
+				width: 100%;
+				display: block;
+				padding-top: 180px !important;
+				overflow: hidden;
+			}
+		</style>
+		<script type="text/javascript" src="../../js/me/my_fans.js"></script>
+	</head>
+
+	<body style="border: 1px rgba(000,000,000,0) solid;" id="body_margin">
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color"></a>
+			<h1 class="mui-title">详细信息</h1>
+
+		</header>
+		<div class="mui-content " style="position:fixed;top: 0;left: 0;padding-top: 44px;height: auto;width: 100%;z-index: 9;">
+			<!--<div class="top_head" style="margin-top: 0px;">
+				<div style="position: relative; display: inline-block;">
+					<img class="portrait" src="../../img/mine/img_pay.png"  id="head_img" />
+					<img id="hg" src="../../img/mine/fans-crown.png" class="bus_crown" />
+				</div>
+				<p class="f_name" id="nickname" style="font-size: 16px;"></p>
+				<span class="phone" id="phone_num" style="font-size: 16px;"></span>
+			</div>-->
+			<div class="common_title fl l_totop">
+				<span class="common_txt">带来收益</span>
+				<p class="common_txt fan_size">&yen;&nbsp;<span id="total_money"></span></p>
+			</div>
+			<div class="my-tabel my-clo">
+				<span>补贴时间</span>
+				<span>补贴描述</span>
+				<span>补贴金额</span>
+			</div>
+		</div>
+		<div id="pullrefresh" class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div id="fans_value" class="mui-table-view-chevron">
+					<!--<div class="my-tabel my-clo">
+						<span>补贴时间</span>
+						<span>补贴描述</span>
+						<span>补贴金额</span>
+					</div>-->
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

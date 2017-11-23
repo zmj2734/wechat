@@ -1,0 +1,370 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>企业商家资料</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" href="../../css/style.css" />
+		<link href="../../css/city.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<style>
+			body {
+				background: #fff;
+			}
+			
+			input::-webkit-input-placeholder {
+				color: #c0c0c0;
+				font-size: 13px;
+			}
+			
+			.mui_input_a {
+				font-size: 13px;
+				color: #C0C0C0;
+				line-height: 50px;
+				float: right;
+				text-align: right;
+				width: 100%;
+				display: inline-block;
+				flex: 1;
+				margin-right: 30px;
+			}
+			
+			.mui_input_a.basic_00 {
+				color: #000;
+			}
+			
+			.mui_input_a.black {
+				color: #000;
+			}
+			.introsss {
+				font-weight: 700;
+			}
+			.mui-input-row label {
+				font-size: 14px;
+				margin-right: 10px;
+				color: #414141;
+			}
+			.mui-input-row label em,
+			.brief_intro p em{
+				position: relative;
+				top: 2px; margin-right: 3px;
+			}
+			#attorney_mode{
+				color: #3B8CFF;
+			}
+			.mui-input-row input {
+				font-size: 14px;
+				padding: 10px 13px !important;
+			}
+			
+			#requerd {
+				width: 100%;
+				top: 0!important;
+				border-radius: 0;
+				background: #3b8cff;
+				margin-bottom: 0;
+			}
+			
+			.intro {
+				width: 100% !important;
+				font-size: 14px;
+				color: #414141;
+			}
+			.intros{
+				margin-left: 0 !important;
+				padding-left: 15px;
+			}
+			#icon-card {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.7);
+				z-index: 99;
+			}
+			
+			.icon-card-img {
+				width: 80%;
+				height: auto;
+				display: inline-table;
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				margin: auto;
+			}
+			
+			#icon-card-img {
+				width: 100%;
+				max-width: 100%;
+				display: block;
+			}
+			
+			.icon-card-img p {
+				line-height: 30px;
+				font-size: 16px;
+				color: #fff;
+				text-align: center;
+			}
+			
+			.ml-10 {
+				margin-left: 10px;
+			}
+			
+			#shop_city {
+				/*padding-left: 0 !important;*/
+				width: 100%;
+			}
+			
+			.mui-input-row label~input {
+				width: auto;
+				flex: 1;
+			}
+			
+			.mui-input-row {
+				width: 100%;
+				box-sizing: border-box;
+				display: flex;
+			}
+			
+			.time-input {
+				text-align: center;
+				display: inline-block;
+				padding-left: 13px !important;
+			}
+			
+			.mrl {
+				margin: 0px 10px;
+				font-size: 14px;
+				line-height: 50px !important;
+			}
+			
+			.photo {
+				width: 100%;
+				height: auto;
+			}
+			
+			.photo figure {
+				width: 30%;
+				height: auto;
+				background: #f2f2f2;
+				display: block;
+				float: left;
+				margin: 0;
+				margin-right: 5%;
+				margin-top: 5%;
+				position: relative;
+			}
+			
+			.photo figure:first-child {
+				margin-left: 0 !important;
+			}
+			
+			.photo figure a {
+				width: 100% !important;
+				height: auto !important;
+				display: block !important;
+				position: relative;
+			}
+			
+			.photo figure a img {
+				width: 100%;
+				display: block;
+				height: 105px;
+			}
+			
+			.up_img {
+				font-size: 130px;
+				color: #fff;
+				line-height: 105px;
+				background: #f2f2f2;
+				width: 30%;
+				display: inline-block;
+				/*margin-left: 2.5% !important;*/
+				margin-top: 5% !important;
+				float: left;
+			}
+			
+			.up_img img {
+				width: 100%;
+				max-width: 100%;
+				display: block;
+			}
+			
+			.bus_bg {
+				border: none !important;
+				margin-top: 0;
+				display: flex;
+			}
+			
+			.brief_intro {
+				margin-top: 10px !important;
+			}
+			
+			.brief_intros {
+				padding: 0px 15px;
+			}
+			
+			.brief_intros p {
+				font-size: 14px;
+			}
+			
+			.brief_intros .intro {
+				margin-left: 0 !important;
+			}
+			
+			.close-img {
+				width: 23px;
+				height: 23px;
+				border-radius: 50%;
+				display: block;
+				background: rgba(0, 0, 0, 0.8) url(../../img/default-skin.png) -10px -54px no-repeat;
+				position: absolute;
+				top: 0px;
+				right: 0px;
+			}
+			
+			.mui-input-group:before {
+				height: 0 !important;
+			}
+			
+			.mui-input-group:after {
+				height: 0 !important;
+			}
+			.brief_intro p span{
+				display: block;
+				float: left;
+			}
+			.brief_intro p.sss{
+				display: flex;
+			}
+			.brief_intro p.sss span:last-child{
+				flex: 1;
+				width: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class=" mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+
+			<h1 class="mui-title">商家入驻</h1>
+
+		</header>
+		<div class="mui-content" style="padding-bottom: 45px;">
+			<div class="my-shop-title">
+				<img src="../../img/shop/icon-shop-02.png" />
+				<ul>
+					<li class="on">商户信息</li>
+					<li class="on">提交资质</li>
+					<li>平台审核</li>
+				</ul>
+			</div>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label><em>*</em>营业执照号:</label>
+					<input type="text" id="business_license_num" placeholder="" style="padding: 10px;">
+				</div>
+				<div class="mui-input-row" id="shop_type_click">
+					<label><em>*</em>执照名称:</label>
+					<input type="text" id="business_license_name" placeholder="" style="padding: 10px;">
+				</div>
+				<div class="mui-input-row">
+					<label><em>*</em>执照法人姓名:</label>
+					<input type="text" class="fl" placeholder="" id="legal_name">
+				</div>
+				<div class="brief_intro" style="border-bottom: 1px solid #e4e4e4;padding-bottom: 10px;">
+					<p class="intro intros"><em>*</em>营业执照照片:</p>
+					<div class="bus_bg">
+						<div class="photo">
+							<span class="photo_nr up_img" id="business_license_url"><img src="../../img/shop/icon-ptoto.png" alt="" /></span>
+							<input id="img_business_license_url" type="hidden" />
+						</div>
+					</div>
+				</div>
+				<div class="brief_intro" style="border-bottom: 1px solid #e4e4e4;padding-bottom: 10px;">
+					<p class="intro intros"><em>*</em>法人身份证照片:</p>
+					<div class="bus_bg">
+						<div class="photo">
+							<span class="photo_nr up_img" id="card_url"><img src="../../img/shop/icon-ptoto.png" alt="" /></span>
+							<input id="img_card_url" type="hidden" />
+						</div>
+					</div>
+				</div>
+				<div class="brief_intro" style="border-bottom: 1px solid #e4e4e4;padding-bottom: 10px;">
+					<p class="intro intros"><em>*</em>商户负责人手持证件照:</p>
+					<div class="bus_bg">
+						<div class="photo">
+							<span class="photo_nr up_img" id="id_card_url"><img src="../../img/shop/icon-ptoto.png" alt="" /></span>
+							<input id="img_id_card_url" type="hidden" />
+						</div>
+					</div>
+				</div>
+				<div class="brief_intro" style="border-bottom: 1px solid #e4e4e4;padding-bottom: 10px;">
+					<p class="intro intros">委托书:</p>
+					<div class="bus_bg">
+						<div class="photo">
+							<span class="photo_nr up_img" id="proxy_url"><img src="../../img/shop/icon-ptoto.png" alt="" /></span>
+							<input id="img_proxy_url" type="hidden" />
+						</div>
+					</div>
+				</div>
+				<div class="brief_intro brief_intros">
+					<p class="intro intros introsss">备注</p>
+					<p class="sss"><span>1.</span>
+						<span>如商户负责人和营业执照法人不一致，请上传&laquo;委托书&raquo;
+						<a id="attorney_mode" href="javascript:void(0);">查看模版</a></span>
+					</p>
+					<p class="sss"><span>2.</span><span>入驻过程中，如有疑问，请拨打4001-026-191</span></p>
+					<p class="sss"><span>3.</span><span><i class="mui-icon mui-icon-info" style="font-size: 16px; margin-top: 0;"></i>温馨提示：加盟商审核时间为工作日9:00 －18:00</span></p>
+				</div>
+			</form>
+
+		</div>
+		<div id="icon-card" style="display: none;">
+			<div class="icon-card-img">
+				<img id="icon-card-img" src="../../img/realname/icon-card-02.png" />
+				<p id="icon-tip">请按照示例，上传手持身份证照</p>
+			</div>
+		</div>
+		<div style="margin-top: 23px; position: fixed; bottom: 0; left: 0;width: 100%;">
+			<!--<p class="content">查看
+				<a id="attorney_mode" class="a_link">&laquo;委托书范本&raquo;</a>
+			</p>-->
+			<!--<div style="color: red;margin-left: 10px;"><span><i class="mui-icon mui-icon-info"></i>温馨提示：<span style="color: #999;">加盟商审核时间为工作日9:00 －18:00</span></span>
+			</div>-->
+			<button id="requerd" type="button" class="mui-btn mui-btn-success mui-btn-block">提交</button>
+		</div>
+
+	</body>
+	<script src="../../js/mui.min.js"></script> 
+	<script src="../../js/mui.picker.js"></script>
+	<script src="../../js/mui.poppicker.js"></script>
+	<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../js/city.data-3.js"></script>
+	<script type="text/javascript" src="../../js/exif.js"></script>
+	<script type="text/javascript" src="../../js/upload.util.js"></script>
+	<script src="../../js/myCity.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		mui.init({
+			swipeBack: true
+		});
+
+	</script>
+
+</html>

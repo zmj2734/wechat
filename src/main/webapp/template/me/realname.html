@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>实名认证</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link href="../../css/city.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/aes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<style>
+			#address {
+				line-height: 50px;
+				padding-left: 15px;
+				margin-top: 0 !important;
+			}
+			
+			input::-webkit-input-placeholder {
+				font-size: 12px;
+			}
+			
+			#name {
+				width: 75%;
+				font-size: 14px !important;
+			}
+			
+			#idcard {
+				width: 75%;
+				font-size: 14px !important;
+			}
+			
+			.sfont {
+				width: 25%;
+			}
+			
+			.mui-input-row input {
+				margin-top: 10px;
+			}
+			/*.di_size{
+				margin-top: -80px !important;
+			}*/
+			
+			#icon-card {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.7);
+				z-index: 99;
+			}
+			
+			.icon-card-img {
+				width: 80%;
+				height: auto;
+				display: inline-table;
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				margin: auto;
+			}
+			
+			#icon-card-img {
+				width: 100%;
+				max-width: 100%;
+				display: block;
+			}
+			
+			.icon-card-img p {
+				line-height: 30px;
+				font-size: 16px;
+				color: #fff;
+				text-align: center;
+			}
+			
+			.ml-10 {
+				margin-left: 10px;
+			}
+			
+			.mui-icon-info {
+				font-size: 16px !important;
+			}
+			
+			.mui-content {
+				background: #efeff4;
+			}
+			#id_card_type{
+				height: 50px;
+				line-height: 50px;
+				padding-left: 10px;
+				color: #919191;
+				font-size: 14px;
+			}
+		</style>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<!--<script type="text/javascript" src="../../js/city.data-3.js"></script>-->
+		<script src="../../js/mui.picker.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../../js/exif.js"></script>
+		<script type="text/javascript" src="../../js/upload.util.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script src="../../js/myCity.js" type="text/javascript"></script>
+		<script src="../../js/me/realname.js"></script>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class=" mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">实名认证</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label class="sfont">姓名</label>
+					<input type="text" placeholder="请输入您的名字" id="name" value="">
+				</div>
+				<div class="mui-input-row" id="id_card_type_tap">
+					<label class="sfont">身份证类型</label>
+					<a href="#" id="id_card_type" class="mui_input_a mui-navigate-right">请选择</a>
+					<input type="hidden" id="type_int" />
+				</div>
+				<div class="mui-input-row">
+					<label class="sfont">身份证号</label>
+					<input type="text" placeholder="请输入您的身份证号码" value="" id="idcard" maxlength="18">
+				</div>
+				<div class="mui-input-row" id="address_click">
+					<label>身份证所在地</label>
+
+					<a href="#" class="lic_input mui_input_a mui-navigate-right">
+						<input type="text" readonly="readonly" name="address" id="address" value="" placeholder="请选择您的身份证所在地" style="width: 65%;" />
+						<input type="hidden" id="addr_id" />
+					</a>
+				</div>
+			</form>
+			<!--<div id="card">
+				<div class="upload_img">
+					<img src="../../img/realname/realnamecard.png" class="photo_img" id="id_url" />
+					<input type="hidden" id="img_id_url" />
+					<p class="di_size">身份证正面照<a class="red a_click ml-10" href="javascript:;" type="1" url="../../img/realname/icon-card-01.png">点击查看示例</a></p>
+				</div>
+				
+			</div>-->
+			<div class="bus_bg" id="card">
+				<img src="../../img/realname/realnamecard.png" width="400" height="400" class="bus_img photo_img" id="id_url" />
+				<input type="hidden" id="img_id_url" />
+				<div class="text-box">
+					<div class="text-line">
+						<p class="di_size">身份证正面照
+							<a class="red a_click ml-10" href="javascript:;" type="1" url="../../img/realname/icon-card-01.png">点击查看示例</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="icon-card" style="display: none;">
+			<div class="icon-card-img">
+				<img id="icon-card-img" src="" />
+				<p id="icon-tip">请按照示例，上传身份证正面</p>
+			</div>
+		</div>
+		<div style="color: red;margin-left: 10px;"><span><i class="mui-icon mui-icon-info"></i>温馨提示：<span style="color: #999;">实名审核时间为工作日9:00 －18:00</span></span>
+		</div>
+		<button id="cmt_info" type="button" class="mui-btn mui-btn-success mui-btn-block com_btn">提交</button>
+	</body>
+
+</html>

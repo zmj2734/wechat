@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<script src='../../js/crypto-js.js'></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script src='../../js/aes.js'></script>
+		<style>
+			body {
+				background: white;
+			}
+			
+			.coupon {
+				padding-top: 0px;
+				margin-top: 10px;
+				display: inline-block;
+			}
+			
+			.coupon .discount {
+				margin-bottom: 0px;
+			}
+			
+			.coupon_finish {
+				margin-top: 0px;
+				display: inline-block;
+			}
+			
+			.pay {
+				height: 98px;
+			}
+			
+			.pay img {
+				width: 30px;
+				line-height: 98px;
+				margin-left: 20px;
+			}
+			
+			.bill {
+				font-size: 30px;
+				color: #333;
+				font-weight: bold;
+				line-height: 98px;
+				margin-left: 15px;
+			}
+			
+			.mui-content {
+				border-top: 4px #F2F2F2 solid;
+				border-bottom: 6px #F2F2F2 solid;
+			}
+			
+			.my-coupon {
+				position: absolute;
+				width: 35%;
+				right: 10px;
+				top: 10px;
+				height: auto;
+				display: block;
+			}
+			
+			.my-coupon p {
+				color: #666;
+				margin-left: 5px;
+			}
+			
+			.mt_no {
+				margin-top: 0px;
+				font-size: 16px;
+			}
+			
+			.c098 {
+				margin-top: 5%;
+				font-size: 12px;
+			}
+			
+			.coupon .cou_number {
+				font-size: 12px;
+			}
+			
+			.my-p {
+				position: absolute;
+				right: 13px;
+				top: 5px;
+				color: #0097e7;
+			}
+			
+			.refuse {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.7);
+				z-index: 99;
+			}
+			
+			.refuse_cont {
+				width: 80%;
+				height: auto;
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				display: inline-table;
+				background: #fff;
+				border-radius: 10px;
+				margin: auto;
+			}
+			
+			.refuse_cont .title {
+				text-align: center;
+				border-bottom: 1px solid #ccc;
+				color: #0098E6;
+				line-height: 44px !important;
+			}
+			
+			.refuse_cont p {
+				text-align: left;
+				line-height: 20px;
+				margin-top: 5px;
+				font-size: 14px;
+			}
+			
+			.refuse_cont .refuse_bot {
+				margin-top: 10px;
+				width: 100%;
+			}
+			
+			.pay_title {
+				padding: 0px 10px;
+			}
+			
+			.refuse_cont .refuse_bot {
+				border-top: 1px solid #ccc;
+				border-bottom-left-radius: 10px !important;
+				border-bottom-right-radius: 10px;
+				text-align: center;
+			}
+			
+			.refuse_cont .refuse_bot button {
+				width: auto;
+				height: 40px;
+				border-radius: 0;
+				border: none;
+				margin: 10px auto;
+				font-size: 18px;
+				background: #0097e7;
+				padding: 0px 25px;
+				color: #fff;
+				border-radius: 10px;
+			}
+		</style>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/index/my_account_detail.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+		</script>
+	</head>
+	<header id="header" class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+		<h1 class="mui-title">补贴详情</h1>
+	</header>
+
+	<body>
+		<div class="mui-content">
+			<div class="invoice_bar" style="display: none;">
+				<img src="../../img/acount/inv_img.png" class="inv_img" />
+				<div class="bg_invoice">
+					<img src="../../img/acount/invoce_real.png" class="invoce_img" />
+				</div>
+			</div>
+			<div class="pay" style="display: none;">
+				<img src="../../img/acount/icon.png" />
+				<span class="bill">
+					扫码支付无需发票
+				</span>
+			</div>
+		</div>
+		<div class="group_title ">
+			<img src="../../img/acount/group_icon.png" class="fl home_img" />
+			<span class="group_txt fl">排队详情</span>
+		</div>
+		<div id="coupon">
+			<!--<div class="coupon">
+				<img src="../../img/acount/invoce.png" class="discount" />
+				<p class="cou_shopname">重庆共生旅游</p>
+				<p class="cou_discount">此券为20元档</p>
+				<div class=" my-coupon">
+					<p class="">需完成4次</p>
+					<p class="mt_no">已完成<span class="is_finish">&nbsp;<span class="blue">0</span>&nbsp;</span>次</p>
+					<p class="c098">下次预估时间<span class="blue">20+</span>天</p>
+				</div>
+				<p class="mui-icon mui-icon-help my-p"></p>
+				<p class="cou_number">编号:<span>2017 0804 1123 4519 4519 4519 4519 4519</span></p>
+			</div>
+			<div class="coupon">
+				<img src="../../img/acount/invoce.png" class="discount" />
+				<p class="cou_shopname">重庆共生旅游</p>
+				<p class="cou_discount">此券为20元档</p>
+				<p class="in_group">需完成4次</p>
+				<p class="in_finish">已完成<span class="is_finish">&nbsp;<span class="blue">0</span>&nbsp;</span>次</p>
+				<p class="cou_number">编号:<span>2017 0804 1123 4519 4519 4519 4519 4519</span></p>
+			</div>
+			<div class="coupon_finish">
+				<img src="../../img/acount/invoce.png" class="discount" />
+				<p class="cou_shopname">重庆共生旅游</p>
+				<p class="cou_discount">此券为20元档</p>
+				<p class="in_finish">已完成</p>
+				<p class="cou_number">编号:<span>2017 0804 1123 4519 4519 4519 4519 4519</span></p>
+			</div>-->
+		</div>
+		<div class="refuse" id="refuse" style="display: none;">
+			<div class="refuse_cont">
+				<p class="title">补贴预估时间说明</p>
+				<div class="pay_title">
+					<div class="input_pwd">
+						<p>补贴预估时间，是根据平台最近10天新增消费券数量的平均水平，进行计算后得出的数据。</p>
+						<p>1.此预估值会根据平台最近10天新增消费券数量进行每日更新；</p>
+						<p>2.若预估天数>60，则显示60+。</p>
+						<!--<p>3. 用户确认收货后，订单总额（实付金额+消费金）会自动进入消费补贴排队序列。</p>-->
+					</div>
+				</div>
+				<div class="refuse_bot">
+					<button id="refuse_no">取消</button>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

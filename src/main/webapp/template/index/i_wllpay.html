@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<script src='../../js/crypto-js.js'></script>
+		<script src='../../js/tripledes.js'></script>
+		<script src='../../js/mode-ecb.js'></script>
+		<script src='../../js/aes.js'></script>
+		<style type="text/css">
+			.wide_price {
+				width: 90%;
+			}
+		</style>
+	</head>
+
+	<header id="header" class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+		<h1 class="mui-title">我要付款</h1>
+	</header>
+
+	<body>
+		<div class="mui-content">
+			<div class="img_pay">
+				<div id="shop_logo"></div>
+				<img src="../../img/mine/img_pay.png" class="pay_img" id="shop_img" />
+				<p class="pay_cont">向<span id="user"></span>付款</span>
+			</div>
+			<div class="pay_info fl">
+				<p class="amont_roll">金额</p>
+				<p class="amont_money"><span class="rmb">&yen;</span><input class="wide_price" id="fund" type="number" placeholder="请输入付款金额" />
+				</p>
+			</div>
+			<!--<div class="pay_tips">
+				<input type="text" id="instruction" placeholder="添加说明(限20字)" maxlength="20" />
+			</div>-->
+		</div>
+		<button id="give_other" type="button" class="mui-btn mui-btn-success mui-btn-block htx_btn">付款</button>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="../../js/index/i_wllpay.js"></script>
+		<script type="text/javascript">
+			mui.init({
+			});
+
+		</script>
+	</body>
+
+</html>

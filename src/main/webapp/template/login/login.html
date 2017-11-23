@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<title></title>
+<link href="../../css/mui.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="../../css/index.css" />
+<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../../js/mui.min.js"></script>
+<script type="text/javascript" src="../../js/crypto-js.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../js/config.js"></script>
+<script type="text/javascript" src="../../js/login/login.js"></script>
+<style>
+#checked {
+	display: inline-block;
+}
+
+#checkboxID {
+	margin-right: 3px;
+	margin-top: 3px;
+	float: left;
+}
+</style>
+</head>
+<body>
+	<div class="mui-content">
+		<div class="my-wc-banner">
+			<img src="../../img/wc-banner.png" /> <span class="my-wc-tx">
+				<img src="" id="wechatHead">
+			</span>
+		</div>
+		<div class="my-wc-text">
+			<p>
+				亲爱的微信用户：<span id="wechatName"></span>
+			</p>
+			<p>为了给您提供更优质的服务，请关联共生网账号</p>
+		</div>
+		<div class="my-wc-search">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>账号</label> <input id="phone" type="text" maxlength="11"
+						placeholder="请输入11位手机号">
+				</div>
+				<div class="mui-input-row" style="display: none" id="recommendDiv">
+					<label>推荐人手机号</label> <input id="recommend" type="text"
+						placeholder="请输入推荐人手机号">
+				</div>
+				<div class="mui-input-row">
+					<label>验证码</label> <input id="code" type="text"
+						placeholder="请输入验证码"> <span id="getCode">获取验证码</span>
+				</div>
+			</form>
+			<div class="xieyi" style="margin-bottom: 20px; margin-top: 20px;">
+				<label for="checkboxID"> <input id="checkboxID"
+					type="checkbox" /> 已阅读并勾选
+				</label> <span id="fromHerf" style="color: #0098cc;">《共生网消费者注册协议》</span>
+			</div>
+			<div class="my-wc-btn-t">
+				<button id="login" type="button" data-loading-text="提交中" class="my-wc-btn mui-btn">确定关联</button>
+				<!-- <button class="my-wc-btn" id="login" data-loading-text="登录中">确定关联</button> -->
+			</div>
+		</div>
+	</div>
+	<div class="my-wc-modal" id="my-wc-modal">
+		<div class="my-wc-modal-con">
+			<div class="my-wc-modal-t">
+				<img src="../../img/wc-cg.png" alt="" />
+				<p class="font-18">关联成功</p>
+				<p>
+					<span id="gl"></span>已绑定您的微信号！
+				</p>
+				<p>该账号和您的微信号都可以用来登陆</p>
+			</div>
+			<div class="my-wc-modal-b">
+				<button id="my-wc-modal-btn">我知道了</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>关于我们</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<script type="text/javascript" src="../../js/crypto-js.js"></script>
+		<script src="../../js/tripledes.js" type="text/javascript"></script>
+		<script src="../../js/aes.js" type="text/javascript"></script>
+		<script src="../../js/mode-ecb.js" type="text/javascript"></script>
+	</head>
+	<style>
+		.right {
+			float: right;
+			width: 8px;
+			height: 13px;
+			margin-top: 3px;
+		}
+		
+		.my-img {
+			width: 100%;
+			height: auto;
+			text-align: center;
+			padding-top: 30px;
+			padding-bottom: 20px;
+		}
+		
+		.my-img img {
+			height: 100px;
+			display: block;
+			max-height: 100%;
+			margin: 0 auto;
+		}
+		
+		#version span {
+			margin-right: 20px;
+			color: #f00;
+			font-weight: bold;
+		}
+		
+		.versions {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: 99;
+			display: none;
+			background: rgba(0, 0, 0, 0.7);
+		}
+		
+		.ver-content {
+			width: 80%;
+			height: auto;
+			display: inline-table;
+			background: #fff;
+			/*border: 1px solid #ccc;*/
+			border-radius: 10px;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			margin: auto;
+		}
+		
+		.ver-content h3 {
+			font-size: 16px;
+			height: 40px;
+			line-height: 40px;
+			color: #0098E6;
+			text-align: center;
+			border-bottom: 1px solid #ddd;
+			margin-bottom: 0px;
+		}
+		
+		.ver-content p {
+			font-size: 14px;
+			margin: 0;
+			line-height: 30px;
+		}
+		
+		.ver-content button {
+			width: 50%;
+			background: #f5f5f5;
+			color: #666;
+			border: none;
+			border-radius: 0;
+			height: 40px;
+			line-height: 40px;
+			padding: 0;
+			float: left;
+			font-size: 16px;
+			border-bottom-left-radius: 10px;
+			border-right: 1px solid #ccc;
+		}
+		
+		.ver-content button.ver-close {
+			background: #f5f5f5;
+			color: #666;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 10px;
+			border-right: none;
+		}
+		
+		.ver-content img {
+			width: 25px;
+			height: 25px;
+			position: absolute;
+			right: 1px;
+			top: 1px;
+			padding: 2px;
+			border-radius: 50%;
+			border: 1px solid #ddd;
+		}
+		
+		.ver-content-c {
+			padding: 10px 15px;
+		}
+		
+		.ver-content-b {
+			border-top: 1px solid #ddd;
+			height: 40px;
+		}
+		
+		.ver-bottom {
+			width: 100%;
+			margin-top: 70px;
+			text-align: center;
+		}
+		
+		.ver-bottom p {
+			margin: 0;
+			margin-bottom: 10px;
+			font-size: 14px;
+			color: #999;
+		}
+	</style>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">关于我们</h1>
+		</header>
+		<div class="mui-content">
+
+			<ul class="mui-table-view">
+				<!--<li class="mui-table-view-cell " id="stipulate">
+					平台消费赠送与消费补贴规则
+					<img src="../../img/default/right.png" class="right">
+				</li>
+				<li class="mui-table-view-cell " id="plant">
+					公司简介
+					<img src="../../img/default/right.png" class="right">
+				</li>
+				<li class="mui-table-view-cell " id="version">
+					版本检查
+					<img src="../../img/default/right.png" class="right">
+				</li>
+				<li class="mui-table-view-cell " id="nor_que">
+					常见问题答疑
+					<img src="../../img/default/right.png" class="right">
+				</li>-->
+				<li class="mui-table-view-cell" id="stipulate">
+					<a href="javascript:;" class="mui-navigate-right">平台消费赠送与消费补贴规则</a>
+				</li>
+				<li class="mui-table-view-cell" id="plant">
+					<a href="javascript:;" class="mui-navigate-right">公司简介</a>
+				</li>
+
+				<li class="mui-table-view-cell" id="nor_que">
+					<a href="javascript:;" class="mui-navigate-right">常见问题答疑</a>
+				</li>
+			</ul>
+		</div>
+		<div class="ver-bottom">
+			<p>&copy;2017 渝ICP备140069291号</p>
+			<p>重庆共生网络技术有限公司 版权所有</p>
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/me/about_us.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			});
+
+		</script>
+	</body>
+
+</html>
