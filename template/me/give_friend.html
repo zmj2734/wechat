@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>赠送好友</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.mins.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">赠送好友</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<div class="mui-input-row">
+					<input type="number" class="mui-input-clear" maxlength="11" id="friend_num" placeholder="请输入好友的账号" style="height: 40px;font-size: 16px;">
+				</div>
+			</div>
+		</div>
+		<div class="dis_lists">
+			<img src="../../img/mine/mypor.png" class="discount" id="size_ten" />
+			<p class="grade">此券为<span id="status"></span>消费券</p>
+			<p class="is_yusesize"><span id="voucher_nun"></span>张</p>
+		</div>
+		<div class="use_size">
+			<p class="use_k" id="after_jia_jian">可选张数:<span class="red"><span id="isuse"></span>张</span>
+			</p>
+
+		</div>
+		<button id="give_other" type="button" class="mui-btn mui-btn-success mui-btn-block com_btn">确定</button>
+
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			});
+			var auid = null;
+			var ch_type = null;
+			var v_num = null;
+			var win = null;
+			var vgrade = null;
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				auid = localStorage.getItem("auid");
+				win = plus.webview.currentWebview();
+				ch_type = win.vtype;
+				v_num = win.v_num;
+				vgrade = win.vgrade;
+				$("#isuse").html(v_num);
+				$("#voucher_nun").html(v_num);
+				$("#status").html(vgrade);
+				var html = '';
+				html += '	<div class="mui-numbox" data-numbox-min="1" data-numbox-max="' + v_num + '"  >';
+				html += '<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>';
+				html += '<input class="mui-input-numbox" type="number" id="sec_size" onkeypress="return event.keyCode>=48&&event.keyCode<=57" />';
+				html += '<button class="mui-btn mui-btn-numbox-plus" type="button">+</button></div>';
+				$("#after_jia_jian").after(html);
+				mui('.mui-numbox').numbox();
+
+				$("#sec_size").on("blur", function() {
+					var val = $(this).val();
+					var reg = /^\d+$/;
+					var _div = $(this).parent().parent();
+					if(!reg.test(val)) {
+						$(this).val("0");
+						mui.toast("只能输入正整数。")
+						return;
+					} else if(parseInt(val) > v_num) {
+						mui.toast("您最多可送" + v_num + "张");
+					}
+
+				})
+
+				document.getElementById('give_other').addEventListener('click', function() {
+					var give_number = document.getElementById('friend_num').value;
+					var give_size = document.getElementById('sec_size').value;
+
+					mui.app_request('POST', {
+						'OPERATE_TYPE': '10029',
+						'AUTH_ID': auid,
+						'GIVE_MOBILE': give_number,
+						'NUM': give_size,
+						'VOUCHER_TYPE': ch_type
+					}, function(data) {
+						if(data.RESULTCODE == '0') {
+							mui.toast('赠送成功!');
+							mui.app_back(win.backId, "true");
+						}
+					}, function(result) {
+						if(result.RESULTCODE == '-1') {
+							mui.toast(result.DESCRIPTION);
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>绑定支付宝</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<style type="text/css">
+			.mui-input-row label {
+				width: 30%;
+			}
+			
+			.mui-input-row input {
+				width: 70%;
+			}
+		</style>
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<script src="../../js/bank.js" type="text/javascript"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			var auid = null;
+			mui.plusReady(function() {
+				auid = localStorage.getItem("auid");
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				//判断是否绑定支付宝
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10077",
+					"AUTH_ID": auid //localStorage.getItem("auid")
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						if(data.RESULTLIST.is_bind == "1") {
+							$("#requerd").hide();
+							$(".mui-title").html("支付宝")
+							$("#pay_num").val(data.RESULTLIST.alipay_account_info.account_num).attr("readonly", "readonly");
+							$("#pay_name").val(data.RESULTLIST.alipay_account_info.real_name).attr("readonly", "readonly");
+							document.getElementById("title").innerHTML = "我的支付宝";
+							$("#edit").show();
+						} else {
+							is_bind();
+						}
+					}
+					return;
+				}, function(result) {
+
+				});
+
+				document.getElementById("edit").addEventListener("tap", function() {
+					var pay_name = document.getElementById("pay_name").value;
+					var attrd = {
+						"name": pay_name,
+						"backId": "bindpay"
+					}
+					booking.closeAndOpenNewWindowHaveAttr("editAlipay.html", "editAlipay", attrd);
+				})
+
+				document.getElementById("requerd").addEventListener('tap', function() {
+					setDisabled("requerd");
+					var status = this.getAttribute("status");
+					if(status == "fasle" || status == false) {
+						remDisabled("requerd");
+						return;
+					}
+					var paynum = $("#pay_num").val();
+					//					var paypwd = $("#pay_pwd").val();
+					var payname = $("#pay_name").val();
+					if(mui.isnull(paynum)) {
+						mui.toast("支付宝账号不能为空");
+						remDisabled("requerd");
+						return;
+					}
+					//					if(mui.isnull(paypwd)) {
+					//						mui.toast("支付宝密码不能为空");
+					//						remDisabled("requerd");
+					//						return;
+					//					}
+					if(!payname) {
+						mui.toast("支付宝姓名不能为空");
+						remDisabled("requerd");
+						return;
+					}
+					this.setAttribute("status", "false");
+					mui.app_request('POST', {
+						"OPERATE_TYPE": "10020",
+						//"PAY_PWD": paypwd,
+						"ACCOUNT_NUM": paynum,
+						"REAL_NAME": payname,
+						"AUTH_ID": auid //localStorage.getItem("auid")
+					}, function(data) {
+						if(data.RESULTCODE == "0") {
+							$("#requerd").attr("status", "true");
+							mui.toast("绑定成功");
+							booking.closeAndOpenNewWindow("account_ment.html", "account_ment");
+						}
+						remDisabled("requerd");
+						return;
+					}, function(result) {
+						$("#requerd").attr("status", "true");
+						if(result.RESULTCODE == "-1") {
+							mui.toast(result.DESCRIPTION);
+						} else {
+							mui.toast("系统异常，请重试！")
+						}
+						remDisabled("requerd");
+					});
+				})
+
+			});
+
+			function is_bind() {
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10023",
+					"AUTH_ID": auid //localStorage.getItem("auid")
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						$("#pay_name").val(data.RESULTLIST.ida_info.real_name)
+					}
+					return;
+				}, function(result) {
+					if(result.RESULTCODE == "-1") {
+						mui.toast(result.DESCRIPTION);
+					} else {
+						mui.toast("系统异常，请重试！")
+					}
+				});
+			}
+		</script>
+		<style>
+			.mui-input-row input {
+				font-size: 15px;
+				line-height: 30px;
+				margin-top: 10px;
+				padding-left: 15px!important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class=" mui-action-back  mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title" id="title">绑定支付宝</h1>
+			<a class=" mui-btn-link mui-pull-right detail_txt" style="display: none;" href="javascript:void(0);" id="edit">修改支付宝</a>
+		</header>
+
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>支付宝账号:</label>
+					<input type="text" id="pay_num" placeholder="请输入您的支付宝账号">
+				</div>
+				<!--<div class="mui-input-row">
+					<label >支付宝密码:</label>
+					<input type="password" id="pay_pwd" placeholder="请输入支付宝密码">
+				</div>-->
+				<div class="mui-input-row">
+					<label>支付宝实名:</label>
+					<input type="text" readonly="readonly" id="pay_name" placeholder="请输入您的支付宝真实名字">
+				</div>
+			</form>
+		</div>
+		<div style="margin-top: 20px;">
+			<p class="content" style="margin-bottom: 5px;">支付宝绑定必须实名，并且支付宝实名与平台实名一致</p>
+			<button id="requerd" type="button" status="true" class="mui-btn mui-btn-success mui-btn-block">确定</button>
+		</div>
+	</body>
+
+</html>

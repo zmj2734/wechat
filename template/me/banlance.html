@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>余额</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init({
+
+				gestureConfig: {
+					doubletap: true
+				},
+				subpages: [{
+					url: 'banlance_sub.html',
+					id: 'banlance_sub',
+					styles: {
+						top: '50px',
+						bottom: '0px',
+					}
+				}]
+			});
+
+			var win = null;
+			var banlance = null;
+			var contentWebview = null;
+			var my_base_info = null;
+			var voucher_info = null;
+			var profit_info = null;
+			var my_bz_info = null;
+			var cash_info = null;
+
+			var auid = localStorage.getItem("auid");;
+			var ida_auth = null;
+			var operate_type = null;
+			var bind_pay;
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				document.querySelector('header').addEventListener('doubletap', function() {
+					if(contentWebview == null) {
+						contentWebview = plus.webview.currentWebview().children()[0];
+					}
+					contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+				});
+
+				win = plus.webview.currentWebview();
+				banlance = win.money;
+				$("#banlance").html(banlance);
+
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10023",
+					"AUTH_ID": auid
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						my_base_info = data.RESULTLIST.my_base_info;
+						voucher_info = data.RESULTLIST.voucher_info;
+						profit_info = data.RESULTLIST.profit_info;
+						my_bz_info = data.RESULTLIST.my_bz_info;
+						type = data.RESULTLIST.user_type;
+						cash_info = data.RESULTLIST.cash_info;
+
+						ida_auth = data.RESULTLIST.ida_auth;
+						bind_pay = cash_info.is_binding_alipay;
+					}
+					return;
+				}, function(result) {
+					mui.toast("系统异常，请重试");
+				});
+
+				document.getElementById("detail").addEventListener("tap", function() {
+					if(ida_auth == 1) {
+						if(bind_pay == "0") {
+							plus.nativeUI.confirm("为保障您的账户安全，请绑定本人的支付宝账号。", function(e) {
+								if(e.index == 0) {
+									return;
+								} else {
+									booking.closeAndOpenNewWindow("bindAlipay.html", "bindAlipay");
+									return;
+								}
+
+							}, "提示", ["取消", "去绑定"]);
+							return;
+						} else {
+							var fromType = null;
+							if(type == "1") {
+								fromType = "10024";
+							} else {
+								fromType = "10088";
+							}
+							var attrd = {
+								"type": fromType,
+								"case_type": 2
+							}
+
+							booking.closeAndOpenNewWindowHaveAttr("withdrawals.html", "withdrawals", attrd);
+						}
+
+					} else if(ida_auth == 0) {
+						mui.toast("实名审核中...")
+						return;
+					} else if(ida_auth == -2) {
+						plus.nativeUI.confirm("为保障您账户安全，请先完成身份认证。", function(e) {
+							if(e.index == 0) {
+								return;
+							} else {
+								booking.closeAndOpenNewWindow("realname.html", "realname");
+								return;
+							}
+
+						}, "提示", ["取消", "去认证"]);
+					}
+				})
+			})
+		</script>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">余额</h1>
+			<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right detail_txt" id="detail" style="font-size: 14px;">我要提现</button>
+		</header>
+		<div class="mui-content"></div>
+	</body>
+
+</html>

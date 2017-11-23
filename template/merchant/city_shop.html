@@ -1,0 +1,562 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商家详情</title>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/foot.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../icon/img_font.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/city.css" rel="stylesheet" type="text/css">
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/TouchSlide.1.1.js"></script>
+		<script src="../../js/myCity.js" type="text/javascript"></script>
+		<style type="text/css">
+			html,
+			body {
+				height: 100%;
+				background: #efeff4;
+				overflow: inherit;
+			}
+			
+			.nav {
+				width: 100%;
+				background: white;
+				height: 230px;
+			}
+			
+			#search {
+				line-height: 34px !important;
+				height: 34px !important;
+				margin-top: 0 !important;
+			}
+			
+			.nav ul li {
+				float: left;
+				margin-top: 15px;
+				width: 25%;
+				text-align: center;
+			}
+			
+			.nav ul li p {
+				margin: 0 0 0 3px;
+				padding: 0;
+				font-size: 12px;
+				color: #666;
+			}
+			
+			.nav ul li img {
+				width: 35px;
+				height: 35px;
+			}
+			
+			#shop_list {
+				display: inline-block;
+				width: 100%;
+			}
+			
+			#city_name {
+				width: 77%;
+				display: inline-block;
+				overflow: hidden;
+				font-size: 14px;
+			}
+			
+			.mui-input-row.mui-search .mui-icon-clear {
+				top: 4px !important;
+			}
+			
+			.mui-icon {
+				margin-top: 0;
+				margin-left: 6px;
+			}
+			
+			.img_z {
+				height: 16px;
+			}
+			
+			.travel {
+				font-size: 16px !important;
+			}
+			
+			.addr {
+				font-size: 14px !important;
+				height: 25px;
+				display: block;
+				overflow: hidden;
+			}
+			
+			.con_txt {
+				color: #f00;
+			}
+			
+			.mui-placeholder span {
+				line-height: 32px !important;
+				font-size: 14px;
+			}
+			
+			.have_msg {
+				width: 7px;
+				height: 7px;
+				border-radius: 50%;
+				background: #f00;
+				display: none;
+				position: absolute;
+				top: 10px;
+				right: 25px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="padding_55" id="height">
+
+			<div class="top_shophead fl">
+				<div class="shop_left fl" id="city_select">
+					<span id="city_name">请选择</span>
+					<img src="../../img/city_img/city.png" class="checkimg fr" />
+				</div>
+				<div class="mui-input-row mui-search">
+					<input type="search" id="search" class="mui-input-clear" placeholder="请输入店铺名称">
+				</div>
+			</div>
+			<!--图片轮播结束-->
+			<div class="nav">
+				<ul class="commodity_icon" id="commodity_icon">
+					<li class="first_icon">
+						<img src="../../img/shop/food.png" class="com_icon" />
+						<p class="c_pos">
+							美食
+						</p>
+					</li>
+					<li class="cont_icon">
+						<img src="../../img/shop/huoguo.png" class="com_icon" />
+						<p class="c_pos">
+							火锅
+						</p>
+					</li>
+					<li class="cont_icon">
+						<img src="../../img/shop/pet.png" class="com_icon" />
+						<p class="c_pos">
+							宠物
+						</p>
+					</li>
+					<li class="cont_icon">
+						<img src="../../img/shop/computer.png" class="com_icon" />
+						<p class="c_pos">
+							电子产品
+						</p>
+					</li>
+					<li class="first_icon">
+						<img src="../../img/shop/game.png" class="com_icon" />
+						<p>
+							娱乐
+						</p>
+					</li>
+					<li class="cont_icon">
+						<img src="../../img/shop/yangsheng.png" class="com_icon" />
+						<p class="c_pos">
+							养生
+						</p>
+					</li>
+					<li class="cont_icon">
+						<img src="../../img/shop/ktv.png" class="com_icon" />
+						<p class="c_pos">
+							KTV
+						</p>
+					</li>
+					<li class="cont_icon">
+						<img src="../../img/shop/other.png" class="com_icon" />
+						<p class="c_pos">
+							其他
+						</p>
+					</li>
+				</ul>
+			</div>
+			<div id="banner" class="banner_bar">
+				<div class="db">
+					<ul class="banner_img" id="banner_imgge">
+						<!--<li>
+						<a href="#"><img src="../../img/home/banner.png" id="banner0" class="ban_img" /></a>
+					</li>
+					<li>
+						<a href="#"><img src="../../img/home/banner.png" id="banner1" class="ban_img" /></a>
+					</li>
+					<li>
+						<a href="#"><img src="../../img/home/banner.png" id="banner2" class="ban_img" /></a>
+					</li>-->
+					</ul>
+				</div>
+				<div class="hb">
+					<ul class="point" id="banner_li">
+						<!--<li class="on"></li>
+					<li></li>
+					<li></li>-->
+					</ul>
+				</div>
+			</div>
+			<div class="maybe_like">
+				<span class="maybe_txt">热门推荐</span>
+			</div>
+			<div id="shop_list">
+
+			</div>
+
+		</div>
+		<nav class="navlist">
+
+			<a id="index" data="index" class="mui-icon iconfont">
+				<img src="../../img/navigation/no_home.png" alt="" class="img_z" />
+				<p style="color: #808080;">首页</p>
+			</a>
+			<a id="merchant" data="city_shop" class="active iconfont mui-icon">
+				<img src="../../img/navigation/ck_shop.png" alt="" class="img_z" />
+				<p style="color: #2CA9E7;">商家</p>
+			</a>
+			<a id="message" data="info_system_sub" class="iconfont mui-icon">
+				<img src="../../img/navigation/msg.png" alt="" class="img_z" />
+				<span class="have_msg"></span>
+				<p>消息</p>
+			</a>
+			<a id="me" data="mine" class="iconfont mui-icon">
+				<img src="../../img/navigation/my.png" alt="" class="img_z" />
+				<p>我的</p>
+			</a>
+
+		</nav>
+		<!--<div class="bus_info fl" id="show">
+		</div>-->
+		<script type="text/javascript">
+			mui.init();
+			var auid = null;
+			var city_name = null;
+			var h2 = 0;
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				//Android双击home键退出应用
+				mui.back = function() {
+					if(!first) {
+						first = new Date().getTime();
+						mui.toast('再按一次退出程序');
+						setTimeout(function() {
+							first = null;
+						}, 1000);
+					} else {
+						if(new Date().getTime() - first < 1000) {
+
+							plus.runtime.quit();
+						}
+					}
+				};
+
+				auid = localStorage.getItem("auid");
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+				mui(".navlist").on("tap", "a", function() {
+					var id = $(this).attr("id");
+					var data = $(this).attr("data");
+					var url = "../" + id + "/" + data + ".html";
+					if(id == "merchant") {
+						return;
+					} else {
+						booking.closeAndOpenNewWindow(url, id);
+					}
+				})
+				city_name = localStorage.getItem("city_name");
+				if(!mui.isnull(city_name)) {
+					$("#city_name").html(city_name);
+					$("#gr_zone_ids").html(city_name);
+				} else {
+					$("#city_name").html("未定位");
+					mui.cacheUser.uploadLocation();
+				}
+
+				mui.app_request_async('POST', {
+					"OPERATE_TYPE": "20001",
+					"AUTH_ID": auid
+				}, function(data) {
+					var message = localStorage.getItem("message");
+					if(mui.isnull(message)) {
+						localStorage.setItem("message", data.message);
+					} else {
+						if(data.message > message) {
+							$(".have_msg").show();
+						}
+					}
+					return;
+				}, function(result) {
+					return;
+				})
+
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10037",
+					"BEGIN": "0",
+					"SIZE": "10"
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						var imgpic = data.RESULTLIST.result;
+						var _html = "";
+						var html_ = "";
+						for(var i = 0; i < imgpic.length; i++) {
+							_html += "<li>";
+							_html += '<a href="javascript:void(0)"><img src="' +
+								booking.constants.ip + imgpic[i].url + '" class="ban_img" data-url="' + imgpic[i].click_url + '" data-type="' + imgpic[i].click_type + '" /></a>'
+							_html += '</li>';
+							html_ += "<li class='on'><li>";
+						}
+						$("#banner_imgge").html(_html);
+						$("#banner_li").html(html_);
+
+						//banner();
+						mui(".banner_img").on("tap", "li", function() {
+							var img = $(this).find("img");
+							var type = img.attr("data-type");
+							var url = img.attr("data-url");
+							if(type == 0) {
+								return;
+							} else if(type == 1) {
+								//mui.openWindow();
+							} else if(type == 3) {
+								plus.runtime.openURL(url);
+							}
+						})
+					}
+					return;
+				}, function(result) {
+					return;
+				});
+
+				//加载商铺
+				shop_list(auid);
+				//获取分类
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10070",
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						var aData = data.RESULTLIST.result;
+						var _html = "";
+						var html_ = "";
+						for(var i = 0; i < aData.length; i++) {
+							if(aData[i].id == 0) {
+								_html += '<li class="cont_icon" onclick="all_type()">'
+								_html += '<img src="' + booking.constants.ip + aData[i].icon_url + '" class="com_icon" />'
+								_html += '<p class="c_pos">' + aData[i].category_name + '</p>'
+								_html += '</li>'
+							} else {
+								_html += '<li class="cont_icon" name="' + aData[i].category_name + '" id="' + aData[i].id + '" onclick="type_list(this)">'
+								_html += '<img src="' + booking.constants.ip + aData[i].icon_url + '" class="com_icon" />'
+								_html += '<p class="c_pos">' + aData[i].category_name + '</p>'
+								_html += '</li>'
+							}
+
+						}
+						$("#commodity_icon").html(_html + html_);
+					}
+					return;
+				}, function(result) {
+					return;
+				});
+
+				//搜索店铺名称
+				//				$("#search").bind("focus",function(){
+				//					$("#search").blur();
+				//					mui.openWindow({
+				//						id: 'shop_search',
+				//						url: 'shop_search.html',
+				//					});
+				//					window.location.href='shop_search.html'
+				//				})
+				$('#search').bind('keypress', function(event) {
+					if(event.keyCode == "13") {
+						var KEY_WORD = $("#search").val();
+						KEY_WORD = KEY_WORD.trim()
+						mui.openWindow({
+							id: 'typelist_sub',
+							url: 'typelist_sub.html',
+							extras: {
+								SHOP_CATEGORY_ID: null,
+								KEY_WORD: KEY_WORD,
+								name: "搜索",
+								backId: "typelist_sub"
+							}
+						});
+					}
+				})
+
+			});
+			//	图片轮播
+			function banner() {
+				TouchSlide({
+					slideCell: "#banner",
+					titCell: ".hb ul",
+					mainCell: ".db ul",
+					effect: "leftLoop",
+					autoPage: true,
+					autoPlay: true
+				});
+			}
+			//跳转全部分类
+			function all_type() {
+				mui.openWindow({
+					id: 'all_type',
+					url: 'all_type.html',
+				});
+			}
+			//跳转分类列表
+			function type_list(e) {
+				var id = $(e).attr("id");
+				var name = $(e).attr("name")
+				mui.app_refresh("typelist_sub");
+				mui.openWindow({
+					id: 'typelist_sub',
+					url: 'typelist_sub.html',
+					extras: {
+						SHOP_CATEGORY_ID: id,
+						name: name,
+						backId: "typelist_sub"
+					}
+				});
+			}
+			$(function() {
+				$("#city_name").on("click", function() {
+					$("#city_name").selectAddress({
+						"ajaxURL": booking.constants.api_domain,
+						storageBox: $("#city_name"),
+						callback: function(string, id) {
+							//执行回调
+							var city_id = id;
+							if(city_id) {
+								district_name(city_id, string)
+							}
+						}
+					});
+				});
+			})
+			//手动定位
+			function district_name(city_id, string) {
+				var auid = localStorage.getItem("auid");
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10073",
+					"AUTH_ID": auid,
+					"DISTRICT_ID": city_id,
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						localStorage.setItem("city_name", string);
+						mui.toast(data.DESCRIPTION);
+						shop_list(auid);
+					}
+					return;
+				}, function(result) {
+					mui.toast(result.DESCRIPTION)
+					return;
+				});
+			}
+			//加载商铺
+			function shop_list(auid) {
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10038",
+					"AUTH_ID": auid,
+					"BEGIN": "0",
+					"SIZE": "10"
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						var info = data.RESULTLIST.result;
+						var _html = "";
+						var html_ = "";
+						for(var i = 0; i < info.length; i++) {
+
+							var mi = '';
+							if(info[i].juli == "距离未知") {
+								mi = info[i].juli;
+							} else {
+								var gm = info[i].juli / 1000;
+								mi = gm.toFixed(1) + "公里";
+							}
+							var urls;
+							if(info[i].shop_logo_url.indexOf(";") != -1) {
+								urls = info[i].shop_logo_url.split(";")[0];
+
+							} else {
+								urls = info[i].shop_logo_url;
+							}
+
+							_html += '<div class="bus_info fl" shop_id="' + info[i].id + '">';
+							_html += '<div class="fl">';
+							_html += '<img src="' + booking.constants.ip + urls + '" class="shop_img"/>';
+							_html += '</div>';
+							_html += '<div class="bus_text">';
+							_html += '<p class="travel">' + info[i].shop_name + '</p>';
+							_html += '<p class="addr">' + info[i].district_name + "&nbsp;&nbsp;" + info[i].addr + '</p>';
+							_html += '<p class="consumption"><span class="con_txt fl">' + mi + '</span>';
+							_html += '<span class="already_rece x_f p_s""><span>已接待：</span><span>' + info[i].consume_count + '</span></span>';
+							_html += '</p></div></div>';
+						}
+						$("#shop_list").html(_html);
+						mui("#shop_list").on("tap", ".bus_info", function() {
+							var shop_id = this.getAttribute("shop_id");
+							//window.location.href="shop_show.html?id="+shop_id
+							mui.openWindow({
+								url: 'shop_show.html',
+								id: 'shop_show',
+								extras: {
+									shop_id: shop_id,
+									backId: "city_shop"
+								}
+							});
+						})
+					}
+					return;
+				}, function(result) {
+					mui.toast(result.DESCRIPTION)
+					return;
+				});
+			}
+		</script>
+	</body>
+
+</html>

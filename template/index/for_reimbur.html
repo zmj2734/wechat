@@ -1,0 +1,395 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>代报账详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			.mui-btn {
+				width: 50% !important;
+				float: left;
+			}
+			
+			#footer button {
+				height: 44px;
+				padding: 0 !important;
+				line-height: 44px;
+				font-size: 18px;
+			}
+			
+			.no_shouli {
+				border-bottom-right-radius: 0px;
+				border-top-right-radius: 0px;
+				background: #ADADAD;
+				border-color: #ADADAD;
+				color: #333;
+			}
+			
+			.shouli {
+				border-bottom-left-radius: 0px;
+				border-top-left-radius: 0px;
+			}
+			
+			.refuse {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.7);
+				z-index: 99;
+			}
+			
+			.refuse_cont {
+				width: 80%;
+				height: 248px;
+				position: absolute;
+				top: 50%;
+				margin-top: -124px;
+				left: 10%;
+				background: #fff;
+				border-radius: 10px;
+			}
+			
+			.refuse_cont p {
+				border-bottom: 1px solid #ccc;
+				color: #0098E6;
+			}
+			
+			.textarea {
+				width: 90%;
+				height: 140px;
+				border: 1px solid #ccc;
+				margin-left: 5%;
+				border-radius: 5px;
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+			
+			.refuse_bot {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				height: 44px;
+			}
+			
+			.refuse_bot button {
+				width: 50%;
+				margin: 0;
+				float: left;
+				height: 44px;
+				border-radius: 0px;
+				font-size: 16px;
+			}
+			
+			#refuse_yes {
+				border-bottom-right-radius: 10px !important;
+				border-bottom: none;
+				border-right: none;
+				color: #0098e6;
+			}
+			
+			#refuse_no {
+				border-bottom-left-radius: 10px !important;
+				border-bottom: none;
+				border-left: none;
+				color: #999;
+			}
+			
+			.reim_info {
+				height: auto !important;
+				padding-bottom: 15px !important;
+			}
+			
+			.bz_mobile {
+				color: #999;
+			}
+			
+			.bd {
+				margin-left: 10px;
+				color: #000 !important;
+			}
+			
+			.detail_info {
+				background: #0098e6;
+				color: #fff !important;
+				text-indent: 10px;
+			}
+			
+			.c000 {
+				color: #fff !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">补贴详情</h1>
+		</header>
+		<div class="mui-conten">
+			<div class="for_reiminfo">
+				<img src="../../img/shop/invoice.png" class="reimimg" id="reimimg" />
+			</div>
+			<div class="detail_info">
+				<span class="title c000">补贴详情</span>
+				<p class="time">2017-05-20 AM 11:30</p>
+			</div>
+			<div class="reim_info">
+				<p class="name">申请人:<span class="name_info">太阳 15135131141</span></p>
+				<p>申请账号:&nbsp;&nbsp;
+					<a class="bz_mobile" href=""><span id="bz_mobile"></span><span class="bd">点击拨打</span></a>
+				</p>
+				<p>本次补贴金额:<span class="price" id="price-je">200.00</span></p>
+				<p>补贴档次:<span class="client">8折（20元档）</span></p>
+				<p>补贴次数:<span class="size">10次</span></p>
+				<p>预计补贴:<span class="price" id="price-sy">64.00</span>元</p>
+			</div>
+			<div class="need_info">
+				<span class="need_s">需使用消费券</span>
+				<p class="num"><span class="need_num">2</span>张</p>
+			</div>
+			<div class="spend_info">
+				<span class="spend_s">库存</span>
+				<p class="s_num"><span class="spend_num">1</span>张</p>
+			</div>
+			<div class="buy_pz" id="buy_vou">
+				<p>我要购买消费券</p>
+			</div>
+		</div>
+		<div class="mui-bar mui-bar-tab" id="footer">
+			<button id="no_agree" type="button" class="mui-btn mui-btn-success mui-btn-block no_shouli">不受理</button>
+			<button id="yes_agree" type="button" class="mui-btn mui-btn-success mui-btn-block shouli">立即排队受理</button>
+		</div>
+		<div class="refuse" id="refuse" style="display: none;">
+			<div class="refuse_cont">
+				<div class="pay_title">
+					<p class="title">请输入不受理的理由</p>
+					<div class="input_pwd">
+						<textarea class="textarea" id="textarea" name="" rows="" cols="" placeholder="理由不能超过100个字"></textarea>
+					</div>
+					<div class="refuse_bot">
+						<button id="refuse_no">取消</button>
+						<button id="refuse_yes">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			})
+			var CERTIFICATE_ID = null;
+			var auid = localStorage.getItem("auid")
+		
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+				
+					if(result.RESULTCODE == 0) {
+							
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin =0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin =0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+						
+						return;
+
+					}
+				});
+				if(isLogin === 0){
+					return;
+				}
+					
+				
+				CERTIFICATE_ID = plus.webview.currentWebview().CERTIFICATE_ID;
+				
+
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10033",
+					"AUTH_ID": auid, //localStorage.getItem("auid")
+					"CERTIFICATE_ID": CERTIFICATE_ID,
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						var data = data.RESULTLIST.result;
+						var amount = data.amount;
+					
+						var amount_num = 0;
+						var result = (amount.toString()).indexOf(".");
+						if(result != -1) {
+							//alert("含有小数点");
+							var leng = amount.toString().split(".")[1].length;
+							if(leng == 1) {
+								amount_num = amount + '0';
+							} else if(leng > 2) {
+								amount_num = amount.toString().split(".")[0] + '.' + amount.toString().split(".")[1].substr(0, 2)
+							} else {
+								amount_num = amount
+							}
+						} else {
+							amount_num = amount + '.00'
+						}
+						$(".name_info").html(data.bz_user);
+						$("#bz_mobile").html(data.bz_mobile)
+						$(".bz_mobile").attr("href", "tel:" + data.bz_mobile)
+						$(".time").html(data.create_time);
+						$("#price-je").html(amount_num);
+						$(".client").html(data.voucher_des);
+						$(".size").html(data.bz_count);
+						$("#price-sy").html(data.shop_proft);
+						$(".need_num").html(data.need_voucher);
+						$(".spend_num").html(data.my_voucher);
+						
+						$("#reimimg").attr("src", booking.constants.ip + data.invoice_url);
+					}
+					return;
+				}, function(result) {
+					if(result.RESULTCODE == "-1") {
+						mui.toast(result.DESCRIPTION);
+					} else {
+						mui.toast("系统异常，请重试");
+					}
+				});
+
+				//不受理
+				document.getElementById("no_agree").addEventListener('tap', function() {
+					$("#refuse").show();
+
+				});
+				//不受理
+				document.getElementById("refuse_yes").addEventListener('tap', function() {
+					setDisabled("refuse_yes")
+					var value = $("#textarea").val();
+					if(mui.isnull(value)) {
+						remDisabled("refuse_yes")
+						mui.toast("理由不能为空！");
+						return
+					}
+					if(value.length > 100) {
+						remDisabled("refuse_yes")
+						mui.toast("理由不能超过100个字！");
+						return
+					}
+					//return false;
+					mui.app_request('POST', {
+						"OPERATE_TYPE": "10034",
+						"AUTH_ID": auid, //localStorage.getItem("auid")
+						"CERTIFICATE_ID": CERTIFICATE_ID,
+						"DES": value,
+					}, function(data) {
+
+						remDisabled("refuse_yes")
+						if(data.RESULTCODE == "0") {
+							mui.toast(data.DESCRIPTION);
+							var attrValue = {
+								status: 0,
+								backId: "index"
+							}
+							booking.closeAndOpenNewWindowHaveAttr(
+								'my_accountss.html',
+								'my_accountss',
+								attrValue
+							)
+						}
+						return;
+					}, function(result) {
+						remDisabled("refuse_yes")
+
+						if(result.RESULTCODE == "-1") {
+							mui.toast(result.DESCRIPTION);
+							return;
+						} else {
+							mui.toast("系统异常，请重试");
+							return;
+						}
+					});
+				});
+				document.getElementById("refuse_no").addEventListener('tap', function() {
+					document.activeElement.blur();
+					$("#refuse").hide();
+				})
+				//受理
+				document.getElementById("yes_agree").addEventListener('tap', function() {
+					setDisabled("yes_agree")
+					mui.app_request('POST', {
+						"OPERATE_TYPE": "10035",
+						"AUTH_ID": auid, //localStorage.getItem("auid")
+						"CERTIFICATE_ID": CERTIFICATE_ID,
+					}, function(data) {
+					
+						remDisabled("yes_agree")
+						if(data.RESULTCODE == "0") {
+							mui.toast(data.DESCRIPTION);
+							var attrValue = {
+								status: 0,
+								backId: "index"
+							}
+							booking.closeAndOpenNewWindowHaveAttr(
+								'my_accountss.html',
+								'my_accountss',
+								attrValue
+							)
+						}
+						return;
+					}, function(result) {
+						remDisabled("yes_agree")
+					
+						if(result.RESULTCODE == "-1") {
+							//mui.toast(result.DESCRIPTION);
+							plus.nativeUI.confirm(result.DESCRIPTION+"是否前去购买？", function(e) {
+								if(e.index == 0) {
+									return;
+								} else {
+									booking.closeAndOpenNewWindow("../business/buy_voucher.html", "buy_voucher");
+									return;
+								}
+
+							}, "提示", ["取消", "立即前往"]);
+							return;
+						} else {
+							mui.toast("系统异常，请重试");
+							return;
+						}
+					});
+				});
+
+				document.getElementById("buy_vou").addEventListener('tap', function() {
+					mui.openWindow({
+						id: 'buy_voucher',
+						url: '../business/buy_voucher.html'
+					});
+				});
+
+			})
+		</script>
+	</body>
+
+</html>

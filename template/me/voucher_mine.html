@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的凭证</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.mui.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title" id="shop">我的消费券</h1>
+			<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right detail_txt" id="detail" style="font-size: 14px;">历史记录</button>
+		</header>
+		<div id="di_list" class="mui-content">
+			<!--<div class="dis_lists">
+				<img src="../../img/mine/myporfrom.png" class="discount" id="size_senve" />
+				<div class="num_8size">0张</div>
+				<p class="grade">20<span class="com_text">元档</span></p>
+			</div>
+			<div class="sd_tips" id="show_tip" style="display: none;">
+				<div class="give_anduse fl">
+					<img src="../../img/mine/give.png" class="fl lt_img" />
+					<p class="give_frid">赠送给好友<span>(<span>0</span>张)</span></p>
+				</div>
+				<div class="give_andus fl">
+					<img src="../../img/mine/use.png" class="fl lt_img" />
+					<p class="give_frid">马上使用<span>(0张)</span></p>
+				</div>
+				<input type="hidden" id="vtype" />
+				<p class="vou_tips">温馨提示:好友赠送的凭证点击马上使用即可直接排队报账</p>
+			</div>
+			<div class="dis_lists clearfix">
+				<img src="../../img/mine/myporfrom.png" class="discount" id="size_enghit" />
+				<div class="num_8size">0张</div>
+				<p class="grade">30<span class="com_text">元档</span></p>
+			</div>
+			<div class="sd_tips" id="show_tip2" style="display: none;">
+				<div class="give_anduse fl">
+					<img src="../../img/mine/give.png" class="fl lt_img" />
+					<p class="give_frid">赠送给好友<span>(0张)</span></p>
+				</div>
+				<div class="give_andus fl">
+					<img src="../../img/mine/use.png" class="fl lt_img" />
+					<p class="give_frid">马上使用<span>(0张)</span></p>
+				</div>
+				<p class="vou_tips">温馨提示:好友赠送的凭证点击马上使用即可直接排队报账</p>
+			</div>
+			<div class="dis_lists">
+				<img src="../../img/mine/myporfrom.png" class="discount" id="size_nine" />
+				<div class="num_8size">0张</div>
+				<p class="grade">40<span class="com_text">元档</span></p>
+			</div>
+			<div class="sd_tips" id="show_tip3" style="display: none;">
+				<div class="give_anduse fl" id="give_friend">
+					<img src="../../img/mine/give.png" class="fl lt_img" />
+					<p class="give_frid">赠送给好友<span>(0张)</span></p>
+				</div>
+				<div class="give_andus fl">
+					<img src="../../img/mine/use.png" class="fl lt_img" />
+					<p class="give_frid">马上使用<span>(0张)</span></p>
+				</div>
+				<p class="vou_tips">温馨提示:好友赠送的凭证点击马上使用即可直接排队报账</p>
+			</div>
+			<div class="dis_lists">
+				<img src="../../img/mine/myporfrom.png" class="discount" id="size_ten" />
+				<div class="num_8size">0张</div>
+				<p class="grade">50<span class="com_text">元档</span></p>
+			</div>
+			<div class="sd_tips" id="show_tip4" style="display: block;">
+				<div class="give_anduse fl">
+					<img src="../../img/mine/give.png" class="fl lt_img" />
+					<p class="give_frid">赠送给好友<span>(0张)</span></p>
+				</div>
+				<div class="give_andus fl">
+					<img src="../../img/mine/use.png" class="fl lt_img" />
+					<p class="give_frid">马上使用<span>(0张)</span></p>
+				</div>
+				<p class="vou_tips">温馨提示:好友赠送的凭证点击马上使用即可直接排队报账</p>
+			</div>-->
+		</div>
+		<button style="display: none;" id="buy" type="button" class="mui-btn mui-btn-success mui-btn-block com_btn">购买消费券</button>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			})
+			var auid = null;
+			var type = null;
+			var win = null;
+			var typeOneClass = "give_anduses";
+			mui.plusReady(function() {
+				win = plus.webview.currentWebview();
+				type = win.type;
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				if(type != 1) {
+					$("#buy").show();
+					document.getElementById("shop").innerHTML = "商家消费券";
+				}
+				auid = localStorage.getItem("auid");
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10022",
+					"AUTH_ID": auid,
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						var sData = data.RESULTLIST.result;
+						var html = '';
+						var a = 0;
+						for(var i = 0; i < sData.length; i++) {
+							var aData = sData[i];
+							var give_num = parseInt(aData.num);
+							var use_num = parseInt(aData.available_num);
+							if(give_num != 0 || use_num != 0) {
+								var grade = aData.grade;
+								grade = grade.substr(0, 2);
+								html += '<div class="dis_content" id="dis_list"><div class="dis_lists" >';
+								html += '<img src="../../img/mine/mypor.png" class="discount"/>';
+								html += '<p class="grade">此券为' + grade + '消费券</p>'
+								html += ' <p class="is_yusesize">' + (use_num + give_num) + '张</p></div>';
+								html += '	<div class="sd_tips show_orhid" id="show_tip" style="display:none">';
+								if(type == 1) {
+									html += '	<div class="' + typeOneClass + ' give_andus fl">';
+									html += '<img src="../../img/mine/use.png" class="fl lt_img" />';
+									html += '<input type="hidden"  class="type_vou" value="' + aData.voucher_type + '"/>';
+									html += '<input type="hidden"  class="grade_abc" value="' + grade + '"/>';
+									html += '<p class="give_frid">立即使用<span>(<span class="vou_num">' + use_num + '</span>张)</span></p>';
+									html += '</div>';
+								} else {
+									html += '	<div class="give_anduse fl">';
+									html += '<img src="../../img/mine/give.png" class="fl lt_img" />';
+									html += '<input type="hidden"  class="type_vou" value="' + aData.voucher_type + '"/>';
+									html += '<input type="hidden"  class="grade_abc" value="' + grade + '"/>';
+									html += '<p class="give_frid">赠送给好友<span>(<span class="vou_num">' + give_num + '</span>张)</span></p>';
+									html += '</div>';
+
+									html += '	<div class="give_andus fl">';
+									html += '<img src="../../img/mine/use.png" class="fl lt_img" />';
+									html += '<input type="hidden"  class="type_vou" value="' + aData.voucher_type + '"/>';
+									html += '<p class="give_frid">立即使用<span>(<span class="vou_num">' + use_num + '</span>张)</span></p>';
+									html += '</div>';
+								}
+								html += '<p class="vou_tips">温馨提示:点立即使用即可进行消费补贴申请</p>';
+								html += '</div></div>';
+
+							}
+						}
+						$("#di_list").html(html);
+						document.getElementById("detail").addEventListener("tap", function() {
+							mui.openWindow("voucher_history.html", "voucher_history");
+						})
+
+						mui("#di_list").on('tap', '.dis_lists', function() {
+							var show = this.parentNode.querySelector(".show_orhid");
+							if(show.style.display == 'none') {
+
+								show.style.display = 'block';
+							} else {
+
+								show.style.display = 'none';
+							}
+						});
+
+						mui(".mui-content").on('tap', '.give_anduse', function() {
+							var ch_type = this.querySelector('.type_vou').value;
+							var ch_num = this.querySelector('.vou_num').innerHTML;
+							var vgrade = this.querySelector('.grade_abc').value;
+
+							if(ch_num == 0 || ch_num == "0") {
+								return;
+							}
+							mui.openWindow({
+								id: "give",
+								url: "give_friend.html",
+								extras: {
+									vgrade: vgrade,
+									vtype: ch_type,
+									v_num: ch_num,
+									backId: "voucher_mine"
+								}
+							})
+						});
+						mui(".mui-content").on('tap', '.give_andus', function() {
+							var ch_type = this.querySelector('.type_vou').value;
+							var ch_num = this.querySelector('.vou_num').innerHTML;
+
+							if(ch_num == 0 || ch_num == "0") {
+								return;
+							}
+							mui.openWindow({
+								id: "reim_me",
+								url: "../index/reimbur_me.html",
+								extras: {
+									"vtype": ch_type,
+									"backId": "voucher_mine"
+								}
+							})
+						});
+					}
+					return;
+				}, function(data) {
+					if(data.RESULTCODE == "-1") {
+						mui.toast(result.DESCRIPTION)
+					} else {
+						mui.toast("系统异常，请重试")
+					}
+				});
+				document.getElementById('buy').addEventListener('tap', function() {
+					mui.openWindow({
+						id: 'buy_voucher',
+						url: '../business/buy_voucher.html'
+					})
+				});
+			})
+		</script>
+	</body>
+
+</html>

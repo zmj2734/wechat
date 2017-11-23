@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>昵称</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style>
+			#nickname {
+				margin-top: 3%;
+				font-size: 14px;
+			}
+			
+			#save {
+				font-size: 20px !important;
+			}
+			
+			.mui-input-row input {
+				width: 70%;
+			}
+			
+			.mui-input-row label {
+				width: 30%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title" id="title_nicename">设置昵称</h1>
+		</header>
+		<div class="mui-conten" id="setname">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>请输入昵称:</label>
+					<input type="text" id="nickname" placeholder="请昵称长度不能大于10">
+					<!--<span style="font-size: 14px; margin-left: 10px; float: left; line-height: 50px;">请输入昵称：</span>
+					<input type="text" class="mui-pull-left" id="nickname" placeholder="请输入新昵称"   />-->
+				</div>
+			</form>
+		</div>
+		<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right" id="save" style="font-size: 14px;width: 96%;margin-right: 2%; background: #0499E6;color: #fff;margin-top: 24px;">保存</button>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			});
+			var win = null;
+			var name = "";
+			var auid = null;
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				auid = localStorage.getItem("auid");
+				win = plus.webview.currentWebview();
+				name = win.name;
+				if(!mui.isnull(name)) {
+					$("#title_nicename").html("修改昵称");
+					document.getElementById("nickname").value = name;
+				}
+
+				document.getElementById('save').addEventListener('tap', function() {
+					setDisabled("save");
+					var nickname = document.getElementById('nickname').value;
+
+					if(nickname.length > 10) {
+						mui.toast("昵称长度不能大于10");
+						remDisabled("save");
+						return;
+					}
+					mui.app_request('POST', {
+						'OPERATE_TYPE': '10009',
+						'AUTH_ID': auid,
+						'NICKNAME': nickname
+					}, function(data) {
+						if(data.RESULTCODE != -1) {
+							mui.alert('修改昵称成功', function() {
+								mui.app_back(win.backId, true);
+							});
+						}
+						remDisabled("save");
+					}, function(result) {
+						mui.toast(result.DESCRIPTION);
+						remDisabled("save");
+					});
+				});
+			})
+		</script>
+	</body>
+
+</html>

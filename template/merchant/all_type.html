@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>全部分类</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack:true				
+			});
+			var auid = null;
+			mui.plusReady(function() {
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+					console.log(JSON.stringify(result))
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+						return;
+
+					}
+				});
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10010",
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						var aData = data.RESULTLIST.result;
+						var _html = "";
+						for(var i = 0; i < aData.length; i++) {
+							_html+='<li class="mui-table-view-cell" name="' + aData[i].category_name +'" id="' + aData[i].id + '" onclick="type_list(this)">'
+							_html+='<div class="shop_type">'
+							_html+='<img src="'+booking.constants.ip+aData[i].icon_url+'" class="type_icon"/>'
+							_html+='<span class="type_name">'+aData[i].category_name+'</span>'
+							_html+='<img src="../../img/default/right.png" class="rightgroupimg" />'
+							_html+='</div>'
+							_html+='</li>'
+						}
+						$("#type_bar").html(_html);
+					}
+					return;
+				}, function(result) {
+					return;
+				});
+			})
+			//跳转分类列表
+			function type_list(e) {
+				var id = $(e).attr("id");
+				var name = $(e).attr("name")
+				mui.app_refresh("typelist_sub");
+				mui.openWindow({
+					id: 'typelist_sub',
+					url: 'typelist_sub.html',
+					extras: {
+						SHOP_CATEGORY_ID: id,
+						name: name,
+						backId: "typelist_sub"
+					}
+				});
+			}
+		</script>
+	</head>
+	<header id="header" class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+		<h1 class="mui-title">全部分类</h1>
+	</header>
+	<body>
+		<div class="mui-content">
+			<ul class="type_bar" id="type_bar">
+				<li class="mui-table-view-cell">
+					<div class="shop_type">
+						<img src="../../img/shop/foods.png" class="type_icon"/>
+						<span class="type_name">美食</span>
+						<img src="../../img/default/right.png" class="rightgroupimg" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="shop_type">
+						<img src="../../img/shop/huo.png" class="type_icon"/>
+						<span class="type_name">火锅</span>
+						<img src="../../img/default/right.png" class="rightgroupimg" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="shop_type">
+						<img src="../../img/shop/pets.png" class="type_icon"/>
+						<span class="type_name">宠物</span>
+						<img src="../../img/default/right.png" class="rightgroupimg" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="shop_type">
+						<img src="../../img/shop/com.png" class="type_icon"/>
+						<span class="type_name">电子产品</span>
+						<img src="../../img/default/right.png" class="rightgroupimg" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="shop_type">
+						<img src="../../img/shop/games.png" class="type_icon"/>
+						<span class="type_name">娱乐</span>
+						<img src="../../img/default/right.png" class="rightgroupimg" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="shop_type">
+						<img src="../../img/shop/ys.png" class="type_icon"/>
+						<span class="type_name">养生</span>
+						<img src="../../img/default/right.png" class="rightgroupimg" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="shop_type">
+						<img src="../../img/shop/tv.png" class="type_icon"/>
+						<span class="type_name">KTV</span>
+						<img src="../../img/default/right.png" class="rightgroupimg" />
+					</div>
+				</li>
+			</ul>
+		</div>
+	</body>
+
+</html>

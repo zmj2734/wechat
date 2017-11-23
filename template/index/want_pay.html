@@ -1,0 +1,306 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我要付款</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/in_pwd.css" />
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<script src="../../js/passwordBox.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			});
+			var win;
+			var list;
+			var auid = localStorage.getItem("auid");
+			var wxChannel = null; // 微信支付
+			var aliChannel = null; // 支付宝支付
+			var channel = null;
+			var pwd_word = null;
+			mui.plusReady(function() {
+				if(!PwdBox.inited) {
+					PwdBox.init('', '../../img/pwd_keyboard.png', '请输入支付密码', '安全支付环境，请放心使用！');
+					$(".notice").html("<p>安全支付环境，请放心使用！</p><a id='forget' class='forget'>忘记密码?</a>")
+				}
+				document.getElementById("forget").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow("../me/find_pwd.html", "find_pwd")
+				})
+				win = plus.webview.currentWebview();
+				list = win.list;
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10023",
+					"AUTH_ID": auid
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						pwd_word = data.RESULTLIST.my_base_info.pay_pwd;
+					}
+					return;
+				}, function(result) {
+					return;
+				});
+
+				plus.payment.getChannels(function(channels) {
+					for(var a = 0; a < channels.length; a++) {
+						if(channels[a].description == "支付宝") {
+							aliChannel = channels[a];
+							continue;
+						} else
+						if(channels[a].description == "微信") {
+							wxChannel = channels[a];
+							continue;
+						}
+					}
+				}, function(e) {
+					alert("获取支付通道失败：" + e.message);
+				});
+
+				$("#pay_total_money").html(list.pay_amount);
+				mui("#pay_list").on("tap", ".pay_pos", function() {
+					$(".setimg").removeClass('change_imgpic');
+					$(this).find(".setimg").addClass('change_imgpic');
+				})
+
+				document.getElementById("close").addEventListener("tap", function() {
+					$("#pay_password").hide();
+				})
+
+				document.getElementById("next").addEventListener("tap", function() {
+					var name = $(".change_imgpic").attr("id");
+					if(name == "banlance") {
+						if(mui.isnull(pwd_word)) {
+							mui.alert('您尚未设置支付密码，请前往“首页→我的→账号管理”设置支付密码。', '系统提示', function() {
+								return;
+							});
+							return;
+						} else {
+							PwdBox.show(function(res) {
+
+								if(res.status) {
+									//重置输入
+									var pay_pwd = res.password;
+									mui.app_request('POST', {
+										"OPERATE_TYPE": "10021",
+										"AUTH_ID": auid, //localStorage.getItem("auid")
+										"ORDER_NUM": list.out_trade_no,
+										"PAY_PWD": pay_pwd,
+									}, function(data) {
+										if(data.RESULTCODE == "0") {
+											remDisabled("btn_submit");
+											setTimeout(function() {
+												PwdBox.reset();
+												mui.toast(data.DESCRIPTION);
+												booking.closeAndOpenNewWindow(
+													'../index/index.html',
+													'index'
+												)
+											}, 500)
+											return;
+										}
+										return;
+									}, function(result) {
+										if(result.RESULTCODE == "-1") {
+											mui.toast(result.DESCRIPTION);
+											return;
+										} else {
+											mui.toast("系统异常，请重试！");
+											return;
+										}
+									});
+								} else {
+									PwdBox.reset();
+									//alert(JSON.stringify(arguments));
+								}
+							}, remDisabled("btn_submit"))
+						}
+
+						return;
+					} else if(name == "alipay") {
+						pay('alipay', list.alipay_order_info);
+					} else if(name == "wechat") {
+
+						mui.app_request('POST', {
+							"OPERATE_TYPE": "10095",
+							"AUTH_ID": auid,
+							"ORDER_NUM": list.out_trade_no
+						}, function(data) {
+							if(data.RESULTCODE == "0") {
+								remDisabled("btn_submit");
+								setTimeout(function() {
+
+									pay('wxpay', data.RESULTLIST.wx_pay_info);
+								}, 500)
+								return;
+							}
+							return;
+						}, function(result) {
+							if(result.RESULTCODE == "-1") {
+								mui.toast(result.DESCRIPTION);
+								return;
+							} else {
+								mui.toast("系统异常，请重试！");
+								return;
+							}
+						});
+					}
+				})
+
+			});
+
+			function pay(id, info) {
+				// 从服务器请求支付订单
+				var PAYSERVER = '';
+				if(id == 'alipay') {
+
+					channel = aliChannel;
+				} else if(id == 'wxpay') {
+
+					channel = wxChannel;
+				} else {
+					plus.nativeUI.alert("不支持此支付通道！", null, "捐赠");
+					return;
+				}
+				plus.payment.request(channel, info, function(result) {
+					plus.nativeUI.alert("支付成功！", function() {
+
+						booking.closeAndOpenNewWindow(
+							'index.html',
+							'index'
+						)
+					});
+				}, function(error) {
+
+					plus.nativeUI.alert("支付失败");
+				});
+			}
+		</script>
+		<style>
+			/*input::-webkit-input-placeholder {
+				padding-left: 55px;
+			}*/
+			
+			#close {
+				width: 50px;
+				height: 50px;
+				display: inline-block;
+				position: absolute;
+			}
+			
+			.pay_title {
+				position: relative;
+			}
+			
+			.price_count span {
+				line-height: 30px;
+			}
+		</style>
+	</head>
+	<header id="header" class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+		<h1 class="mui-title">我要付款</h1>
+	</header>
+
+	<body>
+		<div class="mui-content">
+			<div class="common_title fl">
+				<span class="comon_txt fl ">请选择付款方式</span>
+			</div>
+			<ul id="pay_list">
+				<li class="mui-table-view-cell">
+					<div class="pay_pos ">
+						<img src="../../img/buy/alipay.png" class="pay_icon" />
+						<a href="#" class="">支付宝</a>
+						<img src="../../img/default/set_dis.png" id="alipay" class=" change_imgpic setimg fr" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="pay_pos">
+						<img src="../../img/buy/yue.png" class="pay_icon" />
+						<a href="#">余额</a>
+						<img src="../../img/default/set_dis.png" id="banlance" class=" setimg fr" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="pay_pos ">
+						<img src="../../img/buy/weixin.png" class="pay_icon" />
+						<a href="#">微信</a>
+						<img src="../../img/default/set_dis.png" id="wechat" class="setimg fr" />
+					</div>
+
+				</li>
+
+			</ul>
+		</div>
+
+		<div>
+			<button id="next" type="button" style="margin-top: 8px;" status="true" class="mui-btn  mui-btn-success mui-btn-block com_btn">下一步</button>
+		</div>
+		<div class="input_pwdword" id="pay_password" style="display: none;">
+			<div class="pwd_mask"></div>
+			<div class="input_cont">
+				<div class="pay_title">
+					<a id="close" href="javascript:void(0);">
+						<div>
+							<img src="../../img/profit/close.png" />
+						</div>
+					</a>
+					<p class="title">请输入支付密码</p>
+					<div class="price_pays">
+						<p class="price_count">&yen;<span id="pay_total_money"></span></p>
+					</div>
+					<div class="input_pwd">
+						<input type="password" class="in_pwd" maxlength="6" id="pay_money" placeholder="请输入您的支付密码" />
+						<p class="mui-btn mui-btn-block submit" id="btn_submit">
+							<a>确认支付</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

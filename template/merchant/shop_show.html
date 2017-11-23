@@ -1,0 +1,404 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商家展示</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/friend.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../js/jquery.min.js"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/share.js"></script>
+
+		<script src="../../js/TouchSlide.1.1.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../../js/scroll.js"></script>
+
+		<style type="text/css">
+			html,body{
+				width: 100%;
+				/*overflow-x: hidden;*/
+			}
+			#stairImg {
+				height: 260px;
+				overflow: hidden;
+				display: block;
+			}
+			
+			#stairImg img {
+				width: 100%;
+				display: block;
+				height: 100%;
+				max-width: 100%;
+			}
+			
+			#des {
+				width: 100%;
+				padding: 10px;
+				background: #fff;
+				text-indent: 28px;
+			}
+			
+			.hotel_pos,
+			.h_phone {
+				margin-top: 10px;
+			}
+			.h_phone{
+				line-height: 36px;
+			}
+			.h_phone img{
+				margin-top: 8px;
+			}
+			p,
+			span {
+				font-size: 14px !important;
+			}
+			
+			#detail {
+				padding-top: 0 !important;
+				font-size: 30px;
+			}
+			
+			#shop_image {
+				width: 100%;
+			}
+			
+			.hotel_name {
+				background: #0098e6;
+			}
+			
+			.hotel_name span {
+				color: #fff;
+				font-size: 20px !important;
+			}
+			
+			.shop_dh {
+				width: 25px;
+				height: 25px;
+				margin-right: 20px;
+				margin-top: 10px;
+				padding-left: 0 !important;
+			}
+			
+			.shop_dh img {
+				width: 100%;
+				display: block;
+				max-width: 100%;
+			}
+			
+			ul,
+			li {
+				width: 100%;
+				display: block;
+			}
+			
+			.hotel_pos ul li span {
+				float: left;
+			}
+			
+			.hotel_pos ul li {
+				display: flex;
+			}
+			
+			.addresss {
+				flex: 1;
+			}
+			
+			.img_phone {
+				width: 20px;
+				height: 20px;
+				margin: auto;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				display: block;
+			}
+			
+			#bd-phone {
+				height: auto;
+				display: inline-block;
+				padding: 0px 20px;
+				border-left: 1px solid #666;
+				position: relative;
+				margin-left: 10px;
+			}
+			#banner{
+				overflow-x: hidden;
+			}
+			.addresss {
+				margin-bottom: 0px;
+			}
+			.banner_bar .db .banner_img .ban_img, .banner_shop .db .banner_img .ban_img{
+				height: 260px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">商家简介</h1>
+			<a href="#share_window" class="mui-btn-blue mui-btn-link mui-pull-right mui-icon mui-icon-redo" id="detail" style="margin-top: 0;">
+			</a>
+		</header>
+		<!--<div class="shop_content mui-content" id="ret">
+			<div id="stairImg" style="display: none;">
+				<img class="mui-img" src="../../img/shop/shop.png" / id="shop_image">
+			</div>
+		</div>-->
+		<div id="banner" class="banner_bar" style="padding-top: 20px;">
+			<div class="db">
+				<ul class="banner_img">
+					<!--<li>
+						<a href="#"><img src="../../img/home/banner.png" id="banner0" class="ban_img" /></a>
+					</li>
+					<li>
+						<a href="#"><img src="../../img/home/banner.png" id="banner1" class="ban_img" /></a>
+					</li>
+					<li>
+						<a href="#"><img src="../../img/home/banner.png" id="banner2" class="ban_img" /></a>
+					</li>-->
+				</ul>
+			</div>
+			<div class="hb">
+				<ul class="point">
+
+				</ul>
+			</div>
+		</div>
+		<div class="hotel_name">
+			<span id="shop_name"></span>
+			<span class="fr shop_dh" id="ditu"><img src="../../img/shop/icon-dh.png"/></span>
+		</div>
+		<div class="hotel_info">
+			<ul>
+				<li>
+					<span>
+						<img src="../../img/introIMG/send.png" class="send"/>
+					</span>
+					<span class="cont_text">
+						消费<span style="color: orangered;">满100送100</span>消费券
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class="h_info">
+			<ul>
+				<li>
+					<span>
+						<img src="../../img/introIMG/sale.png" class="sell"/>
+					</span>
+					<span class="c_text">
+						<span id="vt_grade" style="color: orangered;"></span>
+					</span>
+				</li>
+			</ul>
+		</div>
+		<div class="hotel_pos">
+			<ul>
+				<li>
+					<span>
+						<img src="../../img/introIMG/pos.png" class="pos"/>
+					</span>
+					<span class="addresss" id="shop_address">
+						阿达大大大的实打实大师的阿达大大大的实打实大师的
+					</span>
+					<a id="bd-phone" href=""><img class="img_phone" src="../../img/shop/icon-iphone.png" alt="" /></a>
+
+				</li>
+			</ul>
+		</div>
+		<div class="h_phone">
+			<ul>
+				<li>
+					<span>
+
+					<img src="../../img/shop/icon-yysj.png" class="phone"/>
+
+					</span>
+					<span class="c_phone">
+						营业时间：<span id="shop_hours"></span>
+					</span>
+				</li>
+
+			</ul>
+		</div>
+		<div class="shopcontent">
+			<img src="../../img/navigation/ck_shop.png" />
+			<span>商家简介</span>
+		</div>
+		<div class="content_aboutshop">
+			<p id="des">商家简介商家简介商家简介商家简介商家简介商家简介商家简介商家简介商家简介商家简介商家简介</p>
+		</div>
+		<div class="mui-popover mui-popover-action mui-popover-bottom" id="share_window">
+			<div class="pwd_mask"></div>
+			<div class="input_cont">
+				<div class="pay_title">
+					<div class="price_pays">
+						<div class="fl share_channel" data_id="weixin" data_ex="WXSceneSession" style=" margin-left: 33.5%;">
+							<img src="../../img/introIMG/shop_wchar.png" class="w_img" />
+							<p class="w_txt">微信</p>
+						</div>
+						<div class="fl share_channel" style="" data_id="weixin" data_ex="WXSceneTimeline ">
+							<img src="../../img/introIMG/shop_friend.png" class="right_quan" />
+							<p class="p_txt">朋友圈</p>
+						</div>
+					</div>
+					<div class="input_pwd">
+						<button class="mui-btn mui-btn-block submit " id="btn_submit">
+							<a id="close">取消</a>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			mui.init();
+			var win = null;
+			var shop_id = null;
+			var auid = localStorage.getItem("auid");
+			var longitude = null;
+			var latitude = null;
+			var generalizeBaseUrl = booking.constants.api_ip + "/gswRubs/h5/shop_detail?shop_id=";
+			var title = '邀请您加入共生网！';
+			var content = '我正在共生网参与“消费100补贴100”活动，进店消费即可获取消费补贴！快来吧！';
+			var thumbs = [booking.constructor.ip + "/static/images/logo.png"];
+			var pictures = [booking.constructor.ip + "/static/images/logo.png"];
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+				
+					if(result.RESULTCODE == 0) {
+							
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin =0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin =0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+						
+						return;
+
+					}
+				});
+				if(isLogin === 0){
+					return;
+				}
+				win = plus.webview.currentWebview();
+				shop_id = win.shop_id;
+				var user_id = auid.split("_")[0];
+				generalizeBaseUrl = generalizeBaseUrl + shop_id + "&lct=" + user_id;
+
+				document.getElementById("ditu").addEventListener("tap", function() {
+					var attrd = {
+						"longitude": longitude,
+						"latitude": latitude
+					}
+					booking.closeAndOpenNewWindowHaveAttr("../business/navigation.html", "navigation.html", attrd);
+				})
+
+				//alert(user_id);
+				document.getElementById("btn_submit").addEventListener("tap", function() {
+					mui('#share_window').popover('hide');
+				})
+
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10039",
+					"SHOP_ID": shop_id,
+					"AUTH_ID": auid
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						console.log(JSON.stringify(data));
+						var info = data.RESULTLIST.result;
+
+						longitude = info.longitude;
+						latitude = info.latitude;
+						var html='';
+						
+						if(info.shop_logo_url.indexOf(";")!=-1){
+							var urls = info.shop_logo_url.split(";");
+							for(var i=0;i<urls.length;i++){
+								html+='<li><a href="#"><img src="'+booking.constants.ip + urls[i]+'" class="ban_img" /></a></li>'
+							}
+							$(".banner_img").html(html)
+							banner()
+						}else{
+							html='<li><a href="#"><img src="'+booking.constants.ip + info.shop_logo_url+'" class="ban_img" /></a></li>'
+							$(".banner_img").html(html)
+						}
+						//地址
+						$("#shop_address").html(info.district_name + '&nbsp;&nbsp;' + info.addr);
+						//简介
+						$("#des").html(info.des);
+						//档次
+						$("#vt_grade").html(info.vt_grade);
+						//电话
+						$("#phone_num").html(info.phone_num);
+						$("#bd-phone").attr("href", "tel:" + info.phone_num)
+						//店铺名
+						$("#shop_name").html(info.shop_name);
+
+						$("#shop_hours").html(info.shop_hours);
+						title = info.shop_name + title;
+					}
+					return;
+				}, function(result) {
+					return;
+				});
+
+				mui(".price_pays").on("tap", '.share_channel', function() {
+					var id = this.getAttribute('data_id');
+					var ex = this.getAttribute('data_ex');
+
+					//初始化推广渠道信息
+					initSysShareSerivces(function() {
+						var weixin = 'weixin';
+						if(id == weixin) {
+							shareAction(id, generalizeBaseUrl, title, content, thumbs, pictures, ex);
+						} else if(id == sinaweibo) {
+							shareAction(id, generalizeBaseUrl, title, content, null, null, null);
+						} else {
+							shareAction(id, generalizeBaseUrl, title, content, thumbs, pictures, null);
+						}
+					});
+				});
+
+			})
+			function banner() {
+				TouchSlide({
+					slideCell: "#banner",
+					titCell: ".hb ul",
+					mainCell: ".db ul",
+					effect: "leftLoop",
+					autoPage: true,
+					autoPlay: true,
+				});
+			}
+		</script>
+	</body>
+
+</html>

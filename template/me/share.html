@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css"/>
+		<style>
+			body{
+				background: white!important;
+			}
+			#down_load{
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<header id="header" class="mui-bar mui-bar-nav">
+		<h1 class="mui-title">加入我们</h1>
+	</header>
+	<body>
+		<div class="mui-content">
+			<img src="../../img/home/join_us.png"  class="join_img"/>
+			<div class="ul to_top">
+				<ul class="input-row">
+					<li>
+						<input id="phone" type="text" class="mui-input" placeholder="请输入手机号" />
+					</li>
+					<li>
+						<input id="code" type="text" class="mui-input" placeholder="请输入验证码" />
+						<button id="send" type="button" class="send_code">发送验证码</button>
+					</li>
+				</ul>
+			</div>
+			<button type="button" id="down_load" class="mui-btn mui-btn-success mui-btn-block">点击下载</button>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function(){
+				
+				//发送邀请验证码
+				document.getElementById("send").addEventListener("tap", function() {
+					var phone = document.getElementById("phone").value;
+					if(!booking.validate_mobile(phone)) {
+						mui.toast("手机号码输入有误，请重试");
+						return;
+					}
+					var send = document.getElementById("send");
+					booking.smsTime_new(send);
+					mui.app_request('POST', {
+						"OPERATE_TYPE": "10001",
+						"MOBILE": phone,
+						"B_TYPE": "29"
+					}, function(data) {
+						if(data.RESULTCODE == "0") {
+							uuid = data.RESULTLIST.UUID;
+						}
+						return;
+					}, function(data) {
+						if(data.RESULTCODE == "-1") {
+							mui.toast(data.DESCRIPTION);
+						} else {
+							mui.toast("系统异常，请重试！");
+						}
+						return;
+					});
+				});
+			})
+			
+		</script>
+	</body>
+
+</html>

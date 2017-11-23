@@ -1,0 +1,908 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<!--<title>我的</title>-->
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/in_pwd.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/foot.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../icon/img_font.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<style>
+			.img_z {
+				height: 16px;
+			}
+			
+			#head_img {
+				margin-left: 10px;
+			}
+			
+			.bus_head .bus_portrait {
+				margin-left: 10px !important;
+			}
+			
+			.bus_profit {
+				margin-top: 15px;
+			}
+			
+			.refuse {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.7);
+				z-index: 99;
+			}
+			
+			.refuse_cont {
+				width: 80%;
+				height: auto;
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				display: inline-table;
+				background: #fff;
+				border-radius: 10px;
+				margin: auto;
+			}
+			
+			.refuse_cont .title {
+				text-align: center;
+				border-bottom: 1px solid #ccc;
+				color: #0098E6;
+				line-height: 44px !important;
+			}
+			
+			.refuse_cont p {
+				text-align: left;
+				line-height: 20px;
+				margin-top: 5px;
+			}
+			
+			.refuse_cont .refuse_bot {
+				margin-top: 10px;
+				width: 100%;
+			}
+			
+			.refuse_cont .refuse_bot button {
+				width: 100%;
+				height: 44px;
+				border-radius: 0;
+				border-bottom-left-radius: 10px;
+				border-bottom-right-radius: 10px;
+				border: none;
+				border-top: 1px solid #ccc;
+				font-size: 18px;
+				color: #666;
+			}
+			
+			.have_msg {
+				width: 7px;
+				height: 7px;
+				border-radius: 50%;
+				background: #f00;
+				display: none;
+				position: absolute;
+				top: 10px;
+				right: 25px;
+			}
+		</style>
+		<script>
+
+			var my_base_info = null;
+			var voucher_info = null;
+			var profit_info = null;
+			var my_bz_info = null;
+			var isreal = false;
+			var auid = localStorage.getItem("auid");
+			var type = 0;
+			var state = null;
+			var shop_apply_info = null;
+			var my_shop_info = null;
+			var is_apply_state = null;
+			var is_agent = null;
+			var isLogin = null;
+			var main = "template/me/";
+            $(document).ready(function(){
+
+                $(".navlist").on("tap", "a", function() {
+
+                    var id = $(this).attr("id");
+                    var data = $(this).attr("data");
+                    var url = main + id + "/" + data + ".html";
+                    if(id === "me") {
+
+                    } else {
+                        mui.openWindow(url, id);
+                    }
+                });
+                mui.app_request_async('POST', {
+                    "OPERATE_TYPE": "20001",
+                    "AUTH_ID": auid
+                }, function(data) {
+
+                    var message = localStorage.getItem("message");
+                    if(mui.isnull(message)) {
+                        localStorage.setItem("message", data.message);
+                    } else {
+                        if(data.message > message) {
+                            $(".have_msg").show();
+                        }
+                    }
+
+                }, function(result) {
+
+                });
+
+				//判断审核状态
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10075",
+					"AUTH_ID": auid
+				}, function(datad) {
+					if(datad.RESULTCODE === "0") {
+                        var data = datad.RESULTLIST;
+                        state = data.apply_state;
+                        if (data.apply_user_type === "3" && data.apply_state === "0" && data.current_user_type === "2") {
+                            is_apply_state = 1;
+                        }
+                        if (data.apply_user_type === "2" && data.apply_state === "0" && data.current_user_type === "1") {
+                            is_apply_state = 2;
+                        }
+                    }
+				}, function(result) {
+					mui.toast("系统异常，请重试");
+
+				});
+
+
+					mui.app_request('POST', {
+						"OPERATE_TYPE": "10023",
+						"AUTH_ID": auid
+					}, function(data) {
+						if(data.RESULTCODE === "0") {
+							my_base_info = data.RESULTLIST.my_base_info;
+							voucher_info = data.RESULTLIST.voucher_info;
+							profit_info = data.RESULTLIST.profit_info;
+							my_bz_info = data.RESULTLIST.my_bz_info;
+							type = data.RESULTLIST.user_type;
+							is_agent = data.RESULTLIST.is_agent;
+
+							if(is_agent === 1) {
+								$("#license").show();
+								$("#bus_license").show();
+							}
+							if(type !== 1) {
+								isreal = true;
+								shop_apply_info = data.RESULTLIST.shop_apply_info;
+								my_shop_info = data.RESULTLIST.my_shop_info;
+								//商家状态
+								if(!mui.isnull(my_base_info.header_img)) {
+									$("#shop_head_img").attr("src", booking.constants.ip + my_base_info.header_img);
+
+								}
+
+								if(!mui.isnull(my_base_info.username)) {
+									$("#shop_phone_num").html(my_base_info.username);
+								}
+
+								if(!mui.isnull(my_base_info.nickname)) {
+									$("#shop_uname").html(my_base_info.nickname);
+								}
+
+								if(!mui.isnull(my_shop_info.turnover)) {
+									var turnover = my_shop_info.turnover;
+									console.log("turnover:" + turnover)
+									var turnover_num = 0;
+									var result = (turnover.toString()).indexOf(".");
+									if(result != -1) {
+										//alert("含有小数点");
+										var leng = turnover.toString().split(".")[1].length;
+										if(leng == 1) {
+											turnover_num = turnover + '0';
+										} else if(leng > 2) {
+											turnover_num = turnover.toString().split(".")[0] + '.' + turnover.toString().split(".")[1].substr(0, 2)
+										} else {
+											turnover_num = turnover
+										}
+									} else {
+										turnover_num = turnover + '.00'
+									}
+									$("#turnover").html(turnover_num);
+								}
+
+								if(type === 2) {
+									$("#no_quanxian").show();
+									document.getElementById("shop_turnover").addEventListener("tap", function() {
+										console.log("is_apply_state:" + is_apply_state)
+										if(is_apply_state == 1) {
+											mui.toast("您的申请正在审核中...");
+											return false;
+										} else {
+											booking.closeAndOpenNewWindow(
+												'en_mer_data.html',
+												'en_mer_data'
+											)
+										}
+									})
+								} else {
+									$("#shop_qrcode").show();
+									$("#have_quxian").show();
+									document.getElementById("shop_turnover").addEventListener("tap", function() {
+										mui.openWindow({
+											url: "turnover.html",
+											id: "turnover",
+										})
+									})
+								}
+								if(!mui.isnull(voucher_info.voucher_count)) {
+									$("#view_voucher_count").html(voucher_info.voucher_count);
+								}
+								var account_balance = my_shop_info.account_balance;
+								$("#bus_today_bz_income").html(profit_info.today_bz_income);
+								$("#bus_today_profit").html(profit_info.today_profit);
+								$("#shop_account_balance").html(account_balance.toFixed(2));
+								$("#shop_gold_count").html(my_shop_info.gold_count);
+								$("#shop_bz_income").html(profit_info.total_profit);
+								$("#my_shop").css("display", "inline-block");
+
+							} else {
+								//个人状态
+								if(data.RESULTLIST.ida_auth == "0") {
+									is_apply_state = 3;
+
+								}
+								if(data.RESULTLIST.ida_auth == "-2") {
+									document.getElementById("real_name").addEventListener("tap", function() {
+										booking.closeAndOpenNewWindow("realname.html", "realname");
+									})
+
+								}
+								if(data.RESULTLIST.ida_auth == "1") {
+									isreal = true;
+									is_apply_state = 4;
+								}
+								if(!mui.isnull(my_base_info.header_img)) {
+									$("#head_img").attr("src", booking.constants.ip + my_base_info.header_img);
+								}
+
+								if(!mui.isnull(my_base_info.mobile)) {
+									$("#mine_phone_num").html(my_base_info.mobile);
+								}
+								if(!mui.isnull(my_base_info.nickname)) {
+									$("#uname").html(my_base_info.nickname);
+								}
+								if(data.RESULTLIST.ida_auth != "1") {
+									$("#idcard").html("未实名");
+									document.getElementById("idcard").classList.add("red");
+								} else {
+
+									$("#idcard").html("已实名");
+									document.getElementById("idcard").classList.add("blue");
+								}
+
+								if(!mui.isnull(profit_info.today_profit)) {
+									$("#today_profit").html(profit_info.today_profit);
+								}
+								if(!mui.isnull(profit_info.today_bz_income)) {
+									$("#today_amount").html(profit_info.today_bz_income);
+								}
+
+								if(!mui.isnull(my_base_info.account_balance)) {
+									$("#balance").html((my_base_info.account_balance).toFixed(2));
+								}
+								if(!mui.isnull(my_bz_info.total_amount)) {
+									$("#reim").html(my_bz_info.total_amonut);
+								}
+								if(!mui.isnull(voucher_info.voucher_count)) {
+									$("#not_queued_count").html(voucher_info.voucher_count);
+								}
+								if(!mui.isnull(profit_info.total_profit)) {
+									$("#profit").html(profit_info.total_profit);
+								}
+								if(!mui.isnull(my_base_info.gold_count)) {
+									$("#gold_count").html(my_base_info.gold_count);
+								}
+								$("#shop_type").html("我要成为签约商家");
+
+								if(state == 0) {
+									$("#shop_state").html("审核中");
+								} else {
+									$("#shop_state").html("去认证");
+								}
+								$("#is_realshop").show();
+
+								$("#my_user").css("display", "inline-block");
+							}
+
+						}
+						return;
+					}, function(result) {
+						mui.toast("系统异常，请重试");
+					});
+
+                document.getElementById("get_money").addEventListener('tap', function() {
+
+                    mui.openWindow({url:main+"withdrawals.html", id:"withdrawals",extras:{
+                        type:"10024"
+					}
+					});
+                });
+
+
+				//普通用户跳转
+				//账号管理
+				document.getElementById("acc_mana").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow(
+						'account_ment.html',
+						'account_ment'
+					)
+				});
+				//我的粉丝
+				document.getElementById("fan_list").addEventListener('tap', function() {
+					mui.openWindow({
+						url: "my_fans.html",
+						id: "my_fans",
+					})
+				});
+
+				//个人收益
+				document.getElementById("myprofit").addEventListener('tap', function() {
+					mui.openWindow({
+						url: "my_profit.html",
+						id: "my_profit",
+					})
+				});
+
+				//用户余额sss
+				document.getElementById("user_banlance").addEventListener('tap', function() {
+					mui.openWindow({
+						url: "banlance_sub.html",
+						id: "banlance_sub",
+						extras: {
+							"money": my_base_info.account_balance,
+							"backId": "mine"
+						}
+					})
+				});
+
+				//体现
+				document.getElementById("get_money").addEventListener('tap', function() {
+					var attrd = {
+						"type": "10024"
+					}
+					booking.closeAndOpenNewWindowHaveAttr("withdrawals.html", "withdrawals", attrd);
+				});
+
+				//我的凭证
+				document.getElementById("my_voucher").addEventListener('tap', function() {
+					var attrd = {
+						type: type,
+						backId: "mine"
+					}
+					booking.closeAndOpenNewWindowHaveAttr("voucher_mine.html", "voucher_mine", attrd);
+
+				});
+
+				//我的二维码
+				document.getElementById("code_page").addEventListener('tap', function() {
+					var attrd = {
+						type: type,
+						user_id: my_base_info.id,
+						backId: "mine"
+					}
+					booking.closeAndOpenNewWindowHaveAttr("qrcode.html", "qrcode");
+
+				});
+
+				//认证商家
+				document.getElementById("is_realshop").addEventListener('tap', function() {
+					if(is_apply_state === 3) {
+						mui.toast("实名审核中...");
+						return false;
+					} else {
+						if(type === 1) {
+							if(state === 0) {
+								mui.toast("您的申请正在审核中...");
+								return;
+							}
+							var attrValue = {
+								isreal: isreal,
+								backId: "mine"
+							};
+							booking.closeAndOpenNewWindowHaveAttr(
+								'mar_cert.html',
+								'mar_cert',
+								attrValue
+							)
+						}
+					}
+				});
+
+				//城市代理收益
+				document.getElementById("license").addEventListener('tap', function() {
+					mui.openWindow({
+						url: "agency_income.html",
+						id: "agency_income",
+					})
+				});
+
+				//我的报账
+				document.getElementById("my_account").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow("account_record.html", "account_record");
+
+				});
+
+				//我的积分
+				document.getElementById("shop_coin").addEventListener('tap', function() {
+					document.getElementById("refuse").style.display = "block";
+					//mui.toast('敬请期待!');
+				});
+				document.getElementById("refuse_no").addEventListener('tap', function() {
+					document.getElementById("refuse").style.display = "none";
+
+					//mui.toast('敬请期待!');
+				});
+
+				//关于我们
+				document.getElementById("about_us").addEventListener('tap', function() {
+					mui.openWindow({
+						id: 'about_us',
+						url: 'about_us.html'
+					});
+				})
+
+				//商家跳转
+				//商家账号管理
+				document.getElementById("accounts_ment").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow(
+						'bus_accountment.html',
+						'bus_accountment'
+					)
+				});
+
+				//我的粉丝
+				document.getElementById("shop_fan_list").addEventListener('tap', function() {
+					mui.openWindow({
+						id: 'my_fans',
+						url: 'my_fans.html'
+					});
+				});
+				//商户我的积分
+				document.getElementById("bus_point").addEventListener('tap', function() {
+					$("#refuse").fadeIn(100);
+					//mui.toast('敬请期待!');
+				});
+				document.getElementById("refuse_no").addEventListener('tap', function() {
+					$("#refuse").fadeOut(100);
+					//mui.toast('敬请期待!');
+				});
+				//关于我们
+				document.getElementById("shop_about_us").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow("about_us.html", "about_us");
+
+				})
+				//
+				document.getElementById("shop_voucher").addEventListener('tap', function() {
+					var attrd = {
+						type: type,
+						backId: "mine"
+					}
+					booking.closeAndOpenNewWindowHaveAttr("voucher_mine.html", "voucher_mine", attrd);
+
+				});
+
+				//商家收款码
+				document.getElementById("shop_qrcode").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow('mycollectcode.html', 'mycollectcode');
+
+				});
+
+				//城市代理收益
+				document.getElementById("bus_license").addEventListener('tap', function() {
+					mui.openWindow({
+						id: 'agency_income',
+						url: 'agency_income.html'
+					});
+				});
+
+				//商户二维码
+				document.getElementById("shop_code_page").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow("qrcode.html", "qrcode");
+
+				});
+
+				//用户余额
+				document.getElementById("shop_banlance").addEventListener('tap', function() {
+					mui.openWindow({
+						url: "banlance_sub.html",
+						id: "banlance_sub",
+						extras: {
+							"isreal": isreal,
+							"state": is_apply_state,
+							"money": my_base_info.account_balance,
+							"backId": "mine"
+						}
+					})
+				});
+
+				//商家收益
+				document.getElementById("shop_profit").addEventListener('tap', function() {
+					mui.openWindow({
+						url: "bus_profit.html",
+						id: "bus_profit",
+					})
+				});
+
+				//我的报账
+				document.getElementById("shop_account").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow("account_record_sub.html", "account_record_sub");
+
+				});
+				//帮助中心
+				document.getElementById("help").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow('../helpcenter/helpcenter.html', 'helpcenter');
+
+				});
+				document.getElementById("bus_help").addEventListener('tap', function() {
+					booking.closeAndOpenNewWindow('../helpcenter/helpcenter.html', 'helpcenter');
+
+				});
+            });
+
+
+
+//			mui.plusReady(function() {
+//				mui.app_request("Post", {
+//					"OPERATE_TYPE": "10081",
+//					"AUTH_ID": localStorage.getItem("auid"),
+//				}, function(result) {
+//					console.log(JSON.stringify(result))
+//					if(result.RESULTCODE == 0) {
+//
+//						if(result.RESULTLIST.is_login == 1) {
+//							isLogin = 1;
+//							return;
+//						} else {
+//							isLogin = 0;
+//							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+//								localStorage.removeItem("auid");
+//								booking.closeAndOpenNewWindow("../login/login.html", "login");
+//							});
+//							return;
+//						}
+//					}
+//
+//				}, function(result) {
+//					isLogin = 0;
+//					if(result.RESULTCODE == -1) {
+//						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+//							localStorage.removeItem("auid");
+//							booking.closeAndOpenNewWindow("../login/login.html", "login");
+//						});
+//						return;
+//					} else {
+//						isLogin = 1;
+//						return;
+//
+//					}
+//				});
+//
+//				if(isLogin == 1) {
+
+
+
+
+
+
+//
+
+
+
+//				//}
+//			});
+		</script>
+	</head>
+
+	<body>
+
+		<div class="padding_55" style="display: ;" id="my_user">
+			<div class="mui-conten bus_bar">
+				<header id="header" class="index_bar mui-bar-nav">
+					<h1 class="mui-title white">我的</h1>
+				</header>
+				<hr class="oc_line" />
+				<div class="bus_head">
+					<div id="real_name">
+						<img src="../../img/shop/circle.png" class="portrait" id="head_img" />
+
+						<p class="name"><span id="uname" class="username"></span><span id="idcard" class="no_auth">未实名</span></p>
+						<span class="phone" id="mine_phone_num"></span>
+					</div>
+					<img src="../../img/shop/img.png" class="r_qrcode" id="code_page" style="width: 26px;height: 26px;" />
+					<img src="../../img/shop/right.png" class="right" style="width: 16px;height: 16px;margin-top: 4px;" />
+				</div>
+
+				<div class="bus_profit">
+					<div class="today_inmoney fl">
+						<p class="today_quote">&yen;<span id="today_amount">0</span></p>
+						<p class="today_text" style="margin-top: 0px;">今日消费补贴（元）</p>
+					</div>
+					<div class="today_outmoney">
+						<p class="today_quote">&yen;<span id="today_profit">0</span></p>
+						<p class="today_text" style="margin-top: 0px;">今日服务补贴（元）</p>
+					</div>
+				</div>
+			</div>
+			<div class="fun_module">
+				<div class="withdrawable" id="user_banlance">
+					<div class="fl">
+						<img src="../../img/mine/have.png" class="common_img" />
+					</div>
+					<div class="fl with_txt">
+						<p class="com_txt" id="balance">0.00</p>
+						<span class="btm_txt">余额</span>
+					</div>
+				</div>
+				<div class="share" id="my_account">
+					<div class="fl">
+						<img src="../../img/home/record.png" class="common_img" style="width: 30px;height: 30px;margin-left: 10px;" />
+					</div>
+					<div class="fl share_txt">
+						<span class="btm_txt" style="line-height: 80px;margin-left: 4px;">补贴记录</span>
+					</div>
+				</div>
+			</div>
+			<div class="fun_module">
+				<div class="withdrawable" id="my_voucher">
+					<div class="fl">
+						<img src="../../img/mine/flag.png" class="common_img" />
+					</div>
+					<div class="fl with_txt">
+						<span style="display: block;margin-top: 8px;"><span class="com_txt" id="not_queued_count" >0</span>（张）</span>
+						<!--<p class="com_txt"><span id="">0</span>张</p>-->
+						<span class="btm_txt">我的消费券</span>
+					</div>
+				</div>
+				<div class="share" id="myprofit">
+					<div class="fl">
+						<img src="../../img/mine/get.png" class="common_img" />
+					</div>
+					<div class="fl share_txt">
+						<p class="com_txt" id="profit">0</p>
+						<span class="btm_txt">累计补贴</span>
+					</div>
+				</div>
+			</div>
+			<div class="fun_module">
+				<div class="withdrawable" id="shop_coin">
+					<div class="fl">
+						<img src="../../img/mine/coin.png" class="common_img" />
+					</div>
+					<div class="fl with_txt">
+						<p class="com_txt" id="gold_count">0</p>
+						<span class="btm_txt">商城消费金</span>
+					</div>
+				</div>
+				<div class="share" id="get_money">
+					<div class="fl">
+						<img src="../../img/mine/catch.png" class="common_img" />
+					</div>
+					<div class="fl share_txt">
+						<p class="withcash" style="color: #757575;font-weight: 400;">我要提现</p>
+					</div>
+				</div>
+			</div>
+			<div class="mana_account" id="acc_mana">
+				<label class="ma_txt">账号管理</label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+			<div class="mana_account" id="my_shop_manager" style="display: none;">
+				<label class="ma_txt">我的商户</label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+			<div class="mana_user" id="is_realshop" style="display: none;">
+				<label class="ma_txt" id="shop_type"></label>
+				<div class="fr">
+					<label class="cert" id="shop_state"></label>
+					<img src="../../img/default/right.png" class="rightimg" />
+				</div>
+			</div>
+			<div class="mana_user" id="license" style="display: none;">
+				<label class="ma_txt">城市代理收益</span></label>
+				<div class="fr">
+					<img src="../../img/default/right.png" class="rightimg" />
+				</div>
+			</div>
+			<div class="mana_user" id="fan_list">
+				<label class="ma_txt">我的粉丝</span></label>
+				<div class="fr">
+					<img src="../../img/default/right.png" class="rightimg" />
+				</div>
+			</div>
+			<div class="mana_user" id="help">
+				<label class="ma_txt">帮助中心</label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+			<div class="mana_useraccount" id="about_us">
+				<label class="ma_txt">关于我们</label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+		</div>
+
+		<!--我的商家-->
+		<div id="my_shop" class="padding_55" style="display: none;">
+			<div class="mui-conten bus_bar">
+				<header id="header" class="index_bar mui-bar-nav">
+					<h1 class="mui-title white">我的商家</h1>
+				</header>
+				<hr class="oc_line" />
+				<div class="bus_head">
+
+					<img src="../../img/shop/circle.png" class="bus_portrait" id="shop_head_img" />
+
+					<img src="../../img/mine/crown.png" class="bus_crown" />
+
+					<p class="name"><span id="shop_uname" class="username"></span><span id="shop_idcard" class="no_auth">已实名</span></p>
+					<span class="phone" id="shop_phone_num"></span>
+					<img src="../../img/shop/img.png" class="r_qrcode" id="shop_code_page" style="width: 26px;height: 26px;" />
+
+					<img src="../../img/shop/right.png" class="right" style="width: 16px;height: 16px;margin-top: 4px;" />
+				</div>
+				<div class="bus_profit">
+
+					<div class="today_outmoney">
+						<p class="today_quote">&yen;<span id="bus_today_bz_income">0</span></p>
+						<p class="today_text" style="margin-top: 0px;">今日消费补贴（元）</span>
+					</div>
+
+					<div class="today_inmoney fr">
+						<p class="today_quote">&yen;<span id="bus_today_profit">0.00</span>
+							<p class="today_text" style="margin-top: 0px;">今日服务补贴（元）</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="fun_module">
+				<div class="withdrawable" id="shop_turnover">
+					<div style="display: none;" id="have_quxian">
+						<div class="fl">
+							<img src="../../img/mine/get.png" class="common_img" />
+						</div>
+						<div class="fl share_txt">
+							<p class="com_txt" id="turnover">0.00</p>
+							<span class="btm_txt">营业额</span>
+						</div>
+					</div>
+					<div style="display: none;" id="no_quanxian">
+						<div class="fl">
+							<img src="../../img/mine/get_quanxian.png" class="common_img" />
+						</div>
+						<div class="fl share_txt">
+							<p class="get_turnover" style="font-size: 15px;margin-top: 26px;">我要成为加盟商</p>
+						</div>
+					</div>
+				</div>
+				<div class="share" id="shop_banlance">
+					<div class="fl">
+						<img src="../../img/mine/have.png" class="common_img" />
+					</div>
+					<div class="fl share_txt">
+						<p class="com_txt" id="shop_account_balance">0.00</p>
+						<span class="btm_txt">余额</span>
+					</div>
+				</div>
+			</div>
+			<div class="fun_module">
+				<div class="withdrawable" id="bus_point">
+					<div class="fl">
+						<img src="../../img/mine/coin.png" class="common_img" />
+					</div>
+					<div class="fl share_txt">
+						<p class="com_txt" id="shop_gold_count">0.00</p>
+						<span class="btm_txt">商城消费金</span>
+					</div>
+				</div>
+				<div class="share" id="shop_profit">
+					<div class="fl">
+						<img src="../../img/mine/bz.png" class="common_img" />
+					</div>
+					<div class="fl share_txt">
+						<p class="com_txt" id="shop_bz_income">0.00</p>
+						<span class="btm_txt">累计补贴</span>
+					</div>
+				</div>
+			</div>
+			<div class="fun_module" style="margin-bottom: 2px;">
+				<div class="withdrawable" id="shop_voucher" style="">
+					<div class="fl" style="width: 20%;">
+						<img src="../../img/mine/flag.png" class="common_img" />
+					</div>
+					<div class="fl share_txt" style="width: 80%;">
+						<span style="display: block;margin-top: 8px;"><span class="com_txt" id="view_voucher_count" >0</span>（张）</span>
+						<span class="btm_txt">商家消费券</span>
+					</div>
+				</div>
+				<div class="share" id="shop_account">
+					<div class="fl">
+						<img src="../../img/mine/record.png" class="common_img" />
+					</div>
+					<div class="fl share_txt">
+						<p class="withcash" style="color: #757575;font-weight: 400;">补贴记录</p>
+					</div>
+				</div>
+			</div>
+			<div class="mana_account" id="shop_qrcode" style="display: none;">
+				<label class="ma_txt">我的收款码</label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+			<div class="mana_user" id="bus_license" style="display: none;">
+				<label class="ma_txt">城市代理收益</span></label>
+				<div class="fr">
+					<img src="../../img/default/right.png" class="rightimg" />
+				</div>
+			</div>
+			<div class="mana_user" id="shop_fan_list">
+				<label class="ma_txt">我的粉丝</label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+			<div class="mana_user" id="accounts_ment">
+				<label class="ma_txt">账号管理</label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+			<div class="mana_user" id="bus_help">
+				<label class="ma_txt">帮助中心</label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+			<div class="mana_user" id="shop_about_us">
+				<label class="ma_txt">关于我们</label>
+				<img src="../../img/default/right.png" class="rightimg" />
+			</div>
+		</div>
+		<nav class="navlist">
+			<a id="index" data="index" class="active mui-icon iconfont">
+				<img src="../../img/navigation/no_home.png" alt="" class="img_z" />
+				<p style="color: #808080;">首页</p>
+			</a>
+			<a id="merchant" data="city_shop" class="iconfont mui-icon">
+				<img src="../../img/navigation/shop.png" alt="" class="img_z" />
+				<p>商家</p>
+			</a>
+			<a id="message" data="info_system_sub" class="iconfont mui-icon">
+				<img src="../../img/navigation/msg.png" alt="" class="img_z" />
+				<span class="have_msg"></span>
+				<p>消息</p>
+			</a>
+			<a id="me" data="mine" class="iconfont mui-icon">
+				<img src="../../img/navigation/ck_my.png" alt="" class="img_z" />
+				<p style="color: #2CA9E7;">我的</p>
+			</a>
+
+		</nav>
+		<div class="refuse" id="refuse" style="display: none;">
+			<div class="refuse_cont">
+				<p class="title">商城消费金说明</p>
+				<div class="pay_title">
+					<div class="input_pwd">
+						<p>消费金是共生网即将推出的线上商城服务道具：</p>
+						<p>1. 用户获得消费补贴时，系统会自动将补贴金额的10%以商城消费金形式发放。</p>
+						<p>2. 用户在共生网线上商城选购任意商品时，可使用消费金抵扣（1元消费金等价于1元现金，不限单笔使用数量）。</p>
+						<!--<p>3. 用户确认收货后，订单总额（实付金额+消费金）会自动进入消费补贴排队序列。</p>-->
+					</div>
+				</div>
+				<div class="refuse_bot">
+					<button id="refuse_no">取消</button>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

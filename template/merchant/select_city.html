@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"  content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no,">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Examples</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <style type="text/css">
+        html, body {
+            font-size: 10px
+        }
+        @media screen and (min-width:321px) and (max-width:375px) {
+            html {
+                font-size: 10px
+            }
+        }
+        @media screen and (min-width:376px) and (max-width:414px) {
+            html {
+                font-size: 10px
+            }
+        }
+        @media screen and (min-width:415px) and (max-width:639px) {
+            html {
+                font-size: 12px
+            }
+        }
+        @media screen and (min-width:640px) and (max-width:719px) {
+            html {
+                font-size: 12px
+            }
+        }
+        @media screen and (min-width:720px) {
+            html {
+                font-size: 16px
+            }
+        }
+        html, body, ol, ul, li, a, div, input, label, form, textarea, span, h1, h2, h3, h4, h5, h6, p {
+            padding: 0;
+            margin: 0;
+            font-weight: normal;
+            box-sizing: border-box
+        }
+        html, body {
+            font-family: "microsoft YaHei", arial;
+            width: 100%;
+            height: auto;
+            overflow-x: hidden
+        }
+        i, article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+            display: block
+        }
+        ul, ul li {
+            list-style-type: none
+        }
+        a {
+            outline: none;
+            text-decoration: none;
+            color: black
+        }
+        img {
+            outline: none !important;
+            border: none
+        }
+        input, textarea {
+            outline: none;
+            font-family: "microsoft YaHei", arial;
+            font-size: 1.6rem
+        }
+        header.public-header {
+            height: 50px;
+            padding: 0 10px;
+            background: white;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            z-index: 99;
+            box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.08);
+            -moz-box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.08);
+            -webkit-box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        /* public-banner */
+        header.public-header ..public-header-content {
+            width: 100%;
+        }
+        header.public-header .public-header-content .public-logo a {
+            display: block;
+            height: 50px;
+            width: 170px;
+        }
+        header.public-header .public-logo img {
+            height: 100%;
+            width: 100%;
+        }
+        header.public-header .public-header-content .btn-back {
+            position: absolute;
+            left: 0.5rem;
+            top: 1rem;
+            font-size: 3rem;
+        }
+        header.public-header .public-header-content .btn-back::after{
+            content: "";
+            height: 15px;
+            width: 15px;
+            border-left: 1px solid #393a3f;
+            border-bottom: 1px solid #393a3f;
+            background: white;
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg)
+        }
+        header.public-header .public-header-content h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            line-height: 50px;
+        }
+
+
+        /* form-group */
+        .form-group {
+            height: 40px;
+            line-height: 40px;
+            padding: 0 10px;
+            position: relative
+        }
+        .form-group::after {
+            border-bottom: 1px solid #ccc;
+            content: ' ';
+            display: block;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            -webkit-transform-origin: left bottom;
+            -webkit-transform: scaleY(0.5);
+            transform: scaleY(0.5)
+        }
+        .form-group .form-label {
+            font-size: 1.6rem
+        }
+        .form-group .input-flex {
+            flex: 1;
+            -webkit-flex: 1;
+            -moz-flex: 1;
+            ms-flex: 1;
+            border: none;
+            font-size: 1.4rem
+        }
+        .icon-trangle {
+            height: 10px;
+            width: 10px;
+            border-top: 1px solid #B1B0B0;
+            border-right: 1px solid #B1B0B0;
+            background: white;
+            position: absolute;
+            right: 10px;
+            top: 15px;
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg)
+        }
+
+        /* toogle-address-mask */
+        .toogle-address-mask {
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 99;
+            opacity: 0
+        }
+        .toogle-address {
+            height: 300px;
+            width: 100%;
+            background: white;
+            position: fixed;
+            z-index: 99;
+            bottom: -300px;
+            left: 0;
+        }
+        .toogle-address .toogle-address-title {
+            height: 40px;
+            line-height: 40px;
+            font-size: 1.6rem;
+            text-align: center
+        }
+        .icon-close {
+            height: 25px;
+            width: 25px;
+            display: block;
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            background: red;
+            background-size: 15px 15px;
+        }
+        .address {
+            width: 100%;
+            position: relative;
+            font-size: 1.4rem;
+        }
+        .address-header {
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #eaeaea;
+            padding: 0 10px;
+        }
+        .address-header .address-info {
+            font-size: 1.4rem;
+            float: left;
+            padding: 0 5px;
+        }
+        .address-content {
+            width: 100%;
+            height: 320px;
+            overflow: hidden;
+        }
+        .address-now {
+            position: relative;
+        }
+        .address-now::after {
+            position: absolute;
+            content: "";
+            left: 0;
+            bottom: 0;
+            background: #008aff;
+            height: 2px;
+            width: 100%;
+        }
+        .box-flex {
+            display: -webkit-flex;
+            display: -moz-flex;
+            display: -ms-flex;
+            display: flex
+        }
+        .flex {
+            flex: 1;
+            -webkit-flex: 1;
+            -moz-flex: 1;
+            ms-flex: 1
+        }
+        .address-cont {
+            height: 320px;
+            display: flex;
+            display: -webkit-flex;
+            display: -moz-flex;
+            display: -ms-flex;
+            width: 300%;
+            overflow-y: scroll;
+        }
+        .provienc-part, .city-part, .county-part {
+            height: 100%;
+            width: 100%;
+        }
+        .provienc-part {
+
+            /* background: red; */
+        }
+        .city-part {
+
+            /* background: green; */
+        }
+        .county-part {
+
+            /* background: yellow; */
+        }
+        .address-cont ul{
+            padding: 0.5rem 1rem ;
+        }
+        .address-cont ul li {
+            font-size: 1.4rem;
+            padding: 0.5rem 0;
+        }
+        .liNow {
+            color: #008aff;
+        }
+        #city, #county {
+            display: none;
+        }
+        /* Address part */
+        .section-address {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body class="">
+<!-- public Header start-->
+<header class="public-header">
+    <div class="public-header-content clearfixed">
+        <a href="javascript:history.back()" class="btn btn-back">
+        </a>
+        <h1>配送地址</h1>
+    </div>
+</header>
+<!-- public Header end-->
+<!-- Address start -->
+<section class="section-address bg-eae pt-5">
+    <form action='#' method="post" class="bg-fff">
+        <div class="form-group box-flex clearfixed">
+            <label class="form-label">收件人：</label>
+            <input type="text" name="" class="input-flex" placeholder="请输入姓名">
+        </div>
+        <div class="form-group box-flex clearfixed">
+            <label class="form-label">联系电话：</label>
+            <input type="text" name="" class="input-flex" placeholder="请输入收件人电话">
+        </div>
+        <div class="form-group box-flex clearfixed">
+            <label class="form-label">配送区域：</label>
+            <div id="address" class="flex address"></div>
+            <i class="icon icon-trangle"></i>
+        </div>
+    </form>
+</section>
+<!-- Address end -->
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $("#address").on("click",function(){
+        $("#address").selectAddress({
+            "ajaxURL":"http://www.zxhuan.com/jsonText/addressJsonp.json",
+            storageBox:$("#address"),
+            callback:function(string){
+                //执行回调
+                console.log("选择的是："+string);
+            }
+        });
+    });
+    (function($,window,document,undefined){
+        $.fn.selectAddress=function(options){
+            self.flag=false;//boolean,通过控制true or false, 防止恶意切换
+            self.text=null;//回调时,用来储存选择到的地址数据
+            this.default={
+                "ajaxURL":"#",//ajax请求数据的地址
+                "speed":300,//切换的速度
+                storageBox:"",//在选择地址用，用来储存地址数据的盒子
+                callback:function(){}
+            }
+            this.option=$.extend({},this.default,options);
+            var arrText="";//储存选择到的数据，添加到storageBox中
+            var op=this.option;
+            // 初始化入口
+            this.init=function(){
+                var self=this;
+                this.createEle();
+                this.createProvince();
+                // 点击关闭按钮的时候按钮的时候
+                self.closeBtn.on("click",function(){
+                    self.maskHidie();
+                })
+                self.aInfo.on("click",function(){
+                    var index=$(this).index();
+                    self.clickInfo($(this),index);
+                });
+                self.mask.on("click",function(event){
+                    if($(event.target).attr("id")=="toogle-mask"){
+                        self.maskHidie();
+                    }
+                })
+            }
+            // 创建toogle-mask模块
+            this.createEle=function(){
+                var self=this;
+                self.mask=$('<div class="toogle-address-mask" id="toogle-mask"></div>');
+                self.maskChild=$('<div class="toogle-address" id="toggleCont"><div class="toogle-address-title border-b">请选择地址<i class="icon icon-close" id="closeBtn"></i></div><div id="address" class="address"><div class="address-header"><span class="address-info address-now" id="provience">请选择</span><span class="address-info" id="city">请选择</span><span class="address-info" id="county">请选择</span></div><div class="address-content"><div class="address-cont"><ul class="provienc-part" data-create="createCity" data-index="1"></ul><ul class="city-part" data-create="createCounty" data-index="2"></ul><ul class="county-part" data-index="3"></ul></div></div></div></div>');
+                $("body").append(self.mask);
+                self.mask.append(self.maskChild);
+                self.closeBtn=$("#closeBtn",self.mask);//关闭按钮
+                self.toogleMask=$("#toggleCont",self.mask);//选择地址的内容区
+                self.aInfo=$(".address-info",self.mask);//选择省市区选项
+                self.AddressCont=$(".address-cont",self.mask);//三个地址列表包裹的层
+                self.mask.animate({
+                    opacity:1
+                },100,function(){
+                    self.maskChild.css({"bottom":'-300px'}).animate({
+                        "left":"0",
+                        "bottom":"0"
+                    },op.speed);
+                })
+            }
+            // 创建省模块
+            this.createProvince=function(){
+                var self=this;
+                self.addressAjax(self.AddressCont.find('.provienc-part'),null,1);
+            }
+            // 创建市模块
+            this.createCity=function(dataValue){
+                var self=this;
+                self.mask.find("#city").show();
+                self.AddressCont.find('.city-part').empty();
+                self.addressAjax(self.AddressCont.find('.city-part'),dataValue,2);
+            }
+            // 创建区域模块
+            this.createCounty=function(dataValue){
+                var self=this;
+                self.mask.find("#county").show();
+                self.AddressCont.find('.county-part').empty();
+                self.addressAjax(self.AddressCont.find('.county-part'),dataValue,3);
+            }
+            // 点击选择地址
+            this.clickfn=function (district){
+                var self=this;
+                district.on('click',function(event){
+                    var _this=$(this);
+                    var parent=_this.parent();
+                    var dataValue=_this.data("value");
+                    var parentCreate=parent.data("create");
+                    var dataIndex=parent.data("index");
+                    _this.parent().find('li').removeClass("liNow");
+                    _this.addClass("liNow");
+                    self.aInfo.eq(dataIndex-1).html(_this.text());
+                    if(parentCreate=='createCity'){
+                        self.createCity(dataValue);
+                    }else if(parentCreate=="createCounty"){
+                        self.createCounty(dataValue);
+                    }
+                    if(dataIndex==3){
+                        // 如果dataIndex=3,说明选择的是区域，执行移除toogle-address模块
+                        self.maskHidie();
+                    }else{
+                        // 如果dataIndex小于3，执行clickInfo
+                        self.clickInfo(self.aInfo.eq(dataIndex),dataIndex);
+                    }
+                })
+            }
+            // 移除toogle-address模块
+            this.maskHidie=function(){
+                var self=this;
+                self.toogleMask.animate({
+                    bottom:"-300px"
+                },op.speed,function(){
+                    self.mask.animate({
+                        'opacity':0
+                    },200,function(){
+                        self.addressInput();
+                        if(op.callback&& typeof op.callback=="function"){
+                            // 执行回调函数
+                            op.callback(self.text);
+                        }
+                    })
+                })
+            }
+            // 将数据存放到input表单中
+            this.addressInput=function(){
+                var self=this;
+                var boxHtml="";
+                var text="";
+                for(var i=0;i<op.storageBox.find("span").length;i++){
+                    boxHtml+=op.storageBox.find("span").eq(i).text()+" ";
+                }
+                for(var i=0;i<$(".liNow").length;i++){
+                    arrText+="<span>"+$(".liNow").eq(i).text()+"</span>";
+                    text+=$(".liNow").eq(i).text()+" ";
+                };
+                // 如果arrText不为空
+                if(arrText!=""){
+                    op.storageBox.html(arrText);
+                    self.text=text;
+                }else{
+                    self.text=boxHtml;
+                }
+                self.mask.remove();
+            }
+            this.clickInfo=function(ele,index){
+                var self=this;
+                self.flag=true;
+                if(self.flag){
+                    self.flag=false;
+                    ele.addClass("address-now").siblings().removeClass("address-now");
+                    self.AddressCont.animate({
+                        "margin-left":"-"+index*100+"%"
+                    },op.speed);
+                    self.flag=true;
+                }
+            }
+            // 通过ajax请求数据
+            this.addressAjax = function(district, cValue, ov,type) {
+                var self=this;
+                var oType = null;
+                district.empty();
+                $.ajax({
+                    url: this.option.ajaxURL,
+                    dataType: 'JSONP',//这里用的是jsonp，json的地址是http://www.zxhuan.com/jsonText/address.json
+                    async: false,
+                    data:"",
+                    jsonpCallback:"addressJONP",//如果上面用datatype:json,那么这里去掉
+                    success: function(data) {
+                        console.log(data);
+                        district.empty();
+                        if (ov == 3) {
+                            oType = data.county; //请求区的数据
+                        } else if (ov == 2) {
+                            oType = data.city; //请求市的数据
+                        } else if (ov == 1) {
+                            oType = data.provience; //请求省的数据
+                        }
+                        this.countyItem='';
+                        $.each(oType, function(key, value) {
+                            if (cValue == null) {
+                                this.countyItem =  $("<li data-value='" + value.id + "'>" + value.name + "</li>");
+                            } else if (cValue == value.cid) {
+                                this.countyItem = $("<li data-value='" + value.id + "'>" + value.name + "</li>");
+                            }
+                            district.append(this.countyItem);
+                        });
+                        self.clickfn(district.find("li"));
+                    },
+                    error: function() {
+                        console.log('ajax error')
+                    }
+                })
+            }
+            return this.init();
+        }
+    })(jQuery,window,document);
+</script>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>消息</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/foot.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../icon/img_font.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+
+		<style type="text/css">
+			.infoContent {
+				width: 100%;
+				padding: 0px 5px;
+				background: white;
+				cursor: pointer;
+				position: relative;
+			}
+			
+			.infoContent .margin {
+				margin-left: 5px;
+				margin-right: 0px;
+				float: left;
+			}
+			
+			.infoContent .margin .i_number {
+				font-size: 14px;
+				color: #999999;
+				width: 100%;
+				margin-top: 0px;
+				margin-left: 0px;
+				word-break: break-all;
+			}
+			
+			.infoContent .margin .i_title {
+				font-size: 14px;
+				margin-top: 5px;
+				padding: 0;
+				font-weight: bold;
+				color: #333;
+			}
+			
+			.infoContent .fr {
+				float: left;
+				margin-left: 10px;
+			}
+			
+			.infoContent .fr .time {
+				position: absolute;
+				top: 0px;
+				right: 20px;
+				color: #000;
+				font-size: 14px;
+			}
+			.img_z{
+				height: 16px;
+			}
+		</style>
+	</head>
+		
+	<body style="border: 1px rgba(000,000,000,0) solid;" id="body_margin">
+		<header id="header" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">消息</h1>
+		</header>
+		<div id="pullrefresh" class="mui-content">
+			<div class="mui-scroll">
+				<div id="messages">
+
+				</div>
+			</div>
+		</div>
+		<nav class="navlist">
+			<a id="index" data="index" class="active mui-icon iconfont">
+				<img src="../../img/navigation/no_home.png" alt="" class="img_z"/>
+				<p style="color: #808080;">首页</p>
+			</a>
+			<a id="merchant" data="city_shop" class="iconfont mui-icon">
+				<img src="../../img/navigation/shop.png" alt="" class="img_z"/>
+				<p>商家</p>
+			</a>
+			<a id="message" data="info_system" class="iconfont mui-icon">
+				<img src="../../img/navigation/ck_msg.png" alt="" class="img_z"/>
+				<span class="have_msg"></span>
+				<p style="color: #2CA9E7;">消息</p>
+			</a>
+			<a id="me" data="mine" class="iconfont mui-icon">
+				<img src="../../img/navigation/my.png" alt="" class="img_z"/>
+				<p>我的</p>
+			</a>
+
+		</nav>
+		<!--<div class="info_content">
+						<div class="fl">
+							<p class="i_title">系统通知</p>
+							<p class="i_number">账单编号:<span>45151</span></p>
+							<p class="i_money">报账金额:<span>200.00元</span></p>
+							<p class="i_name">报账商家已受理，正在排队中</p>
+						</div>
+						<div class="fr">
+							<p class="time"><span>2015年5月30日</span>&nbsp;AM 11:30</p>
+						</div>
+					</div>-->
+		<!--<div class="info_content">
+						<div class="fl">
+							<p class="i_title">系统通知</p>
+							<p class="i_number">账单编号:<span>45151</span></p>
+							<p class="i_money">报账金额:<span class="red">200.00元</span></p>
+							<p class="i_name"><span class="btn_go">点击前往</span>继续报销</p>
+						</div>
+						<div class="fr">
+							<p class="time"><span>2015年5月30日</span>&nbsp;AM 11:30</p>
+						</div>
+					</div>-->
+		<!--<div class="info_content">
+						<div class="fl">
+							<p class="i_title">系统通知</p>
+							<p class="i_number">您收到一条代报账单</p>
+							<p class="i_money">需消耗<span class="red">8折（20元）</span>代报凭证<span class="red">1</span>张</p>
+							<p class="i_name">预计收入<span class="red">32</span>元。请尽快处理</p>
+						</div>
+						<div class="fr">
+							<p class="time"><span>2015年5月30日</span>&nbsp;AM 11:30</p>
+						</div>
+					</div>-->
+		<!--<div class="info_content">
+						<div class="fl">
+							<p class="i_title">系统通知</p>
+							<p class="i_number">您收到一条代报账单</p>
+							<p class="i_money">需消耗<span class="red">8折（20元）</span>代报凭证<span class="red">1</span>张</p>
+							<p class="i_name">预计收入<span class="red">32</span>元。请尽快处理</p>
+						</div>
+						<div class="fr">
+							<p class="time"><span>2015年5月30日</span>&nbsp;AM 11:30</p>
+						</div>
+					</div>-->
+		<!--<div class="info_content">
+						<div class="fl">
+							<p class="i_title">系统通知</p>
+							<p class="i_number">编号:<span>51412编号的报账由于<span class="btn_go">**</span>原因未通过审核</span>
+							</p>
+							<p class="i_money">请在我的报账——未排队中修改后重新提交</p>
+						</div>
+						<div class="fr">
+							<p class="time"><span>2015年5月30日</span>&nbsp;AM 11:30</p>
+						</div>
+		</div>-->
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: "#pullrefresh", //待刷新区域标识
+					up: {
+						contentrefresh: '正在加载...',
+						callback: listmore
+					}
+				}
+			});
+			var list_num = 0;
+			var auid = localStorage.getItem("auid");
+			var size = 10;
+			mui.plusReady(function() {
+				//plus.webview.currentWebview().setStyle({scrollIndicator:'none'});
+				console.log("333")
+				
+				//Android双击home键退出应用
+				mui.back = function() {
+					if(!first) {
+						first = new Date().getTime();
+						mui.toast('再按一次退出程序');
+						setTimeout(function() {
+							first = null;
+						}, 1000);
+					} else {
+						if(new Date().getTime() - first < 1000) {
+
+							plus.runtime.quit();
+						}
+					}
+				};
+				
+				
+				var u = navigator.userAgent;
+				var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+				var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+				if(isAndroid == true) {
+					var height = document.body.clientHeight;
+					$("#body_margin").css('margin-top', -80 + "px");
+					$("#pullrefresh").css('height', height - 140 + "px");
+					$("#pullrefresh").css('margin-top', 80 + "px");
+					$("#pullrefresh").css('overflow', 'auto');
+				}
+				if(isiOS == true) {
+					var height = document.body.clientHeight;
+					$("#pullrefresh").css('overflow', ' hidden');
+					$("#pullrefresh").css('height', height - 110 + "px");
+					$("#pullrefresh").css('margin-top', 50 + "px");
+					$("#body_margin").css('margin-top', -50 + "px");
+				}
+				mui(".navlist").on("tap", "a", function() {
+					var id = $(this).attr("id");
+					var data = $(this).attr("data");
+					var url = "../" + id + "/" + data + ".html";
+//					mui.app_refresh(id);
+//					mui.openWindow(url, id);
+					if(id=="message"){
+						return;
+					}else{
+						booking.closeAndOpenNewWindow(url,id);
+					} 
+				})
+				
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "20001",
+					"AUTH_ID": auid
+				}, function(data) {
+					console.log(JSON.stringify(data));
+					localStorage.setItem("message", data.message);
+					return;
+				}, function(result) {
+					return;
+				})
+				
+				mui.app_request('POST', {
+						"OPERATE_TYPE": "10047",
+						"AUTH_ID": auid,
+						"BEGIN": list_num,
+						"SIZE": size
+					}, function(data) {
+						if(data.RESULTCODE == "0") {
+							var info = data.RESULTLIST.result;
+							if(info.size == 0) {
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							}
+
+							addlistNO(info);
+							list_num = list_num + size;
+							return;
+						}
+
+					},
+					function(result) {
+						if(result.RESULTCODE == "-1") {
+							mui.toast(result.DESCRIPTION);
+							return;
+						} else {
+							mui.toast("系统异常，请重试");
+							return;
+						}
+					});
+
+			});
+			//加载更多  
+			function listmore() {
+				setTimeout(function() {
+
+					mui.app_request('POST', {
+							"OPERATE_TYPE": "10047",
+							"AUTH_ID": auid,
+							"BEGIN": list_num,
+							"SIZE": size
+						}, function(data) {
+							if(data.RESULTCODE == "0") {
+								var info = data.RESULTLIST.result;
+
+								addlistNO(info);
+								list_num = list_num + size;
+								if(info.length < size) {
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+								} else {
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+								}
+								return;
+							}
+						},
+						function(result) {
+							if(result.RESULTCODE == "-1") {
+								mui.toast(result.DESCRIPTION);
+								return;
+							} else {
+								mui.toast("系统异常，请重试");
+								return;
+							}
+						});
+				}, 1500);
+			}
+			//
+			function addlistNO(datas) {
+				var _html = "";
+				for(var i = 0; i < datas.length; i++) {
+					_html += '<div class = "infoContent clearfix" style="margin-top:4px">';
+					_html += '<div class = "margin" >';
+					_html += '<p class = "i_title">' + datas[i].title + '</p> ';
+					_html += '<p class = "i_number">' + datas[i].des + '</p>';
+					_html += '</div>';
+					_html += '<div class = "fr">';
+					_html += '<span class="time">' + datas[i].create_time + '</span>';
+					var gen = datas[i].b_type;
+					var b_id = datas[i].b_id;;
+//					if(gen == 10) {
+//						_html += '<p class = "btn_go gotoOrther" data="' + gen + '" data-id="' + b_id + '" > 点击前往 <span class="i_name">前往处理&nbsp;&nbsp;</span></p>';
+//					} else if(gen == 11) {
+//						_html += '<p class = "btn_go gotoOrther" data="' + gen + '" data-id="' + b_id + '"> 点击前往 <span class="i_name">继续报账&nbsp;&nbsp;</span></p>';
+//					} else if(gen == 12) {
+//						_html += '<p class = "btn_go gotoOrther" data="' + gen + '"> 点击前往 <span class="i_name">我要报账&nbsp;&nbsp;</span></p>';
+//					}
+					_html += '</div></div>';
+				}
+				$("#messages").append(_html);
+
+				mui("#messages").on("tap", ".infoContent", function() {
+					var other = $(this).find(".gotoOrther");
+					var data = other.attr("data");
+					var id = "";
+					if(data == "10" || data == 10) {
+						id = other.attr("data-id");
+						mui.openWindow({
+							id: "my_account_detail",
+							url: "../index/for_reimbur.html",
+							extras: {
+								CERTIFICATE_ID: id,
+								backId: "info_system"
+							}
+						})
+					} else if(data == "11" || data == 11) {
+						id = other.attr("data-id");
+						mui.openWindow({
+							id: "account_reimbur_me",
+							url: "../index/account_reimbur_me.html",
+							extras: {
+								INVOICE_ID: id,
+								backId: "info_system"
+							}
+						})
+					} else if(data == "12" || data == 12) {
+						mui.openWindow({
+							id: "reimbur_me",
+							url: "../index/reimbur_me.html"
+						})
+					}
+
+				})
+			}
+
+			function dateUtil(a) {
+				var year = a.substring(0, 4);
+				var month = a.substring(4, 6);
+				var day = a.substring(6, 8);
+				return year + "年" + month + "月" + day + "日";
+			}
+
+			function AmOrPm(a) {
+				var date = new Date(a.replace(/-/g, "/"));
+
+				var hours = date.getHours();
+				var minutes = date.getMinutes();
+				if(minutes < 10) {
+					minutes = "0" + minutes;
+				}
+				if(hours > 12) {
+					return "PM" + date.getHours() + ":" + minutes;
+				} else {
+					return "AM" + date.getHours() + ":" + minutes;
+				}
+			}
+
+			//			function oncl(str) {
+			//				var days = new Array(); //
+			//				for(var i = 0; i < str.length; i++) {
+			//					days.push(str[i].days)
+			//				}
+			//				days = uniqueArray(days);
+			//				var map = {};
+			//				for(var i = 0; i < days.length; i++) {
+			//					var data = new Array();
+			//					for(var j = 0; j < str.length; j++) {
+			//						if(days[i] == str[j].days)
+			//							data.push(str[j]);
+			//					}
+			//					map[days[i]] = data;
+			//
+			//				}
+			//				return map;
+			//			}
+			//
+			//			function uniqueArray(array) {
+			//				var tmp = new Array();
+			//				for(var i in array) {
+			//					if(tmp.indexOf(array[i]) == -1) {
+			//						tmp.push(array[i]);
+			//					}
+			//				}
+			//				return tmp;
+			//			}
+		</script>
+	</body>
+
+</html>

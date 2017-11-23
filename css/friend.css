@@ -1,0 +1,123 @@
+/** {
+	padding: 0;
+	margin: 0;
+}*/
+
+body {
+	margin: 0 auto;
+}
+
+.pay_title {
+	width: 100%;
+	height: 150px;
+	margin: 0 auto;
+	background: #ededed;
+}
+
+.pay_title .w_img{
+	width: 44px;
+	height: 44px;
+	margin-top: 18px;
+}
+.price_pays{
+	text-align: center;
+}
+.pay_title .right_quan{
+	width: 44px;
+	height: 44px;
+	margin-top: 18px;
+	margin-left: 25px;
+}
+.pay_title .title {
+	text-align: center;
+	font-size: 15px;
+	font-weight: bold;
+	margin-left: -50px;
+	color: #333;
+	border-bottom: 1px solid #ccc;
+}
+
+.price_count {
+	text-align: center;
+	font-size: 15px;
+	font-weight: bold;
+	color: #333;
+}
+
+.price_pay {
+	width: 100%;
+	height: 96px;
+	float: left;
+	margin-top: 9px;
+	background: white;
+}
+.price_pay p {
+	line-height: 80px;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.input_pwd {
+	padding-top: 0px;
+	text-align: center;
+}
+
+.input_cont {
+	width: 100%;
+    z-index: 1000;
+    color: #666;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+}
+
+.pwd_mask {
+	width: 100%;
+	height: 3000px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, .5);
+	z-index: 20;
+}
+
+.in_pwd {
+	border: 1px solid #E9E9E9;
+	width: 100%;
+	margin-top: 5px;
+	font-size: 10px;
+	text-align: center;
+}
+
+.in_pwd::-webkit-input-placeholder {
+	text-align: center;
+}
+
+.submit {
+	margin-top: 25px;
+	width: 100%;
+    background: white !important;
+    color: white!important;
+    border-top: 1px solid #E9E9E9 !important;
+    border-bottom: none!important;
+    border-left: none!important;
+    border-right:none !important;
+}
+
+.submit a {
+	width: 50px;
+	height: 15px;
+	color: #666 !important;
+	font-size: 16px;
+}
+.w_txt{
+	margin: 0;
+    text-align: center;
+    font-size: 12px;
+}
+.p_txt{
+	 margin: 0;
+    text-align: center;
+    padding-left: 35%;
+    font-size: 12px;
+}

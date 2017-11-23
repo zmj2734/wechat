@@ -1,0 +1,311 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的粉丝</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<style type="text/css">
+			.mlr {
+				margin: 0 10px;
+				display: inline-block;
+				width: auto;
+				height: auto;
+			}
+			
+			.position-p {
+				position: relative;
+				margin-top: 0;
+				width: 60px;
+				height: 60px;
+				float: left;
+				margin: 15px 10px;
+			}
+			
+			.position-p .portrait {
+				margin: 0;
+			}
+			
+			.bus_crown {
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				right: 0px;
+				top: 9px;
+			}
+			
+			.mr-10 {
+				margin-right: 10px;
+				font-size: 14px;
+			}
+			
+			.common_title {
+				height: 90px;
+				padding-bottom: 20px;
+				text-indent: 10px;
+			}
+			
+			.common_title p {
+				text-align: left;
+				height: 30px;
+				line-height: 30px !important;
+				font-size: 30px !important;
+				margin-top: 0px !important;
+			}
+			
+			#fans_value {
+				background: #fff;
+				display: inline-block;
+				width: 100%;
+			}
+			
+			.my-tabel {
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				border-bottom: 1px solid #f7f7f7;
+				color: #999;
+			}
+			
+			.my-clo {
+				color: #666;
+			}
+			
+			.my-tabel span {
+				width: 33.333333%;
+				height: 40px;
+				display: inline-block;
+				float: left;
+				text-align: center;
+				font-size: 14px;
+			}
+			
+			#hg {
+				display: none;
+			}
+		</style>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true,
+				pullRefresh: {
+					container: "#pullrefresh", //待刷新区域标识
+					up: {
+						contentrefresh: "正在加载...",
+						callback: listmore
+					},
+				}
+			});
+			var list_num = 0;
+			var auid = null;
+			var size = 10;
+			var win = null;
+			var state = null;
+			var userid = null;
+			var money = null;
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				win = plus.webview.currentWebview();
+				state = win.state;
+				userid = win.userid;
+				money = win.money;
+
+				var u = navigator.userAgent;
+				var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+				var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+				if(isAndroid == true) {
+					var height = document.body.clientHeight;
+					$("#body_margin").css('margin-top', -80 + "px");
+					$("#pullrefresh").css('height', height - 220 + "px");
+					$("#pullrefresh").css('margin-top', 220 + "px");
+					$("#pullrefresh").css('overflow', 'auto');
+				}
+				if(isiOS == true) {
+					var height = document.body.clientHeight;
+					$("#pullrefresh").css('overflow', ' hidden');
+					$("#pullrefresh").css('height', height - 190 + "px");
+					$("#pullrefresh").css('margin-top', 190 + "px");
+					$("#body_margin").css('margin-top', -50 + "px");
+				}
+				auid = localStorage.getItem("auid");
+
+				if(state == 1) {
+					$("#hg").show();
+				}
+				console.log(auid)
+				$("#total_money").html(money);
+				
+				mui.app_request('POST', {
+						"OPERATE_TYPE": "20002",
+						"AUTH_ID": auid,
+						"BEGIN": list_num,
+						"SIZE": size,
+						"FANSUSERID": userid,
+						"STATE": state
+				}, function(data) {
+						if(data.RESULTCODE == "0") {
+							var info = data.RESULTLIST;
+							var fansInfo = data.fansInfo;
+
+//							if(info.length < size) {
+//								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+//							} else {
+//								mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+//							}
+
+							if(!mui.isnull(fansInfo.header_img)) {
+								$("#head_img").attr("src", booking.constants.ip + fansInfo.header_img);
+							}
+							if(!mui.isnull(fansInfo.username)) {
+								$("#phone_num").html(fansInfo.username);
+							}
+							if(!mui.isnull(fansInfo.nickname)) {
+								$("#nickname").html(fansInfo.nickname);
+							}
+							list_num = list_num + size;
+							addlistNO(info);
+
+							return;
+						}
+					},function(result) {
+						if(result.RESULTCODE == "-1") {
+							mui.toast(result.DESCRIPTION);
+							return;
+						} else {
+							mui.toast("系统异常，请重试");
+							return;
+						}
+					});
+			});
+
+			//加载更多  
+			function listmore() {
+				setTimeout(function() {
+					mui.app_request('POST', {
+							"OPERATE_TYPE": "20002",
+							"AUTH_ID": auid,
+							"BEGIN": list_num,
+							"SIZE": size,
+							"FANSUSERID": userid,
+							"STATE": state
+						}, function(data) {
+							if(data.RESULTCODE == "0") {
+								var info = data.RESULTLIST;
+								if(info.length < size) {
+
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+								} else {
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+								}
+								list_num = list_num + size;
+								addlistNO(info);
+								return;
+							}
+						},
+						function(result) {
+							if(result.RESULTCODE == "-1") {
+								mui.toast(result.DESCRIPTION);
+								return;
+							} else {
+								mui.toast("系统异常，请重试");
+								return;
+							}
+						});
+				}, 1500)
+			}
+
+			function addlistNO(datas) {
+				console.log(JSON.stringify(datas))
+				var _html = "";
+				var html_ = "";
+
+				for(var i = 0; i < datas.length; i++) {
+
+					_html += '	<div class="my-tabel">';
+					_html += '<span>' + datas[i].create_time + '</span>';
+					_html += '<span>' + datas[i].des + '</span>';
+					_html += '<span class="red">' + datas[i].amount + '</span><div>';
+				}
+				$("#fans_value").append(_html);
+			}
+		</script>
+	</head>
+
+	<body style="border: 1px rgba(000,000,000,0) solid;" id="body_margin">
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color"></a>
+			<h1 class="mui-title">详细信息</h1>
+
+		</header>
+		<div class="mui-content " style="position:fixed;top: 0;left: 0;padding-top: 44px;height: auto;width: 100%;z-index: 9;">
+			<div class="top_head" style="margin-top: 0px;">
+				<div style="position: relative; display: inline-block;">
+					<img class="portrait" id="head_img" />
+					<img id="hg" src="../../img/mine/fans-crown.png" class="bus_crown" />
+				</div>
+				<p class="f_name" id="nickname" style="font-size: 16px;"></p>
+				<span class="phone" id="phone_num" style="font-size: 16px;"></span>
+			</div>
+			<div class="common_title fl l_totop">
+				<span class="common_txt">累计带来补贴</span>
+				<p class="common_txt fan_size">￥<span id="total_money"></span></p>
+			</div>
+		</div>
+		<div id="pullrefresh" style="padding-top: 90px;">
+			<div class="mui-scroll">
+				<div id="fans_value">
+					<div class="my-tabel my-clo">
+						<span>补贴时间</span>
+						<span>补贴描述</span>
+						<span>补贴金额</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>

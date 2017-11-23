@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>个人头像</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link href="../../css/mui.mins.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">个人头像</h1>
+
+		</header>
+		<div class="big_headimg">
+			<img src="../../img/mine/bigimg.png" id="big_img" />
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/exif.js"></script>
+		<script type="text/javascript" src="../../js/upload.util.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			});
+			var win = "";
+			var head_url = "";
+			var auid = localStorage.getItem("auid");
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				win = plus.webview.currentWebview();
+				head_url = win.head_imgurl;
+				console.log(head_url);
+				if(!mui.isnull(head_url)) {
+					document.getElementById('big_img').src = booking.constants.ip + head_url;
+				}
+
+				document.getElementById("back").addEventListener("tap", function() {
+					booking.closeAndOpenNewWindow(win.backId + ".html", win.backId);
+				})
+
+				document.getElementById('big_img').addEventListener('tap', function() {
+					if(mui.os.plus) {
+						var a = [{
+							title: "拍照"
+						}, {
+							title: "从手机相册选择"
+						}];
+						plus.nativeUI.actionSheet({
+							title: "上传图片",
+							cancel: "取消",
+							buttons: a
+						}, function(b) { /*actionSheet 按钮点击事件*/
+							switch(b.index) {
+								case 0:
+									break;
+								case 1:
+									getImage(1000, 800, "big_img", "sphotos", uploadSucess) /*拍照*/
+									break;
+								case 2:
+									galleryImg(1000, 800, "big_img", "sphotos", uploadSucess); /*打开相册*/
+									break;
+								default:
+									break;
+									getIm
+							}
+						})
+					}
+				}, false);
+
+				function uploadSucess(data, id) {
+
+					head_img = booking.constants.ip + data.RESULTLIST.PATH;
+					document.getElementById(id).src = head_img;
+					mui.app_request('POST', {
+						"OPERATE_TYPE": "10009",
+						"AUTH_ID": auid,
+						"HEADER_IMG": data.RESULTLIST.PATH
+					}, function(data) {
+						if(data.RESULTCODE == "0") {
+							booking.closeAndOpenNewWindow(win.backId + ".html", win.backId);
+
+						}
+					}, function(result) {
+						mui.toast(result.DESCRIPTION);
+					});
+				}
+			});
+		</script>
+	</body>
+
+</html>

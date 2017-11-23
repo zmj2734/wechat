@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商家提现明细</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack:true,
+				pullRefresh: {
+					container: "#pullrefresh", //待刷新区域标识
+					up: {
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						callback: fundmore, //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			});
+			var list_num = 0;
+			var auid = null;
+			mui.plusReady(function() {
+				var u = navigator.userAgent;
+				var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+				var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+				if(isAndroid == true) {
+					var height = document.body.clientHeight;
+					$("#body_margin").css('margin-top', -80 + "px");
+					$("#pullrefresh").css('height', height - 80 + "px");
+					$("#pullrefresh").css('margin-top', 80 + "px");
+					$("#pullrefresh").css('overflow', 'auto');
+				}
+				if(isiOS == true) {
+					var height = document.body.clientHeight;
+					$("#pullrefresh").css('overflow', ' hidden');
+					$("#pullrefresh").css('height', height - 50 + "px");
+					$("#pullrefresh").css('margin-top', 50 + "px");
+					$("#body_margin").css('margin-top', -50 + "px");
+				}
+				auid = localStorage.getItem("auid");
+				if(!auid) {
+					$("#nomessage").css("display", "block");
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					return;
+				}
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10053",
+					"AUTH_ID": auid,
+					"BEGIN": list_num,
+					"SIZE": "10"
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						var list = data.RESULTLIST.result;
+						listData(list);
+						list_num = list_num + 10;
+					}
+					return;
+				}, function(result) {
+					if(result.RESULTCODE == "-1") {
+						mui.toast(result.DESCRIPTION);
+					} else {
+						mui.toast("系统异常，请重试");
+					}
+					return;
+				});
+
+			})
+			//加载更多  
+			function fundmore() {
+				setTimeout(function() {
+					auid = localStorage.getItem("auid");
+					if(!auid) {
+						$("#nomessage").css("display", "block");
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						return;
+					}
+					mui.app_request('POST', {
+						"OPERATE_TYPE": "10053",
+						"AUTH_ID": auid,
+						"BEGIN": list_num,
+						"SIZE": "10"
+					}, function(data) {
+						if(data.RESULTCODE == "0") {
+							var list = data.RESULTLIST.result;
+							listData(list);
+							list_num = list_num + 10;
+							if(list.length < 1) {
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							} else {
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+							}
+						}
+						return;
+					}, function(result) {
+						if(result.RESULTCODE == "-1") {
+							mui.toast(result.DESCRIPTION);
+						} else {
+							mui.toast("系统异常，请重试");
+						}
+						return;
+					});
+				}, 1500);
+			}
+
+			function getDate(a) {
+				var date = new Date(a);
+				alert(a);
+				return a.substring(0, 10);
+			}
+
+			function listData(list) {
+				var _html = "";
+				for(var i = 0; i < list.length; i++) {
+					_html += '<div class="bus_content">';
+					_html += '<div class="left_time">';
+					_html += '<p><span class="sub_money">' + list[i].amount + '</span></p>';
+					_html += '<p class="t_ime"><span class="get_time">' + list[i].create_time + '</span></p>';
+					_html += "</div>";
+					_html += '<div class="fr">';
+					_html += '<p><span class="money_status y_sh">' + list[i].des + '</span></p>';
+					_html += '</div></div>';
+				}
+				$("#messages").append(_html);
+			}
+		</script>
+	</head>
+
+	<body style="border: 1px rgba(000,000,000,0) solid;" id="body_margin">
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="padding-top: 0px ;">
+			<div class="mui-scroll">
+				<div id="messages">
+					<!--<div class="bus_content">
+					<div class="left_time">
+						<p><span class="sub_money">-10000</span></p>
+						<p class="t_ime"><span class="get_time">2017-02-17</span></p>
+					</div>
+					<div class="fr">
+						<p><span class="money_status y_sh">已到账</span></p>
+					</div>
+				</div>
+				<div class="bus_nocont">
+					<div class="left_time">
+						<p><span class="sub_money">-10000</span></p>
+						<p class="t_ime"><span class="get_time">2017-02-17</span></p>
+					</div>
+					<div class="fr">
+						<p><span class="money_status i_sh">审核中</span></p>
+					</div>
+				</div>
+				<div class="bus_nocont">
+					<div class="left_time">
+						<p><span class="sub_money">-10000</span></p>
+						<p class="t_ime"><span class="get_time">2017-02-17</span></p>
+					</div>
+					<div class="fr">
+						<p><span class="money_status n_gosh">未通过审核</span></p>
+					</div>
+				</div>
+				<div class="bus_nocont">
+					<div class="left_time">
+						<p><span class="sub_money">-10000</span></p>
+						<p class="t_ime"><span class="get_time">2017-02-17</span></p>
+					</div>
+					<div class="fr">
+						<p><span class="money_status no_sh">未审核</span></p>
+					</div>
+				</div>-->
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>

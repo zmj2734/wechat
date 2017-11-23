@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>实名认证</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<style>
+			body {
+				background: #fff;
+			}
+			
+			#address {
+				line-height: 50px;
+				padding-left: 15px;
+				margin-top: 0 !important;
+			}
+			
+			input::-webkit-input-placeholder {
+				font-size: 12px;
+			}
+			
+			.mui-input-row input {
+				margin-top: 10px;
+				width: 65%;
+			}
+			
+			.mui-input-row label {
+				width: 35%;
+			}
+			
+			#address {
+				padding-left: 0;
+			}
+		</style>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/city.data-3.js"></script>
+		<script src="../../js/mui.picker.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../../js/exif.js"></script>
+		<script type="text/javascript" src="../../js/upload.util.js"></script>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true
+			});
+			var idorhandurl = "";
+			var auid = null;
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				auid = localStorage.getItem("auid");
+				mui.app_request('POST', {
+					"OPERATE_TYPE": "10023",
+					"AUTH_ID": auid
+				}, function(data) {
+					if(data.RESULTCODE == "0") {
+						var sData = data.RESULTLIST.ida_info;
+						$("#name").val(sData.real_name);
+						$("#idcard").val(sData.id_card);
+						//						$("#address").val(sData.district_name);
+						console.log(booking.constants.ip + sData.photo_url)
+						$("#id_url").attr("src", booking.constants.ip + sData.id_card_url);
+						//$("#head_img").attr("src", booking.constants.ip + sData.photo_url);
+					}
+					return;
+				}, function(result) {
+					return;
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">实名认证</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>姓名</label>
+					<input type="text" readonly="readonly" placeholder="" id="name">
+				</div>
+				<div class="mui-input-row">
+					<label>身份证号</label>
+					<input type="text" readonly="readonly" placeholder="" id="idcard">
+				</div>
+				<!--<div class="mui-input-row" id="address_click">
+					<label>身份证所在地</label>
+					<input type="text" readonly="readonly" name="address" id="address" value="" placeholder="" />
+				</div>-->
+			</form>
+			<div class="bus_bg" id="card">
+				<img src="../../img/realname/realnamecard.png" class="bus_img" id="id_url" />
+				<input type="hidden" id="img_id_cardimg" />
+				<p class="di_size">身份证正面照</p>
+			</div>
+		</div>
+		<!--<button id="cmt_info" type="button" class="mui-btn mui-btn-success mui-btn-block com_btn">提交</button>-->
+	</body>
+
+</html>

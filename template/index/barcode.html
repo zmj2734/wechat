@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="HandheldFriendly" content="true" />
+		<meta name="MobileOptimized" content="320" />
+		<title>扫一扫</title>
+		<script type="text/javascript" src="../../js/brcode.js"></script>
+		<link rel="stylesheet" href="../../css/brcode.css" type="text/css" charset="utf-8" />
+		<script type="text/javascript">
+			var ws = null,
+				wo = null;
+			var scan = null,
+				domready = false;
+			// H5 plus事件处理
+			function plusReady() {
+				if(ws || !window.plus || !domready) {
+					return;
+				}
+				// 获取窗口对象
+				ws = plus.webview.currentWebview();
+				wo = ws.opener();
+				// 开始扫描
+				ws.addEventListener('show', function() {
+					scan = new plus.barcode.Barcode('bcid');
+					scan.onmarked = onmarked;
+					scan.start({
+						conserve: true,
+						filename: '_doc/barcode/'
+					});
+				}, false);
+				// 显示页面并关闭等待框
+				ws.show('pop-in');
+				
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener('plusready', plusReady, false);
+			}
+			// 监听DOMContentLoaded事件
+			document.addEventListener('DOMContentLoaded', function() {
+				domready = true;
+				plusReady();
+			}, false);
+			// 二维码扫描成功
+			function onmarked(type, result) {
+				if(result) {
+				
+					scan.close();
+					var oldReuslt = plus.storage.getItem("result",result);
+					if(oldReuslt){
+						plus.storage.removeItem("result");
+					}
+					plus.storage.setItem('result', result);
+					
+					wo = plus.webview.getWebviewById('index');
+					wo.evalJS("gogo()");
+					back();
+				}
+			}
+			// 从相册中选择二维码图片 
+			function scanPicture() {
+				plus.gallery.pick(function(path) {
+				
+					
+					plus.storage.setItem('setType', "1");
+					plus.barcode.scan(path, onmarked, function(error) {
+						plus.nativeUI.alert('无法识别此图片');
+					});
+				}, function(err) {
+					
+				});
+			}
+		</script>
+		<style type="text/css">
+			#bcid {
+				width: 100%;
+				position: absolute;
+				top: 0px;
+				bottom: 44px;
+				text-align: center;
+			}
+			
+			.tip {
+				color: #FFFFFF;
+				font-weight: bold;
+				text-shadow: 0px -1px #1035EC;
+			}
+			
+			footer {
+				width: 100%;
+				height: 44px;
+				position: absolute;
+				bottom: 0px;
+				line-height: 44px;
+				text-align: center;
+				color: #FFF;
+			}
+			
+			.fbt {
+				width: 50%;
+				height: 100%;
+				background-color: #0098E6;
+				float: left;
+			}
+			.fgx {
+				width: 1px;
+				height: 44px;
+				position: absolute;
+				bottom: 0;
+				padding: 0;
+				border: none;
+				background: #FFF;
+				right: 50%;
+				margin: 0;
+			}
+			.fbt:active {
+				-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5);
+				box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.5);
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #000;">
+		<div id="bcid">
+			<div style="height:40%"></div>
+			<p class="tip">...载入中...</p>
+		</div>
+		<footer>
+			<div class="fbt" onclick="back()">取　 消</div>
+			<hr class="fgx" />
+			<div class="fbt" onclick="scanPicture()">从相册选择二维码</div>
+		</footer>
+	</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+
+		<title>高德地图</title>
+		<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.0&key=de0e793ecf76a77577b4e32c0908d718" />
+		<script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+		<link href="../../css/mui.mins.css" rel="stylesheet" />
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<style type="text/css">
+			#panel {
+				position: fixed;
+				background-color: white;
+				max-height: 90%;
+				overflow-y: auto;
+				top: 10px;
+				right: 10px;
+				width: 280px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			
+			<h1 class="mui-title">商家地图</h1>
+		</header>
+		<div id="container"></div>
+		<div id="tip"></div>
+		<div id="panel"></div>
+		<script type="text/javascript">
+			mui.init();
+			//基本地图加载
+
+			var map = new AMap.Map("container", {
+				resizeEnable: true,
+				zoom: 13 //地图显示的缩放级别
+			});
+
+			var longitude;
+			var latitude;
+			var win;
+			var shop_longitude;
+			var shop_latitude;
+			mui.plusReady(function() {
+				win = plus.webview.currentWebview();
+				shop_longitude = win.longitude;
+				shop_latitude = win.latitude;
+
+			})
+
+			AMap.service('AMap.Driving', function() { //回调函数
+				//构造路线导航类
+				var driving = new AMap.Driving({
+					map: map,
+					//panel: "panel"
+				});
+				map.plugin('AMap.Geolocation', function() {
+					geolocation = new AMap.Geolocation({
+						enableHighAccuracy: true, //是否使用高精度定位，默认:true
+						timeout: 10000, //超过10秒后停止定位，默认：无穷大
+						buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+						zoomToAccuracy: true, //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+						buttonPosition: 'RB'
+					});
+					map.addControl(geolocation);
+					geolocation.getCurrentPosition();
+					AMap.event.addListener(geolocation, 'complete', onComplete); //返回定位信息
+					AMap.event.addListener(geolocation, 'error', onError); //返回定位出错信息
+				});
+				//解析定位结果
+				function onComplete(data) {				
+					driving.search(new AMap.LngLat(data.position.getLng(), data.position.getLat()), new AMap.LngLat(shop_longitude, shop_latitude));
+				}
+				//解析定位错误信息
+				function onError(data) {
+					document.getElementById('tip').innerHTML = '定位失败';
+				}
+
+//				plus.geolocation.getCurrentPosition(function(p) {
+//					//alert(p.address);
+//					//alert('Geolocation\nLatitude:' + p.coords.latitude + '\nLongitude:' + p.coords.longitude + '\nAltitude:' + p.coords.altitude);
+//					longitude = p.coords.longitude;
+//					latitude = p.coords.latitude;
+//					// 根据起终点经纬度规划驾车导航路线
+//					driving.search(new AMap.LngLat(longitude, latitude), new AMap.LngLat(shop_longitude, shop_latitude));
+//				}, function(e) {
+//					mui.toast("定位失败，请确保GPS已经开启");
+//					return;
+//				});
+
+			})
+		</script>
+	</body>
+
+</html>

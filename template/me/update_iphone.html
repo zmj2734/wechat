@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>修改手机号</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<style>
+			.mui-input-row span {
+				width: 28%;
+				padding-left: 15px;
+				color: #333333;
+				float: left;
+				height: 45px;
+				line-height: 45px;
+			}
+			
+			.mui-input-row input {
+				margin-top: 9px;
+			}
+			
+			.a_info {
+				width: 70%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">修改手机号</h1>
+		</header>
+		<div class="mui-conten">
+			<form class="mui-input-group" style="margin-top: 0px;">
+				<div class="mui-input-row">
+					<span>新手机号码</span>
+					<input type="tel" class="mui_input a_info" id="phone" maxlength="11" placeholder="请输入新的手机号码">
+				</div>
+				<div class="mui-input-row">
+					<span>验证码</span>
+					<input type="number" class="mui_input" id="code" maxlength="4" placeholder="请输入验证码">
+					<button id="send" type="button" class="send_code">发送验证码</button>
+				</div>
+			</form>
+		</div>
+		<button id="cmt" type="button" class="mui-btn mui-btn-success mui-btn-block com_btn">确认修改</button>
+		<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			});
+			var uuid = null;
+			var auid = null;
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				auid = localStorage.getItem("auid");
+				//手机号失去焦点事件
+				var send = document.getElementById("send");
+				document.getElementById('send').addEventListener('tap', function() {
+					send_code();
+
+				});
+
+				function send_code() {
+					var phone = $("#phone").val();
+					var code = $("#code").val();
+					if(mui.isnull(phone)) {
+						mui.toast('手机号不能为空!');
+						return;
+					}
+					if(!booking.validate_mobile(phone)) {
+						mui.toast('手机号格式不正确!');
+						return;
+					}
+					booking.smsTime_new(send);
+					mui.app_request('POST', {
+						'OPERATE_TYPE': "10001",
+						'MOBILE': phone,
+						'B_TYPE': "11"
+					}, function(data) {
+						if(data.RESULTCODE == '0') {
+							uuid = data.RESULTLIST.UUID;
+							mui.toast('短信已发送，请注意查收!');
+						}
+					}, function(result) {
+						if(result.RESULTCODE == '-1') {
+							mui.toast(result.DESCRIPTION);
+						}
+					});
+				}
+				document.getElementById("cmt").addEventListener('tap', function() {
+					this.setAttribute('disabled', 'disabled');
+					var iphone = $("#phone").val();
+					var code = $("#code").val();
+					if(mui.isnull(iphone)) {
+						mui.toast("手机号不能为空");
+						document.getElementById('cmt').removeAttribute('disabled');
+						return;
+					}
+					if(!booking.validate_mobile(iphone)) {
+						mui.toast("手机号格式不正确");
+						document.getElementById('cmt').removeAttribute('disabled');
+						return;
+					}
+					if(mui.isnull(code)) {
+						mui.toast("验证码不能为空");
+						document.getElementById('cmt').removeAttribute('disabled');
+						return;
+					}
+					if(mui.isnull(uuid)) {
+						mui.toast("请先发送验证码");
+						document.getElementById('cmt').removeAttribute('disabled');
+						return;
+					}
+					mui.app_request('POST', {
+						'OPERATE_TYPE': '10019',
+						'AUTH_ID': auid,
+						'MOBILE': iphone,
+						'SMS_CODE': code,
+						'UUID': uuid
+					}, function(data) {
+						if(data.RESULTCODE == '0') {
+							uuid = null;
+							mui.alert('修改成功,请重新登录', function() {
+								mui.openWindow({
+									url: "template/login/login.html",
+									id: "login"
+								});
+							});
+						}
+						document.getElementById('cmt').removeAttribute('disabled');
+					}, function(result) {
+						document.getElementById('cmt').removeAttribute('disabled');
+						if(result.RESULTCODE == '-1') {
+							mui.toast(result.DESCRIPTION);
+							return;
+						}
+						mui.toast("网络异常，请重试");
+						return;
+					});
+				})
+			});
+		</script>
+	</body>
+
+</html>

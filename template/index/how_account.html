@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>介绍说明</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css"/>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack:true
+			});
+			var old_back = mui.back;   
+			mui.back=function(){
+					
+				old_back();
+			}
+		</script>
+		<style type="text/css">
+			.mui-icon{
+				margin: 0;
+			}
+			.cont_acc{
+				width: 100%;
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+	<header id="header" class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+		<h1 class="mui-title">报账说明</h1>
+	</header>
+	<body>
+		<div class="mui-content" style="background: #fff;">
+			<img src="../../img/acount/content_acc.png" class="cont_acc"/>
+			<p style="background: #FFFFFF;font-size: 12px;margin: -20px 20px;color: red;">注：期间会产生一定金额的平台服务费，您可与报账商家协商。</p>
+		</div>
+	</body>
+
+</html>

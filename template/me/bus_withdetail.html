@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商家提现明细</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<script src="../../js/jquery-3.1.0.min.js" type="text/javascript"></script>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			mui.init({
+
+				gestureConfig: {
+					doubletap: true
+				},
+				subpages: [{
+					url: 'bus_withdetail_sub.html',
+					id: 'bus_withdetail_sub',
+					styles: {
+						top: '45px',
+						bottom: '0px',
+					}
+				}]
+			});
+			var contentWebview = null;
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				document.querySelector('header').addEventListener('doubletap', function() {
+					if(contentWebview == null) {
+						contentWebview = plus.webview.currentWebview().children()[0];
+					}
+					contentWebview.evalJS("mui('#pullrefresh').pullRefresh().scrollTo(0,0,100)");
+				});
+				document.getElementById('with_money').addEventListener('tap', function() {
+					var attrd = {
+						"type": "10088"
+						"case_type": 2
+					}
+					booking.closeAndOpenNewWindowHaveAttr("withdrawals.html", "withdrawals", attrd);
+				});
+			})
+		</script>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">商家提现明细</h1>
+			<button class="mui-btn mui-btn-blue mui-btn-link mui-pull-right detail_txt" id="with_money">提现</button>
+		</header>
+		<div class="mui-content">
+
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的二维码</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<style>
+			body {
+				background: #0098E6!important;
+			}
+			
+			.mui-bar-nav {
+				background: #0098E6!important;
+				border: none;
+			}
+		</style>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-1.4.1.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/share.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true
+			});
+			var auid = localStorage.getItem("auid");
+
+			var win = null;
+			var type = null;
+			var generalizeBaseUrl = booking.constants.ip + "/bz/join/index?user_id=",
+				title = '你消费，我补贴!',
+				content = null,
+				thumbs = [booking.constants.ip + "/static/images/logo.png"],
+				pictures = [booking.constants.ip + "/static/images/logo.png"];
+			mui.plusReady(function() {
+				var isLogin = null;
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+
+							return;
+						} else {
+							isLogin = 0;
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+
+						return;
+
+					}
+				});
+				if(isLogin === 0) {
+					return;
+				}
+				win = plus.webview.currentWebview();
+				var u_id = auid.split("_")[0];
+
+				type = win.type;
+				if(type == 1) {
+					content = '加入到共生网，不影响正常消费，还能获得额外的消费补贴！点击我加入吧！';
+				} else {
+					content = '加入共生网，不影响正常消费，还能获得额外的消费补贴！共生网与商家和消费者共同打造全新消费格局，共享创业新平台！点击我加入吧！';
+				}
+
+				generalizeBaseUrl = generalizeBaseUrl + u_id;
+
+				mui.app_request('POST', {
+					'OPERATE_TYPE': '10054',
+					'AUTH_ID': auid
+				}, function(data) {
+					console.log(JSON.stringify(data))
+					if(data.RESULTCODE == '0') {
+						var code_img = booking.constants.ip + data.qr_code_url;
+						$(".my_img").attr("src", code_img);
+					}
+				}, function(result) {
+					if(result.RESULTCODE == '-1') {
+						mui.toast(result.DESCRIPTION);
+					}
+				});
+
+				mui("#share_share").on("tap", '.wchat', function() {
+					var id = this.getAttribute('data_id');
+					var ex = this.getAttribute('data_ex');
+					//初始化推广渠道信息
+					initSysShareSerivces(function() {
+						var weixin = 'weixin',
+							sinaweibo = 'sinaweibo';
+						if(id == weixin) {
+							shareAction(id, generalizeBaseUrl, title, content, thumbs, pictures, ex);
+						} else if(id == sinaweibo) {
+							shareAction(id, generalizeBaseUrl, title, content, null, null, null);
+						} else {
+							shareAction(id, generalizeBaseUrl, title, content, thumbs, pictures, null);
+						}
+					});
+				});
+
+			});
+		</script>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left white" id="back"></a>
+			<h1 class="mui-title white">二维码</h1>
+		</header>
+		<div id="code_show">
+			<div class="myqrcode_img">
+				<div class="share_dis">
+					<img src="../../img/navigation/littleimg.png" class="lit_img" />
+					<span class="mycode">我的二维码</span>
+					<img class="my_img" style="width: 170px;height: 170px;margin: 20px 20px 0px 20px;" />
+					<div class="tips_code">扫一扫二维码，获得我的分享</div>
+				</div>
+			</div>
+
+			<div class="share_bar" id="share_share">
+				<div class="fl wchat" data_id="weixin" data_ex="WXSceneSession">
+					<img src="../../img/introIMG/wchat.png" class="sharecode_img" />
+					<p class="code_text">微信好友</p>
+				</div>
+				<div class="fl wchat" data_id="weixin" data_ex="WXSceneTimeline">
+
+					<img src="../../img/introIMG/friend.png" class="friend_img" />
+					<p class="frend_text">微信朋友圈</p>
+				</div>
+
+			</div>
+		</div>
+	</body>
+
+</html>

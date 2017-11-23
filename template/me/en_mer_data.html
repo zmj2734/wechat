@@ -1,0 +1,580 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>企业商家资料</title>
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link href="../../css/city.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="../../crocss/photoswipe.css">
+		<link rel="stylesheet" href="../../crocss/default-skin.css">
+		<style>
+			body {
+				background: #fff;
+			}
+			
+			input::-webkit-input-placeholder {
+				color: #c0c0c0;
+				font-size: 13px;
+			}
+			
+			.mui_input_a {
+				font-size: 13px;
+				color: #C0C0C0;
+				line-height: 50px;
+			}
+			
+			.mui_input_a.basic_00 {
+				color: #000;
+			}
+			
+			.mui_input_a.black {
+				color: #000;
+			}
+			
+			.mui-input-row label {
+				font-size: 14px;
+				margin-right: 10px;
+			}
+			
+			.mui-input-row input {
+				font-size: 14px;
+				padding: 10px 13px;
+			}
+			
+			#requerd {
+				top: 0!important;
+			}
+			
+			.intro {
+				width: 100% !important;
+				font-size: 14px;
+			}
+			
+			#icon-card {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(0, 0, 0, 0.7);
+				z-index: 99;
+			}
+			
+			.icon-card-img {
+				width: 80%;
+				height: auto;
+				display: inline-table;
+				position: absolute;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				right: 0;
+				margin: auto;
+			}
+			
+			#icon-card-img {
+				width: 100%;
+				max-width: 100%;
+				display: block;
+			}
+			
+			.icon-card-img p {
+				line-height: 30px;
+				font-size: 16px;
+				color: #fff;
+				text-align: center;
+			}
+			
+			.ml-10 {
+				margin-left: 10px;
+			}
+			
+			#shop_city {
+				padding-left: 0 !important;
+			}
+			
+			.mui-input-row label~input {
+				width: auto;
+				flex: 1;
+			}
+			
+			.mui-input-row {
+				width: 100%;
+				box-sizing: border-box;
+				display: flex;
+			}
+			
+			.time-input {
+				text-align: center;
+				display: inline-block;
+				padding-left: 13px !important;
+			}
+			
+			.mrl {
+				margin: 0px 10px;
+				font-size: 14px;
+				line-height: 50px !important;
+			}
+			
+			.photo {
+				width: 100%;
+				height: auto;
+			}
+			
+			.photo figure {
+				width: 30%;
+				height: auto;
+				background: #f2f2f2;
+				display: block;
+				float: left;
+				margin: 0;
+				margin-right: 5%;
+				margin-top: 5%;
+				position: relative;
+			}
+			
+			.photo figure:first-child {
+				margin-left: 0 !important;
+			}
+			
+			.photo figure a {
+				width: 100% !important;
+				height: auto !important;
+				display: block !important;
+				position: relative;
+			}
+			
+			.photo figure a img {
+				width: 100%;
+				display: block;
+				height: 105px;
+			}
+			
+			#up_img {
+				font-size: 130px;
+				color: #fff;
+				line-height: 105px;
+				background: #f2f2f2;
+				width: 30%;
+				display: inline-block;
+				/*margin-left: 2.5% !important;*/
+				margin-top: 5% !important;
+				float: left;
+			}
+			
+			#up_img img {
+				width: 100%;
+				max-width: 100%;
+				display: block;
+			}
+			
+			.bus_bg {
+				border: none !important;
+				margin-top: 0;
+				display: flex;
+			}
+			
+			.brief_intro {
+				margin-top: 10px !important;
+			}
+			
+			.close-img {
+				width: 23px;
+				height: 23px;
+				border-radius: 50%;
+				display: block;
+				background: rgba(0, 0, 0, 0.8) url(../../img/default-skin.png) -10px -54px no-repeat;
+				position: absolute;
+				top: 0px;
+				right: 0px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class=" mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">加盟商家资料</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>商家或企业名称</label>
+					<input type="text" id="shop_name" placeholder="请输入商家名称" style="padding: 10px;">
+				</div>
+				<div class="mui-input-row">
+					<label class="row_left">法人/负责人</label>
+					<input class="in_right" type="text" placeholder="请输入法人姓名" id="comp_name" style="padding: 10px;">
+				</div>
+				<div class="mui-input-row">
+					<label class="row_left">营业执照号</label>
+					<input class="in_right" type="text" placeholder="请输入营业执照号" id="show_lence" style="padding: 10px;">
+				</div>
+				<div class="mui-input-row" id="shop_type_click">
+					<label>所属行业</label>
+					<a href="#" id="shop_type" class="mui_input_a mui-navigate-right">请选择您的行业属性（必填）</a>
+					<input type="hidden" id="hid_cont" />
+				</div>
+				<div class="mui-input-row">
+					<label>联系电话</label>
+					<input type="text" class="fl" placeholder="请输入您商铺或企业联系电话（必填）" id="phonenum">
+				</div>
+				<div class="mui-input-row">
+					<label>营业时间</label>
+					<input type="time" class="fl time-input" value="00:00" id="starTime">
+					<span class="mrl">至</span>
+					<input type="time" class="fl time-input" value="00:00" id="endTime">
+				</div>
+				<div class="mui-input-row" id="shop_city_addr">
+					<label>营业执照所在地</label>
+					<!--<input type="text" placeholder="请选择您的营业执照所在地" id="shop_city" />-->
+					<a href="#" class="mui_input_a mui-navigate-right">
+						<input type="text" readonly="readonly" name="shop_add" id="shop_city" value="" placeholder="请选择您营业执照所在地" style="70%" />
+					</a>
+				</div>
+				<div class="mui-input-row">
+					<label>详细地址</label>
+					<input type="text" placeholder="请输入您的商铺或企业地址（必填）" id="shop_add" />
+				</div>
+				<div class="brief_intro" style="border-bottom: 1px solid #c8c7cc;padding-bottom: 10px;">
+					<p class="intro">店铺展示（请上传1~5张图片，第一张为店铺门头照）</p>
+					<div class="bus_bg" id="bus_upload">
+						<div class="photo">
+							<div class="my-gallery" id="photo">
+								<!--<figure>
+									<a href="../../img/fans/fans_img.png" data-size="800x800">
+										<img src="../../img/fans/fans_img.png" alt="Image description" />
+										<span class="close-img"></span>
+									</a>
+								</figure>
+								<figure>
+									<a href="../../img/fans/fans_img.png" data-size="800x800">
+										<img src="../../img/fans/fans_img.png" alt="Image description" />
+										<span class="close-img"></span>
+									</a>
+								</figure> -->
+							</div>
+							<span class="photo_nr" id="up_img"><img src="../../img/shop/icon-ptoto.png" alt="" /></span>
+						</div>
+					</div>
+				</div>
+				<div class="brief_intro">
+					<p class="intro">商铺简介</p>
+					<textarea placeholder="(选填)在此输入您的店铺或企业的相关简介" class="intro_txt" id="content_shop"></textarea>
+
+				</div>
+			</form>
+		</div>
+		<div id="icon-card" style="display: none;">
+			<div class="icon-card-img">
+				<img id="icon-card-img" src="../../img/realname/icon-card-02.png" />
+				<p id="icon-tip">请按照示例，上传手持身份证照</p>
+			</div>
+		</div>
+		<div style="margin-top: 23px;">
+			<button id="requerd" type="button" class="mui-btn mui-btn-success mui-btn-block">下一步</button>
+		</div>
+		<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="pswp__bg"></div>
+			<div class="pswp__scroll-wrap">
+				<div class="pswp__container">
+					<div class="pswp__item"></div>
+					<div class="pswp__item"></div>
+					<div class="pswp__item"></div>
+				</div>
+				<div class="pswp__ui pswp__ui--hidden">
+
+					<div class="pswp__top-bar">
+						<div class="pswp__counter"></div>
+						<button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+						<!--<button class="pswp__button pswp__button--share" title="Share"></button>-->
+						<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+						<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+						<div class="pswp__preloader">
+							<div class="pswp__preloader__icn">
+								<div class="pswp__preloader__cut">
+									<div class="pswp__preloader__donut"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+						<div class="pswp__share-tooltip"></div>
+					</div>
+					<button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+					<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+					<div class="pswp__caption">
+						<div class="pswp__caption__center"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../../js/mui.min.js"></script>
+	<script src="../../js/mui.picker.js"></script>
+	<script src="../../js/mui.poppicker.js"></script>
+	<script type="text/javascript" src="../../js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../js/city.data-3.js"></script>
+	<script type="text/javascript" src="../../js/exif.js"></script>
+	<script type="text/javascript" src="../../js/upload.util.js"></script>
+	<script src="../../js/myCity.js" type="text/javascript"></script>
+	<script src="../../cropper/photoswipe.min.js"></script>
+	<script src="../../cropper/photoswipe-ui-default.min.js"></script>
+	<script type="text/javascript" src="../../cropper/photo.js"></script>
+	<script type="text/javascript">
+		mui.init({
+			swipeBack: true
+		});
+		var win = null;
+		var typearray = new Array();
+		var auid = null;
+		var userPicker = null;
+		var shop_city = null;
+		mui.plusReady(function() {
+			initPhotoSwipeFromDOM('.photo');
+			var isLogin = null;
+			mui.app_request("Post", {
+				"OPERATE_TYPE": "10081",
+				"AUTH_ID": localStorage.getItem("auid"),
+			}, function(result) {
+
+				if(result.RESULTCODE == 0) {
+
+					if(result.RESULTLIST.is_login == 1) {
+
+						return;
+					} else {
+						isLogin = 0;
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					}
+				}
+
+			}, function(result) {
+				if(result.RESULTCODE == -1) {
+					isLogin = 0;
+					mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+						localStorage.removeItem("auid");
+						booking.closeAndOpenNewWindow("../login/login.html", "login");
+					});
+					return;
+				} else {
+
+					return;
+
+				}
+			});
+			if(isLogin === 0) {
+				return;
+			}
+			auid = localStorage.getItem("auid");
+			console.log(auid)
+
+			$("#shop_city_addr").on("click", function() {
+				$("#shop_city").selectAddress({
+					"ajaxURL": booking.constants.api_domain,
+					storageBox: $("#shop_city"),
+					callback: function(string, id) {
+						//执行回调
+						console.log(string + id)
+						var city_id = id;
+						if(city_id) {
+							shop_city = city_id;
+							$("#shop_city").val(string)
+						}
+					}
+				});
+			});
+			mui.app_request('POST', {
+					'OPERATE_TYPE': '10010'
+				}, function(data) {
+					if(data.RESULTCODE == '0') {
+						var typelist = data.RESULTLIST.result;
+						for(var i = 0; i < typelist.length; i++) {
+							var id = typelist[i].id;
+							var name = typelist[i].category_name;
+							typearray.push({
+								"value": id,
+								"text": name
+							});
+						}
+						userPicker = new mui.PopPicker();
+						userPicker.setData(typearray);
+						var showUserPickerButton = document.getElementById('shop_type_click');
+						var userResult = document.getElementById('shop_type');
+						showUserPickerButton.addEventListener('tap', function(event) {
+							$("input").blur();
+							userPicker.show(function(items) {
+								userResult.innerHTML = items[0].text;
+								userResult.setAttribute("shopId", items[0].value);
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+							});
+						}, false);
+					}
+				},
+				function(result) {
+					if(result.RESULTCODE == '-1') {
+						mui.toast(result.DESCRIPTION);
+					}
+				});
+			document.getElementById('requerd').addEventListener('tap', function() {
+				var shopId = document.getElementById('shop_type').getAttribute("shopId"); //商铺id
+				var phonenum = document.getElementById('phonenum').value; //联系电话
+				var shopadd = document.getElementById('shop_add').value; //详细地址
+				//var shop_city = document.getElementById("shop_city").value; //区县
+				var content_shop = document.getElementById('content_shop').value; //商铺简介
+				var shop_name = document.getElementById("shop_name").value; //商铺名称
+				var lence_num = document.getElementById('show_lence').value; //营业执照
+				var comp_name = document.getElementById("comp_name").value; //法人
+				//营业时间
+				var time = '';
+				var time1 = document.getElementById("starTime").value;
+				var time2 = document.getElementById("endTime").value;
+				time = time1 + '-' + time2
+				console.log(time)
+				var figure = $("#photo").find("figure");
+				var urls = '';
+				for(var i = 0; i < figure.length; i++) {
+					var rl = figure.eq(i).children("a").attr("href");
+					if(rl.indexOf(booking.constants.ip) != -1) {
+						rl = rl.substr(booking.constants.ip.length, rl.length - booking.constants.ip.length);
+					}
+					urls += rl + ';'
+				}
+				urls = urls.substring(0, urls.length - 1)
+				console.log(urls)
+				if(mui.isnull(shop_name)) {
+					mui.toast('店铺名不能为空');
+					return;
+				}
+				if(mui.isnull(comp_name)) {
+					mui.toast('法人代表不能为空');
+					return;
+				}
+
+				if(mui.isnull(lence_num)) {
+					mui.toast('营业执照号不可为空');
+					return;
+				} else if(lence_num.length > 20) {
+					mui.toast('请输入正确的营业执照号');
+					return;
+				}
+
+				if(mui.isnull(shopId)) {
+					mui.toast('行业类型不能为空!');
+					return;
+				}
+				var p = /^((0\d{2,3}-\d{7,8})|(1[35847]\d{9}))$/;
+
+				if(mui.isnull(phonenum)) {
+					mui.toast('联系电话不能为空!');
+					return;
+				} else if(!p.test(phonenum)) {
+					mui.toast('请输入正确的电话号码!')
+					return;
+				}
+				if(time1 == "00:00" && time2 == "00:00") {
+					mui.toast('请选择营业时间!')
+					return;
+				}
+				if(mui.isnull(shop_city)) {
+					mui.toast('请选择营业执照所在地');
+					return;
+				}
+
+				if(mui.isnull(shopadd)) {
+					mui.toast('商铺地址不能为空!');
+					return;
+				}
+				if(mui.isnull(urls)) {
+					mui.toast('请至少上传一张店铺照片!');
+					return;
+				}
+
+				var attrValue = {
+					'SHOP_NAME': shop_name, //商铺名称
+					'COMP_NAME': comp_name, //法人名称
+					'DISTRICT_ID': shop_city, //区县
+					'BUSINESS_LICENSE_NUM': lence_num, //营业执照号码
+					'ADDR': shopadd, //商铺详细地址
+					'SHOP_CATEGORY_ID': shopId, //行业编号
+					'DES': content_shop, //商铺简介
+					'PHONE_NUM': phonenum, //联系人电话
+					backId: "en_mer_data",
+					"SHOP_HOURS": time,
+					"SHOP_LOGO_URL": urls
+				}
+				booking.closeAndOpenNewWindowHaveAttr(
+					'en_mer_datas.html',
+					'en_mer_datas',
+					attrValue
+				)
+			});
+		});
+		document.getElementById('up_img').addEventListener('tap', function() {
+			var figure = $("#photo").find("figure");
+			if(figure.length >= 5) {
+				mui.toast("最多上传5张店铺照片");
+
+				return;
+			}
+			if(mui.os.plus) {
+				var a = [{
+					title: "拍照"
+				}, {
+					title: "从手机相册选择"
+				}];
+				plus.nativeUI.actionSheet({
+					title: "上传图片",
+					cancel: "取消",
+					buttons: a
+				}, function(b) { /*actionSheet 按钮点击事件*/
+
+					switch(b.index) {
+						case 0:
+							break;
+						case 1:
+							getImage(1000, 800, "up_img", "sphotos", uploadSuc); /*拍照*/
+							break;
+						case 2:
+							galleryImg(1000, 800, "up_img", "sphotos", uploadSuc); /*打开相册*/
+							break;
+						default:
+							break;
+					}
+				});
+			}
+		}, false);
+
+		function uploadSuc(data, id) {
+			var html = '';
+			html = '<figure>\
+						<a href="' + booking.constants.ip + data.RESULTLIST.PATH + '" data-size="800x800">\
+						<img src="' + booking.constants.ip + data.RESULTLIST.PATH + '" alt="Image description" />\
+						<span class="close-img"></span></a>\
+					</figure>'
+			$("#photo").append(html);
+			var figure = $("#photo").find("figure");
+			if(figure.length >= 5) {
+				$("#up_img").hide()
+			}
+			for(var i = 2; i < figure.length; i = i + 3) {
+				figure.eq(i).css("margin-right", "0")
+			}
+		}
+	</script>
+
+</html>

@@ -1,0 +1,642 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>报账找人</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/app_new.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont.css" />
+		<link href="../../css/mui.mins.css" rel="stylesheet" />
+		<script type="text/javascript" src="../../js/jquery-1.4.1.js"></script>
+		<style type="text/css">
+			#phone {
+				text-align: left;
+				line-height: 30px;
+				padding: 0px !important;
+				margin-top: 3px;
+				width: 70%;
+			}
+			
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			
+			.mui-content {
+				border-bottom: 1px solid #ccc;
+			}
+			
+			.mui-input-row .paperman {
+				width: 30%;
+				font-size: 14px;
+			}
+			/*.mui-radio input[type=radio] {
+				top: 12px !important;
+				left: 10px !important;
+			}*/
+			
+			.m-l-40 {
+				margin-left: 40px;
+				margin-top: 0 !important;
+			}
+			
+			#friend_num {
+				height: 40px;
+				line-height: 40px;
+				font-size: 16px;
+				margin-bottom: 0px !important;
+			}
+			
+			.footer {
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+			}
+			
+			.zwf {
+				height: 46px;
+				border: 1px rgba(000, 000, 000, 0) solid;
+			}
+			
+			.my-input-row label~input {
+				width: auto;
+				flex: 1;
+			}
+			
+			.my-input-row {
+				width: auto;
+				box-sizing: border-box;
+				flex: 1;
+			}
+			
+			.mui-content-padded {
+				margin: 0;
+				width: 100%;
+				box-sizing: border-box;
+				display: flex;
+			}
+			
+			.mui-content-padded label {
+				display: flex;
+				width: auto;
+				display: inline-block;
+				font-size: 16px;
+				color: #0098E6;
+				height: 40px;
+				padding: 0 10px 0 15px;
+				line-height: 40px;
+			}
+			
+			.mr-10 {
+				margin-right: 10px;
+			}
+			
+			.mt-4 {
+				margin-top: 4px;
+			}
+			
+			.poposira {
+				width: 28px;
+				height: 28px;
+				position: relative;
+				margin-top: 10px;
+			}
+			
+			.my-radio {
+				right: 0 !important;
+				top: 0;
+				left: auto !important;
+				z-index: 99;
+				width: 100% !important;
+				height: 100% !important;
+				opacity: 0;
+			}
+			
+			.my-histroy {
+				margin-bottom: 10px;
+			}
+			
+			.mui-scroll-wrapper {
+				position: absolute !important;
+			}
+			
+			#pullrefresh {
+				width: 100%;
+				padding-bottom: 44px;
+			}
+			
+			#cmt {
+				z-index: 999;
+			}
+			
+			.find_people {
+				z-index: 999;
+			}
+			
+			.mui-table-view:before {
+				height: 0 !important;
+			}
+			
+			.myco {
+				color: #666;
+			}
+			
+			.my-btn {
+				width: 28px;
+				height: 28px;
+				padding: 0 !important;
+				border: none;
+			}
+			
+			.my-btn-bg {
+				background: url(../../img/icon-false.png) no-repeat;
+				background-size: 100% 100%;
+			}
+			
+			.my-btn-a {
+				background: url(../../img/icon-true.png) no-repeat !important;
+			}
+			.people_info .people_cont li{
+				display: flex;
+			}
+			.people-p{
+				flex: 1;
+				padding-right: 10px;
+			}
+			.people-p p{
+				overflow: hidden;
+				height: 22px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" id="back"></a>
+			<h1 class="mui-title">寻找服务商家</h1>
+		</header>
+
+		<!--<div id="pullrefresh" class="mui-content mui-scroll-wrapper mui-conten">-->
+		<div id="pullrefresh" class="mui-content mui-conten">
+			<div class="mui-scroll people_info" style="padding-bottom: 44px;">
+				<div class="mui-content" style="padding: 10px;">
+					<div class="mui-content-padded" style="margin: 0;">
+						<div class="mui-input-row my-input-row">
+							<input type="tel" class="mui-input-clear" maxlength="11" id="friend_num" placeholder="请输入服务商家的账号">
+						</div>
+						<label id="search_friend">搜索</label>
+					</div>
+				</div>
+				<div class="my-histroy" style="display: none;">
+					<div class="find_people">
+						<span class="find_title">您的历史服务商家</span>
+					</div>
+					<div class="people_info">
+						<ul class="people_cont" id="historyMobile">
+							<!--<li class="mui-input-row mui-radio mui-left">
+								<div class="fl poposira mr-10">
+									<input class="my-radio" name="radio1" type="radio">
+									<button class="btn-back my-btn-bg my-btn"></button>
+								</div>
+								<div class="fl mt-4">
+									<img src="../../img/default/find.gif" class="toux" />
+								</div>
+								<div class="fl people-p mt-4">
+									<p class="mui-text-left">共生哥</p>
+									<p class="mui-text-left">13896882545</p>
+								</div>
+							</li>
+							<li class="mui-input-row mui-radio mui-left">
+								<div class="fl poposira mr-10">
+									<input class="my-radio" name="radio1" type="radio">
+									<button class="btn-back my-btn-bg my-btn"></button>
+								</div>
+								<div class="fl mt-4">
+									<img src="../../img/default/find.gif" class="toux" />
+								</div>
+								<div class="fl people-p mt-4">
+									<p class="mui-text-left">共生哥</p>
+									<p class="mui-text-left">13896882545</p>
+								</div>
+							</li>-->
+						</ul>
+					</div>
+				</div>
+				<!--数据列表-->
+				<div class="find_people">
+					<span class="find_title">系统推荐用户</span>
+				</div>
+				<ul class="mui-table-view mui-table-view-chevron people_cont" id="people_cont">
+					<!--<li class="mui-input-row mui-radio mui-left">
+						<div class="fl poposira mr-10">
+							<input class="my-radio" name="radio1" type="radio">
+							<button class="btn-back my-btn-bg my-btn"></button>
+						</div>
+						<div class="fl mt-4">
+							<img src="../../img/default/find.gif" class="toux" />
+						</div>
+						<div class="fl people-p mt-4">
+							<p class="mui-text-left">共生哥共生哥共生哥共生哥共生哥共生哥</p>
+							<p class="mui-text-left">13896882545</p>
+						</div>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+		<button type="button" class="mui-btn mui-btn-success mui-btn-block footer" id="cmt">提交</button>
+		<div class="zwf"></div>
+		<div class="myModal" id="myModal" style="display: none;">
+			<div class="myModal_cont">
+				<div class="myModal_title">
+					<p><img src="../../img/default/icon-secces.png" /></p>
+					<p class="myModal_color">提交成功</p>
+					<p>审核时间：工作日9:00~18:00</p>
+				</div>
+				<div class="myModal_bot">
+					<button class="myModal_color" id="myModal_no">知道了</button>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js" type="text/javascript"></script>
+		<script src="../../js/common.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true,
+				//				pullRefresh: {
+				//					container: '#pullrefresh',
+				//					up: {
+				//						contentrefresh: '正在加载...',
+				//						//						auto: true,
+				//						callback: findpeople
+				//					}
+				//				}
+			})
+			var auid = localStorage.getItem("auid");
+			var re_submit = null;
+			var CERTIFICATE_ID = null;
+			var INVOICE_ID = null;
+			var count = 0;
+			var size = 10;
+			var auth_user = "user" + auid.split("_")[0];
+			var isLogin = null;
+			mui.plusReady(function() {
+				mui.app_request("Post", {
+					"OPERATE_TYPE": "10081",
+					"AUTH_ID": localStorage.getItem("auid"),
+				}, function(result) {
+
+					if(result.RESULTCODE == 0) {
+
+						if(result.RESULTLIST.is_login == 1) {
+							isLogin = 1;
+							return;
+						} else {
+							mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+								localStorage.removeItem("auid");
+								booking.closeAndOpenNewWindow("../login/login.html", "login");
+							});
+							return;
+						}
+					}
+
+				}, function(result) {
+					if(result.RESULTCODE == -1) {
+						mui.alert('您的账号已在其他设备登录，请重新登录。', '安全提示', function() {
+							localStorage.removeItem("auid");
+							booking.closeAndOpenNewWindow("../login/login.html", "login");
+						});
+						return;
+					} else {
+						isLogin = 1;
+						return;
+
+					}
+				});
+				if(isLogin == 1) {
+
+					mui(".people_cont").on("tap", ".my-radio", function() {
+						$(".people_cont").find("button").removeClass("my-btn-a")
+						$(this).siblings("button").addClass("my-btn-a")
+					})
+					initHistory();
+					var TOTAL_AMOUNT = 0;
+					TOTAL_AMOUNT = plus.webview.currentWebview().TOTAL_AMOUNT;
+					var BZ_AMOUNT = plus.webview.currentWebview().BZ_AMOUNT;
+					INVOICE_ID = plus.webview.currentWebview().INVOICE_ID;
+					var INVOICE_URL = plus.webview.currentWebview().INVOICE_URL;
+					var USE_BALANCE = plus.webview.currentWebview().USE_BALANCE;
+					var VOUCHER_TYPE = plus.webview.currentWebview().VOUCHER_TYPE;
+					re_submit = plus.webview.currentWebview().re_submit;
+					CERTIFICATE_ID = plus.webview.currentWebview().CERTIFICATE_ID;
+
+					mui.app_request('POST', {
+						"OPERATE_TYPE": "10096",
+						"AUTH_ID": auid, //localStorage.getItem("auid")
+						"BEGIN": "0",
+						"SIZE": "10"
+					}, function(data) {
+
+						if(data.RESULTCODE == "0") {
+							//mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							var infolist = data.RESULTLIST.result;
+							var page = 0;
+							list_num(infolist, page, size)
+
+						}
+						return;
+					}, function(result) {
+						mui.toast("系统异常，请重试");
+					});
+
+					document.getElementById("search_friend").addEventListener("tap", function() {
+						var mobile = document.getElementById("friend_num").value;
+						var data;
+						if(!booking.validate_mobile(mobile)) {
+							mui.toast("请输入正确的手机号码！");
+							return;
+						};
+						if(re_submit == 1) {
+							data = {
+								"OPERATE_TYPE": "10036",
+								"mobile": mobile,
+								"re_submit": re_submit,
+								"CERTIFICATE_ID": CERTIFICATE_ID,
+								"BZ_AMOUNT": BZ_AMOUNT,
+								"INVOICE_ID": INVOICE_ID,
+								"VOUCHER_TYPE": VOUCHER_TYPE,
+								"USE_BALANCE": USE_BALANCE,
+								"USE_VOUCHER": 0,
+							}
+						} else {
+							data = {
+								"OPERATE_TYPE": "10027",
+								"TOTAL_AMOUNT": TOTAL_AMOUNT,
+								"BZ_AMOUNT": BZ_AMOUNT,
+								"mobile": mobile,
+								"re_submit": re_submit,
+								"INVOICE_ID": INVOICE_ID,
+								"INVOICE_URL": INVOICE_URL,
+								"VOUCHER_TYPE": VOUCHER_TYPE,
+								"USE_BALANCE": USE_BALANCE,
+								"USE_VOUCHER": 0,
+							}
+						}
+						booking.closeAndOpenNewWindowHaveAttr("findpeople_jg.html", "findpeople_jg", data);
+
+					})
+
+					//提交
+					document.getElementById("cmt").addEventListener('tap', function() {
+						$("input").blur();
+						setDisabled("cmt");
+						var data;
+						var PROXY_MOBILE = $("#friend_num").val();
+						//var SELECT_PROXY_USER_ID=2;
+						var helpUser = $(".people_cont").find("input[type=radio]:checked");
+						var parent = helpUser.parent().parent();
+						var mobile = parent.find(".mobile").html();
+						var SELECT_PROXY_USER_ID = helpUser.attr("userid");
+						var name = parent.find(".shop_name").html();
+						var header_url = parent.find(".header_url").val();
+						if(mui.isnull(INVOICE_ID)) {
+							if(mui.isnull(INVOICE_URL)) {
+								mui.toast("请上传发票！");
+								remDisabled("cmt");
+								return false;
+							} else {
+								var urls = INVOICE_URL.split("static");
+								INVOICE_URL = '/static' + urls[1]
+							}
+							if(mui.isnull(TOTAL_AMOUNT)) {
+								mui.toast("请输入发票总金额！");
+								remDisabled("cmt");
+								return false;
+							}
+							INVOICE_ID = null;
+							//remDisabled("cmt");
+						} else {
+							INVOICE_URL = "";
+						}
+						if(mui.isnull(PROXY_MOBILE) && mui.isnull(SELECT_PROXY_USER_ID)) {
+							mui.toast("请选择服务商家!");
+							remDisabled("cmt");
+							return false;
+						}
+						if(mui.isnull(TOTAL_AMOUNT)) {
+							TOTAL_AMOUNT = 0;
+							//remDisabled("cmt");
+						}
+						//alert(PROXY_MOBILE);
+						if(re_submit == 1) {
+							if(PROXY_MOBILE.trim() != '') {
+								data = {
+									"OPERATE_TYPE": "10036",
+									"AUTH_ID": auid, //localStorage.getItem("auid")
+									"CERTIFICATE_ID": CERTIFICATE_ID,
+									"BZ_AMOUNT": BZ_AMOUNT,
+									"INVOICE_ID": INVOICE_ID,
+									"VOUCHER_TYPE": VOUCHER_TYPE,
+									"PROXY_MOBILE": PROXY_MOBILE,
+									"USE_BALANCE": USE_BALANCE,
+									"USE_VOUCHER": 0,
+								}
+							} else if(SELECT_PROXY_USER_ID != null) {
+								data = {
+									"OPERATE_TYPE": "10036",
+									"AUTH_ID": auid, //localStorage.getItem("auid")
+									"CERTIFICATE_ID": CERTIFICATE_ID,
+									"INVOICE_ID": INVOICE_ID,
+									"BZ_AMOUNT": BZ_AMOUNT,
+									"VOUCHER_TYPE": VOUCHER_TYPE,
+									"SELECT_PROXY_USER_ID": SELECT_PROXY_USER_ID,
+									"USE_BALANCE": USE_BALANCE,
+									"USE_VOUCHER": 0,
+								}
+							}
+						} else {
+							if(PROXY_MOBILE.trim() != '') {
+								data = {
+									"OPERATE_TYPE": "10027",
+									"AUTH_ID": auid, //localStorage.getItem("auid")
+									"TOTAL_AMOUNT": TOTAL_AMOUNT,
+									"BZ_AMOUNT": BZ_AMOUNT,
+									"INVOICE_ID": INVOICE_ID,
+									"INVOICE_URL": INVOICE_URL,
+									"VOUCHER_TYPE": VOUCHER_TYPE,
+									"PROXY_MOBILE": PROXY_MOBILE,
+									"USE_BALANCE": USE_BALANCE,
+									"USE_VOUCHER": 0,
+								}
+							} else if(SELECT_PROXY_USER_ID != null) {
+								//SELECT_PROXY_USER_ID=0;
+								data = {
+									"OPERATE_TYPE": "10027",
+									"AUTH_ID": auid, //localStorage.getItem("auid")
+									"TOTAL_AMOUNT": TOTAL_AMOUNT,
+									"BZ_AMOUNT": BZ_AMOUNT,
+									"INVOICE_ID": INVOICE_ID,
+									"INVOICE_URL": INVOICE_URL,
+									"VOUCHER_TYPE": VOUCHER_TYPE,
+									"SELECT_PROXY_USER_ID": SELECT_PROXY_USER_ID,
+									"USE_BALANCE": USE_BALANCE,
+									"USE_VOUCHER": 0,
+								}
+							}
+						}
+						mui.app_request('POST', data, function(data) {
+							if(data.RESULTCODE == "0") {
+								//mui.toast(data.DESCRIPTION);
+								saveHistory(mobile, header_url, SELECT_PROXY_USER_ID, name);
+								setTimeout(function() {
+									$("#myModal").fadeIn(100);
+								}, 300);
+							}
+							//remDisabled("cmt");
+							return;
+						}, function(result) {
+							mui.toast(result.DESCRIPTION);
+							$("#friend_num").val("");
+							remDisabled("cmt");
+						});
+					});
+
+					document.getElementById("myModal_no").addEventListener('tap', function() {
+						var attrValue = {
+							status: "0",
+							backId: "index"
+						}
+						booking.closeAndOpenNewWindowHaveAttr(
+							'my_accountss.html',
+							'my_accountss',
+							attrValue
+						)
+					});
+				}
+			})
+
+			function findpeople() {
+				setTimeout(function() {
+					var page = $("#people_cont").attr("page");
+					mui.app_request('POST', {
+						"OPERATE_TYPE": "10096",
+						"AUTH_ID": auid,
+						//						"BEGIN": page,
+						//						"SIZE": size
+					}, function(data) {
+						if(data.RESULTCODE == "0") {
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > data.RESULTLIST.totalsize));
+							var infolist = data.RESULTLIST.result;
+							list_num(infolist, page, size);
+						}
+					}, function(result) {
+						if(result.RESULTCODE == "-1") {
+							mui.toast(result.DESCRIPTION)
+						}
+					});
+				}, 1000);
+			}
+
+			function list_num(infolist, page, size) {
+				if(infolist.length != 0) {
+					var html = '';
+					for(var i = 0; i < infolist.length; i++) {
+						var sData = infolist[i];
+						html += '<li class="mui-input-row mui-radio mui-left">';
+						html += '<div class="fl poposira mr-10">';
+						html += '<input class="my-radio" userid="' + sData.user_id + '" name="radio1" type="radio">';
+						html += '<button class="btn-back my-btn-bg my-btn"></button>';
+						html += '</div>';
+						html += '<div class="fl mt-4">';
+						html += '<img src="' + booking.constants.ip + sData.header_img + '" class="toux "/>';
+						html += '<input type="hidden" class="header_url" value="' + sData.header_img + '" />';
+						html += '</div>';
+						html += '<div class="fl people-p mt-4">';
+						html += '<p class="mui-text-left shop_name" >' + sData.shop_name + '</p>';
+						html += '<p class="mui-text-left mobile">' + infolist[i].username + '</p>';
+						html += '</div>';
+						//						html+='<div class="fr poposira mr-10">';
+						//						html+='<input class="my-radio" userid="'+sData.user_id+'" name="radio1" type="radio">';
+						//						html+='<button class="btn-back my-btn fr mt-4">选择</button>';
+						//						html+='</div>';
+						html += '</li>';
+					}
+					$("#people_cont").append(html)
+					$("#people_cont").attr("page", parseInt(page) + size)
+				} else if(infolist.length == 0 && page == 0) {
+					_html = '<li class="mui-table-view-cell" style="text-align:center;padding-right:0;line-height:40px;">暂无数据</li>'
+					$("#scoll_content").html(_html);
+				}
+			}
+
+			function Shop(mobile, url, user_id, shop_name) {
+				this.mobile = mobile;
+				this.url = url;
+				this.user_id = user_id;
+				this.name = shop_name;
+			}
+
+			function saveHistory(mobile, url, user_id, shop_name) {
+				var historyMobile = localStorage.getItem(auth_user);
+
+				var shop = new Shop(mobile, url, user_id, shop_name);
+				if(historyMobile) {
+					var list = JSON.parse(historyMobile);
+
+					for(var i = 0; i < list.length; i++) {
+						if(list[i].mobile == mobile) {
+							list.splice(i, 1);
+							list.push(shop);
+							localStorage.setItem(auth_user, JSON.stringify(list));
+							return;
+						}
+					}
+
+					if(list.length >= 4) {
+						list.splice(0, 1);
+						list.push(shop);
+						localStorage.setItem(auth_user, JSON.stringify(list));
+						return;
+					} else {
+						list.push(shop);
+						localStorage.setItem(auth_user, JSON.stringify(list));
+						return;
+					}
+
+				} else {
+					var list = new Array();
+					list.push(shop);
+					localStorage.setItem(auth_user, JSON.stringify(list));
+				}
+			}
+
+			function initHistory() {
+				var historyMobile = localStorage.getItem(auth_user);
+				if(historyMobile) {
+					var list = JSON.parse(historyMobile);
+					var html = "";
+					for(var i = list.length - 1; i >= 0; i--) {
+						html += '<li class="mui-input-row mui-radio mui-left">';
+						html += '<div class="fl poposira mr-10">';
+						html += '<input class="my-radio" userid="' + list[i].user_id + '" name="radio1" type="radio">';
+						html += '<button class="btn-back my-btn-bg my-btn"></button>';
+						html += '</div>';
+						html += '<div class="fl mt-4">';
+						html += '<img src="' + booking.constants.ip + list[i].url + '" class="toux"/>';
+						html += '<input type="hidden" class="header_url" value="' + list[i].url + '" />';
+						html += '</div>';
+						html += '<div class="fl people-p mt-4">';
+						html += '<p class="mui-text-left shop_name ">' + list[i].name + '</p>';
+						html += '<p class="mui-text-left mobile">' + list[i].mobile + '</p>';
+						html += '</div>';
+						html += '</li>';
+					}
+					$("#historyMobile").html(html);
+					$(".my-histroy").show();
+				}
+			}
+		</script>
+	</body>
+
+</html>
